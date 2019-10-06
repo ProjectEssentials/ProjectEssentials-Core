@@ -18,7 +18,7 @@ The minecraft forge folder structure below will help you understand what is writ
 ├── config
 ├── libraries
 ├── mods (that's how it should be)
-│   └── Project Essentials Core-1.14.4-1.X.X.X.jar
+│   └── Project Essentials Core-MOD-1.14.4-1.X.X.X.jar
 └── ...
 ```
 
