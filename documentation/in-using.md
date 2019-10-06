@@ -65,6 +65,12 @@ CommandContext<CommandSource>.isPlayerSender
 ```
 
 ```
+CommandContext<CommandSource>.playerName
+
+- return: player nickname from CommandContext. (string value)
+```
+
+```
 CommandEvent.commandName
 
 - example: player execute command `/heal MairwunNx`, then you get `heal` as string.

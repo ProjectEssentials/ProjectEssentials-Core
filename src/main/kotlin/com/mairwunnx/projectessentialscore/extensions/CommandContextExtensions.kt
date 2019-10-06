@@ -12,3 +12,9 @@ import net.minecraft.entity.player.ServerPlayerEntity
  */
 fun CommandContext<CommandSource>.isPlayerSender(): Boolean =
     this.source.entity is ServerPlayerEntity
+
+/**
+ * @return player nickname from CommandContext.
+ * @since 1.14.4-1.0.1.0
+ */
+fun CommandContext<CommandSource>.playerName(): String = this.source.asPlayer().name.string
