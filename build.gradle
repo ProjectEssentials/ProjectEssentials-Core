@@ -113,16 +113,16 @@ project.tasks["jar"].dependsOn(project.tasks["dokka"])
 task fatJar(type: Jar) {
     manifest {
         attributes([
-            "Specification-Title"     : "$projectEssentialsName-MOD",
+            "Specification-Title"     : projectEssentialsName,
             "Specification-Vendor"    : projectEssentialsVendor,
             "Specification-Version"   : projectEssentialsVersion,
-            "Implementation-Title"    : "$projectEssentialsName-MOD",
+            "Implementation-Title"    : projectEssentialsName,
             "Implementation-Version"  : projectEssentialsVersion,
             "Implementation-Vendor"   : projectEssentialsVendor,
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    baseName = project.name + '-mod'
+    baseName = project.name + '-MOD'
     from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
     with jar
 }
@@ -132,16 +132,16 @@ project.tasks["jar"].dependsOn(project.tasks["fatJar"])
 jar {
     manifest {
         attributes([
-            "Specification-Title"     : "$projectEssentialsName-API",
+            "Specification-Title"     : projectEssentialsName,
             "Specification-Vendor"    : projectEssentialsVendor,
             "Specification-Version"   : projectEssentialsVersion,
-            "Implementation-Title"    : "$projectEssentialsName-API",
+            "Implementation-Title"    : projectEssentialsName,
             "Implementation-Version"  : projectEssentialsVersion,
             "Implementation-Vendor"   : projectEssentialsVendor,
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    baseName = project.name + '-api'
+    baseName = project.name + '-API'
 }
 
 sourceCompatibility = targetCompatibility =
