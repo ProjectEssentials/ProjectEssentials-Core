@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod
 internal class EntryPoint : EssBase() {
     init {
         modInstance = this
-        modVersion = "1.14.4-1.0.0.0"
+        modVersion = "1.14.4-1.0.0.1"
         logBaseInfo()
         validateForgeVersion()
     }
