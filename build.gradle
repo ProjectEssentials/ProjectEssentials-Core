@@ -16,7 +16,7 @@ buildscript {
         classpath(
             "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         )
-        classpath (
+        classpath(
             "org.jetbrains.dokka:dokka-gradle-plugin:$dokkaVersion"
         )
     }
@@ -44,22 +44,26 @@ minecraft {
 
     runs {
         client {
+            //noinspection GroovyAssignabilityCheck
             workingDirectory(project.file(devRunClientPath))
             property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
             property("forge.logging.console.level", "debug")
             mods {
                 ProjectEssentialsCore {
+                    //noinspection GroovyAssignabilityCheck
                     source(sourceSets.main)
                 }
             }
         }
 
         server {
+            //noinspection GroovyAssignabilityCheck
             workingDirectory(project.file(devRunServerPath))
             property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
             property("forge.logging.console.level", "debug")
             mods {
                 ProjectEssentialsCore {
+                    //noinspection GroovyAssignabilityCheck
                     source(sourceSets.main)
                 }
             }
