@@ -42,7 +42,7 @@ dependencies {
 </dependency>
 ```
 
-## 🧐 Installation instruction (for playing):
+## 🎮 Installation instruction (for playing):
 > ##### Just move Project Essentials Core-1.14.4-1.X.X.X.jar to mods directory:
 
 ```
