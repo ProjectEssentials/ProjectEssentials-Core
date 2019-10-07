@@ -19,7 +19,7 @@ dependencies {
     compile(
         group: "com.github.projectessentials",
         name: "ProjectEssentials-Core",
-        version: "v1.14.4-1.0.1.0"
+        version: "v1.14.4-1.0.2.0"
     )
 }
 ```
@@ -38,7 +38,7 @@ dependencies {
 <dependency>
 	<groupId>com.github.projectessentials</groupId>
 	<artifactId>ProjectEssentials-Core</artifactId>
-	<version>v1.14.4-1.0.1.0</version>
+	<version>v1.14.4-1.0.2.0</version>
 </dependency>
 ```
 
