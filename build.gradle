@@ -110,7 +110,9 @@ dokka {
 
 project.tasks["jar"].dependsOn(project.tasks["dokka"])
 
-task fatJar(type: Jar) {
+task modJar(type: Jar) {
+    with tasks.jar
+    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
     manifest {
         attributes([
             "Specification-Title"     : projectEssentialsName,
@@ -122,12 +124,11 @@ task fatJar(type: Jar) {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+    //noinspection GrDeprecatedAPIUsage
     baseName = project.name + '-MOD'
-    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
-    with jar
 }
 
-project.tasks["jar"].dependsOn(project.tasks["fatJar"])
+project.tasks["modJar"].dependsOn(project.tasks["jar"])
 
 jar {
     manifest {
@@ -141,7 +142,15 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
+    //noinspection GrDeprecatedAPIUsage
     baseName = project.name + '-API'
+}
+
+reobf {
+    modJar {
+        dependsOn jar
+        mappings = createMcpToSrg.outputs.files.singleFile
+    }
 }
 
 sourceCompatibility = targetCompatibility =
