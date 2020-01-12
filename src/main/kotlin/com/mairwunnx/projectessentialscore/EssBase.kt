@@ -18,17 +18,20 @@ abstract class EssBase {
     var modVersion = "1.14.4-0.0.0.0"
     var modModuleName = "Null"
     var modMaintainer = "MairwunNx (Pavel Erokhin)"
-    var modTargetForge = "28.0.X"
-    var modTargetForgeRegex = "^28\\.0\\..\\d+|28\\.0\\.[\\d]\$"
+    var modTargetForge = "28.1.X"
+    var modTargetForgeRegex = "^28\\.0\\.[\\d]+|28\\.1\\.[\\d]+$"
     var modTargetMC = "1.14.4"
     var modSources = "https://github.com/ProjectEssentials/ProjectEssentials-Null/"
     var modTelegram = "https://t.me/minecraftforge"
+    var modCurseForge = "Null"
 
     init {
         modId = this.javaClass.getAnnotation(Mod::class.java).value
         modName = modId.replace("_", " ").capitalizeWords()
         modModuleName = modName.split(" ").last()
         modSources = "https://github.com/ProjectEssentials/ProjectEssentials-$modModuleName/"
+        modCurseForge =
+            "https://www.curseforge.com/minecraft/mc-mods/ProjectEssentials-$modModuleName"
     }
 
     /**
@@ -36,14 +39,18 @@ abstract class EssBase {
      * @since 1.14.4-1.0.0.0
      */
     fun logBaseInfo() {
-        logger.info("$modName starting initializing ...")
-        logger.info("    - Mod Id: $modId")
-        logger.info("    - Version: $modVersion")
-        logger.info("    - Maintainer: $modMaintainer")
-        logger.info("    - Target Forge version: $modTargetForge")
-        logger.info("    - Target Minecraft version: $modTargetMC")
-        logger.info("    - Source code: $modSources")
-        logger.info("    - Telegram chat: $modTelegram")
+        logger.info(
+            "\n" +
+                    "            **** $modName starting initializing ***\n\n" +
+                    "    - Mod Id: $modId\n" +
+                    "    - Version: $modVersion\n" +
+                    "    - Maintainer: $modMaintainer\n" +
+                    "    - Target Forge version: $modTargetForge\n" +
+                    "    - Target Minecraft version: $modTargetMC\n" +
+                    "    - Source code: $modSources\n" +
+                    "    - Telegram chat: $modTelegram\n" +
+                    "    - CurseForge: $modCurseForge"
+        )
     }
 
     /**
@@ -53,14 +60,16 @@ abstract class EssBase {
      * @since 1.14.4-1.0.0.0
      */
     fun validateForgeVersion() {
-        logger.info("Checking forge version for compatibility with mod ...")
+        logger.info("Checking forge version for compatibility with mod")
         if (Regex(modTargetForgeRegex).matches(ForgeVersion.getVersion())) {
-            logger.info("Forge version is compatibility with mod.")
+            logger.info("Forge version is compatibility with $modName")
         } else {
-            logger.warn("Forge version may be incompatible with $modName $modVersion!")
-            logger.warn("    - update or downgrade forge version.")
-            logger.warn("    - update or downgrade mod version.")
-            logger.warn("    - or just create issue on github.")
+            logger.warn(
+                "\n            **** Forge version may be incompatible with $modName $modVersion! ****\n\n" +
+                        "    - update or downgrade forge version.\n" +
+                        "    - update or downgrade mod version.\n" +
+                        "    - or just create issue on github."
+            )
         }
     }
 }
