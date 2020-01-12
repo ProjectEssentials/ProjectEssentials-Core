@@ -5,7 +5,7 @@
 
 > ## CoreAPI for Project Essentials mods.
 
-#### ❗ Compatibility with forge `28.0.X` version.
+#### ❗ Compatibility with forge version `28.0.X` and `28.1.X`.
 
 ## 🧐 Install using Gradle (for developers):
 > ##### If your project uses Gradle as Build Tool, then use the code below to add dependencies:
@@ -19,7 +19,7 @@ dependencies {
     compile(
         group: "com.github.projectessentials",
         name: "ProjectEssentials-Core",
-        version: "v1.14.4-1.0.2.0"
+        version: "v1.14.4-1.0.3.0"
     )
 }
 ```
@@ -38,11 +38,11 @@ dependencies {
 <dependency>
 	<groupId>com.github.projectessentials</groupId>
 	<artifactId>ProjectEssentials-Core</artifactId>
-	<version>v1.14.4-1.0.2.0</version>
+	<version>v1.14.4-1.0.3.0</version>
 </dependency>
 ```
 
-## 🎮 Installation instruction (for playing):
+## 🎮 Installation instructions (for playing):
 > ##### Just move Project Essentials Core-1.14.4-1.X.X.X.jar to mods directory:
 
 ```
@@ -57,13 +57,13 @@ dependencies {
 
 ```
 Additional information:
-    - kotlin-std lib version: 1.3.50
-    - kotlinx serialization version: 0.12.0
+    - kotlin-std lib version: 1.3.60
+    - kotlinx serialization version: 0.14.0
     - target jvm version: 1.8
 ```
 
 ### After you got the dependencies and the library itself:
 
-# [getting started with read the documentation](./documentation/in-using.md)
+# [Read the documentation to get started!](./documentation/in-using.md)
 
 > ## Made with 💕 by [MairwunNx](https://mairwunnx.github.io/)

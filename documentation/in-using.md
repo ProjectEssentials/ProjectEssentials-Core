@@ -1,10 +1,10 @@
-> ## Documentation for basically using CoreAPI.
+> ## Documentation for basic use of the CoreAPI.
 
-## 1. For playing and running minecraft:
+## 1. For playing and running Minecraft:
 
 #### 1.1 Download Core API mod module.
 
-Visit **Core API** repository on github, visit **releases** tab and download `.jar` files of latest _pre-release_ / release (**recommended**)
+Visit **Core API** repository on github, visit **releases** tab and download the `.jar` files of latest _pre-release_ / release (**recommended**)
 
 Releases page: https://github.com/ProjectEssentials/ProjectEssentials-Core/releases
 
@@ -28,13 +28,13 @@ Place your mods and Core API mods according to the structure above.
 
 Run the game, check the number of mods, if the list of mods contains `Project Essentials Core` mod, then the mod has successfully passed the initialization of the modification.
 
-## 2. For developing and developers:
+## 2. For developers:
 
 ### 2.1 Getting started with installing.
 
 To get the Core API source for development and interactions with the rights of players, you need to get the dependencies and get the documentation to view it in your IDE.
 
-Installation documentation is located in the readme file or just follow the link: https://github.com/ProjectEssentials/ProjectEssentials-Core#-install-using-gradle
+Installation documentation is located in the readme file (or just follow the link): https://github.com/ProjectEssentials/ProjectEssentials-Core#-install-using-gradle
 
 ### 2.2 API usage.
 
@@ -153,6 +153,6 @@ ModPathHelper.MOD_CONFIG_FOLDER
 - description: Project Essentials mod config folder.
 ```
 
-## These are all API methods, I think you understand that everything is very simple.
+## These are all API methods, I hope you find everything simple to use.
 
-### For all questions, be sure to write issues!
+### If you have any questions or encounter a problem, be sure to open an issue!
