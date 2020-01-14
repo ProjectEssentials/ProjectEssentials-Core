@@ -1,6 +1,6 @@
 ## Project Essentials Core: core mod for all modules of Project Essentials.
 
-<img src="./assets/core_social_logo.svg">
+<img src="./assets/core_social_logo.jpg">
 
 ### What is it
 
