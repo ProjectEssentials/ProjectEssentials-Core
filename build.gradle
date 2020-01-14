@@ -25,7 +25,6 @@ buildscript {
 apply(plugin: "org.jetbrains.dokka")
 apply(plugin: "net.minecraftforge.gradle")
 apply(plugin: "kotlin")
-apply(plugin: "java")
 
 version = module_version
 group = "com.mairwunnx.$module_id"
