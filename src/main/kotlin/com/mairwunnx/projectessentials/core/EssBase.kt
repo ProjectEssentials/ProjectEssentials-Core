@@ -1,6 +1,6 @@
-package com.mairwunnx.projectessentialscore
+package com.mairwunnx.projectessentials.core
 
-import com.mairwunnx.projectessentialscore.extensions.capitalizeWords
+import com.mairwunnx.projectessentials.core.extensions.capitalizeWords
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.versions.forge.ForgeVersion
 import org.apache.logging.log4j.LogManager
@@ -49,7 +49,7 @@ abstract class EssBase {
                     "    - Target Minecraft version: $modTargetMC\n" +
                     "    - Source code: $modSources\n" +
                     "    - Telegram chat: $modTelegram\n" +
-                    "    - CurseForge: $modCurseForge"
+                    "    - CurseForge: $modCurseForge" + "\n"
         )
     }
 
@@ -60,15 +60,12 @@ abstract class EssBase {
      * @since 1.14.4-1.0.0.0
      */
     fun validateForgeVersion() {
-        logger.info("Checking forge version for compatibility with mod")
-        if (Regex(modTargetForgeRegex).matches(ForgeVersion.getVersion())) {
-            logger.info("Forge version is compatibility with $modName")
-        } else {
+        if (!Regex(modTargetForgeRegex).matches(ForgeVersion.getVersion())) {
             logger.warn(
                 "\n            **** Forge version may be incompatible with $modName $modVersion! ****\n\n" +
                         "    - update or downgrade forge version.\n" +
                         "    - update or downgrade mod version.\n" +
-                        "    - or just create issue on github."
+                        "    - or just create issue on github." + "\n"
             )
         }
     }

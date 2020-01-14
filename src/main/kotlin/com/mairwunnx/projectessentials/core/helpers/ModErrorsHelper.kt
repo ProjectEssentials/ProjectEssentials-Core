@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.mairwunnx.projectessentialscore.helpers
+package com.mairwunnx.projectessentials.core.helpers
 
 /**
  * Error message with reason: not have permissions.

@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.mairwunnx.projectessentialscore.extensions
+package com.mairwunnx.projectessentials.core.extensions
 
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource

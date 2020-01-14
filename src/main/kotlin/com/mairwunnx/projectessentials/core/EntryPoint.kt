@@ -1,4 +1,4 @@
-package com.mairwunnx.projectessentialscore
+package com.mairwunnx.projectessentials.core
 
 import net.minecraftforge.fml.common.Mod
 
@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.Mod
 internal class EntryPoint : EssBase() {
     init {
         modInstance = this
-        modVersion = "1.14.4-1.0.3.0"
+        modVersion = "1.14.4-1.0.3.1"
         logBaseInfo()
         validateForgeVersion()
     }

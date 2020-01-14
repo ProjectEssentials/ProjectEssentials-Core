@@ -1,6 +1,6 @@
-package com.mairwunnx.projectessentialscore.helpers
+package com.mairwunnx.projectessentials.core.helpers
 
-import com.mairwunnx.projectessentialscore.enums.ForgeRootPaths
+import com.mairwunnx.projectessentials.core.enums.ForgeRootPaths
 import net.minecraft.client.Minecraft
 import java.io.File
 

@@ -1,8 +1,8 @@
 @file:Suppress("unused")
 
-package com.mairwunnx.projectessentialscore.helpers
+package com.mairwunnx.projectessentials.core.helpers
 
-import com.mairwunnx.projectessentialscore.enums.ForgeRootPaths
+import com.mairwunnx.projectessentials.core.enums.ForgeRootPaths
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.fml.DistExecutor
 import java.io.File
@@ -21,12 +21,18 @@ internal val root: String
         var rootPath = ""
         DistExecutor.runWhenOn(Dist.CLIENT) {
             Runnable {
-                rootPath = getRootPath(ForgeRootPaths.CLIENT)
+                rootPath =
+                    getRootPath(
+                        ForgeRootPaths.CLIENT
+                    )
             }
         }
         DistExecutor.runWhenOn(Dist.DEDICATED_SERVER) {
             Runnable {
-                rootPath = getRootPath(ForgeRootPaths.SERVER)
+                rootPath =
+                    getRootPath(
+                        ForgeRootPaths.SERVER
+                    )
             }
         }
         return rootPath
