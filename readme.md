@@ -1,69 +1,23 @@
-## ✨ Project Essentials: CoreAPI
+## Project Essentials Core: core mod for all modules of Project Essentials.
 
-[![](https://jitpack.io/v/projectessentials/ProjectEssentials-Core.svg)](https://jitpack.io/#projectessentials/ProjectEssentials-Core)
-![GitHub](https://img.shields.io/github/license/ProjectEssentials/ProjectEssentials-Core)
+<img src="./assets/core_social_logo.svg">
 
-> ## CoreAPI for Project Essentials mods.
+### What is it
 
-#### ❗ Compatibility with forge version `28.0.X` and `28.1.X`.
+This is the base module (core) for all other Project Essentials modules. It contains the necessary dependencies that are used in other modules, for example Kotlin std lib and Kotlinx Serialization and Brigadier, this core also contains common code, for example, the initialization process and some extensions of existing forge classes, which can be useful and can reduce duplicate code. For developers, all the information is in the [documentation](documentation/for-developers.md).
 
-## 🧐 Install using Gradle (for developers):
-> ##### If your project uses Gradle as Build Tool, then use the code below to add dependencies:
+### Last steps
 
-```groovy
-repositories {
-    maven { url("https://jitpack.io") }
-}
+#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.0.3.0/ProjectEssentials-Core-MOD-1.14.4-1.0.3.0.jar) · [Download API](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.0.3.0/ProjectEssentials-Core-API-1.14.4-1.0.3.0.jar) · [How to install](documentation/for-players.md) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [News & updates](https://t.me/minecraftforge)
 
-dependencies {
-    compile(
-        group: "com.github.projectessentials",
-        name: "ProjectEssentials-Core",
-        version: "v1.14.4-1.0.3.1"
-    )
-}
-```
+<a href="https://ko-fi.com/mairwunnx" target="_blank"><img src="./assets/support_social.svg"></a>
 
-## 🤔 Install using Maven (for developers):
-> ##### If your project uses Maven as Build Tool, then use the code below to add dependencies:
+### Compatibility
 
-```xml
-<repositories>
-    <repository>
-        <id>jitpack.io</id>
-        <url>https://jitpack.io</url>
-    </repository>
-</repositories>
+Currently mod branch supported forge version `28.0.X` and `28.1.X` (Minecraft `1.14.4`).
 
-<dependency>
-	<groupId>com.github.projectessentials</groupId>
-	<artifactId>ProjectEssentials-Core</artifactId>
-	<version>v1.14.4-1.0.3.1</version>
-</dependency>
-```
+### Credits
 
-## 🎮 Installation instructions (for playing):
-> ##### Just move Project Essentials Core-1.14.4-1.X.X.X.jar to mods directory:
-
-```
-.
-├── assets
-├── config
-├── libraries
-├── mods (that's how it should be)
-│   └── Project Essentials Core-MOD-1.14.4-1.X.X.X.jar.
-└── ...
-```
-
-```
-Additional information:
-    - kotlin-std lib version: 1.3.60
-    - kotlinx serialization version: 0.14.0
-    - target jvm version: 1.8
-```
-
-### After you got the dependencies and the library itself:
-
-# [Read the documentation to get started!](./documentation/in-using.md)
-
-> ## Made with 💕 by [MairwunNx](https://mairwunnx.github.io/)
+- Author: Pavel Erokhin [@mairwunnx](https://github.com/mairwunnx)
+- JetBrains Licenses: [JetBrains](https://www.jetbrains.com/)
+- Inspired by: [EssentialsX](https://github.com/EssentialsX)
