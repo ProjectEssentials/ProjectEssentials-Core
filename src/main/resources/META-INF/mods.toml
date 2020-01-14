@@ -1,5 +1,6 @@
 modLoader="javafml" 
-loaderVersion="[28,)" 
+loaderVersion="[28,)"
+logoFile="logo.png"
 issueTrackerURL="https://github.com/ProjectEssentials/ProjectEssentials-Core/issues"
 
 [[mods]]
