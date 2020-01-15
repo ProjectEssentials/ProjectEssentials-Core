@@ -11,7 +11,7 @@ dependencies {
     compile(
         group: "com.github.projectessentials",
         name: "ProjectEssentials-Core",
-        version: "v1.14.4-1.0.3.1"
+        version: "v1.14.4-1.0.3.2"
     )
 }
 ```
@@ -125,6 +125,14 @@ ModPathHelper.CONFIG_FOLDER
 ModPathHelper.MOD_CONFIG_FOLDER
 
 - description: Project Essentials mod config folder.
+```
+
+```
+JsonHelper.jsonInstance
+
+- return: json instance with configured JsonConfiguration. (Json)
+
+- description: Common json instance with default configuration for Project Essentials modules, if module using json configuration, then you need use this property.
 ```
 
 ### Dependencies using by Core API.

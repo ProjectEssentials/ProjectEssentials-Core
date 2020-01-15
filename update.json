@@ -1,12 +1,13 @@
 {
-  "homepage": "https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/tag/v1.14.4-1.0.3.0",
+  "homepage": "https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/tag/v1.14.4-1.0.3.2",
   "1.14.4": {
+    "1.14.4-1.0.3.2": " - Added JsonHelper.kt with jsonInstance.",
     "1.14.4-1.0.3.1": " - Package name changed to correctly.\n - Added empty line after startup message.\n - Added logo file.\n - Fixed `cr` symbols in mod info.",
     "1.14.4-1.0.3.0": " - Bumped kotlin, kotlinx serialization and forge version.\n - Improved build script.\n - Bumped dokka version. \n - Added compatibility with forge 28.1.X. \n - Improved logging on mod startup and on forge version incompatibility.",
     "1.14.4-1.0.2.0": " - Fixed crash while dependency using CoreAPI."
   },
   "promos": {
-    "1.14.4-latest": "1.14.4-1.0.3.0",
-    "1.14.4-recommended": "1.14.4-1.0.3.0"
+    "1.14.4-latest": "1.14.4-1.0.3.2",
+    "1.14.4-recommended": "1.14.4-1.0.3.2"
   }
 }
