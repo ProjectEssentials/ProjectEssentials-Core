@@ -8,6 +8,7 @@ internal data class CommandsConfiguration(
 ) {
     @Serializable
     data class Aliases(
-        var advancement: List<String> = listOf("achievements", "ac")
+        var advancement: List<String> = listOf("achievements", "ac"),
+        var ban: List<String> = listOf()
     )
 }
