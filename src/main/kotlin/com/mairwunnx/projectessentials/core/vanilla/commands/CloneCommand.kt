@@ -1,3 +1,9 @@
+/**
+ * Command realization by Minecraft, converted
+ * from java to kotlin with small changes, e.g
+ * added check on permissions and aliases register.
+ */
+
 package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.google.common.collect.Lists

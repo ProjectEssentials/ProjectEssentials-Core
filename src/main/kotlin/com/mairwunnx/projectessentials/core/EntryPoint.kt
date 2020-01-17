@@ -80,6 +80,7 @@ internal class EntryPoint : EssBase() {
         BossBarCommand.register(dispatcher)
         ClearCommand.register(dispatcher)
         CloneCommand.register(dispatcher)
+        DataPackCommand.register(dispatcher)
     }
 
     @Suppress("UNUSED_PARAMETER")

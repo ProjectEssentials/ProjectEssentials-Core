@@ -15,6 +15,7 @@ internal data class CommandsConfiguration(
         var banlist: List<String> = listOf(),
         var bossbar: List<String> = listOf(),
         var clear: List<String> = listOf("ci", "clearinventory"),
-        var clone: List<String> = listOf()
+        var clone: List<String> = listOf(),
+        var datapack: List<String> = listOf()
     )
 }
