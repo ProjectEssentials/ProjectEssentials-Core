@@ -122,6 +122,7 @@ internal class EntryPoint : EssBase() {
         StopSoundCommand.register(dispatcher)
         SummonCommand.register(dispatcher)
         TagCommand.register(dispatcher)
+        TeamCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
