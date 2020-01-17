@@ -145,7 +145,7 @@ internal class EntryPoint : EssBase() {
             SaveOnCommand.register(dispatcher)
             SetIdleTimeoutCommand.register(dispatcher)
             StopCommand.register(dispatcher)
-//            WhitelistCommand.register(dispatcher)
+            WhitelistCommand.register(dispatcher)
         }
     }
 
