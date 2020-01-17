@@ -39,6 +39,7 @@ internal data class CommandsConfiguration(
         var me: List<String> = listOf("action", "describe"),
         var op: List<String> = listOf(),
         var pardon: List<String> = listOf("unban"),
-        var pardonip: List<String> = listOf("unbanip", "pardonip")
+        var pardonip: List<String> = listOf("unbanip", "pardonip"),
+        var particle: List<String> = listOf()
     )
 }
