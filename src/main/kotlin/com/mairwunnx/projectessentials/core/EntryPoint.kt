@@ -121,6 +121,7 @@ internal class EntryPoint : EssBase() {
         SpreadPlayersCommand.register(dispatcher)
         StopSoundCommand.register(dispatcher)
         SummonCommand.register(dispatcher)
+        TagCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
