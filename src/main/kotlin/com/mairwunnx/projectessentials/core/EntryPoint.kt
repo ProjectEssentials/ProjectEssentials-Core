@@ -87,6 +87,7 @@ internal class EntryPoint : EssBase() {
         DebugCommand.register(dispatcher)
         DefaultGameModeCommand.register(dispatcher)
         DifficultyCommand.register(dispatcher)
+        EffectCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")

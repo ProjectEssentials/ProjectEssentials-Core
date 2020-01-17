@@ -20,6 +20,7 @@ internal data class CommandsConfiguration(
         var debug: List<String> = listOf("dbg"),
         var defaultgamemode: List<String> = listOf("defaultgm"),
         var deop: List<String> = listOf(),
-        var difficulty: List<String> = listOf()
+        var difficulty: List<String> = listOf(),
+        var effect: List<String> = listOf("potion", "eff")
     )
 }
