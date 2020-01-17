@@ -43,6 +43,7 @@ internal data class CommandsConfiguration(
         var particle: List<String> = listOf(),
         var publish: List<String> = listOf("openlan"),
         var recipe: List<String> = listOf(),
-        var replaceItem: List<String> = listOf()
+        var replaceItem: List<String> = listOf(),
+        var saveall: List<String> = listOf("saveall")
     )
 }

@@ -121,7 +121,7 @@ internal class EntryPoint : EssBase() {
             OpCommand.register(dispatcher)
             PardonCommand.register(dispatcher)
             PardonIpCommand.register(dispatcher)
-//            SaveAllCommand.register(dispatcher)
+            SaveAllCommand.register(dispatcher)
 //            SaveOffCommand.register(dispatcher)
 //            SaveOnCommand.register(dispatcher)
 //            SetIdleTimeoutCommand.register(dispatcher)
