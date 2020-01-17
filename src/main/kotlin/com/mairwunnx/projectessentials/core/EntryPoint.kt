@@ -106,6 +106,7 @@ internal class EntryPoint : EssBase() {
         MeCommand.register(dispatcher)
         MessageCommand.register(dispatcher)
         ParticleCommand.register(dispatcher)
+        PlaySoundCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
