@@ -44,6 +44,7 @@ internal data class CommandsConfiguration(
         var publish: List<String> = listOf("openlan"),
         var recipe: List<String> = listOf(),
         var replaceItem: List<String> = listOf(),
-        var saveall: List<String> = listOf("saveall")
+        var saveall: List<String> = listOf("saveall"),
+        var saveoff: List<String> = listOf("saveoff")
     )
 }
