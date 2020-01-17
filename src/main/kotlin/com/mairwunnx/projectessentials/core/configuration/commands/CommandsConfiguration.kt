@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 internal data class CommandsConfiguration(
     var nativeReplace: Boolean = true,
+    var disableSafelyEnchantLevel: Boolean = false,
     var aliases: Aliases = Aliases()
 ) {
     @Serializable
@@ -21,6 +22,7 @@ internal data class CommandsConfiguration(
         var defaultgamemode: List<String> = listOf("defaultgm"),
         var deop: List<String> = listOf(),
         var difficulty: List<String> = listOf(),
-        var effect: List<String> = listOf("potion", "eff")
+        var effect: List<String> = listOf("potion", "eff"),
+        var enchant: List<String> = listOf()
     )
 }
