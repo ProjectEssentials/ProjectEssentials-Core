@@ -83,6 +83,7 @@ internal class EntryPoint : EssBase() {
         DataPackCommand.register(dispatcher)
         DebugCommand.register(dispatcher)
         DefaultGameModeCommand.register(dispatcher)
+        DeOpCommand.register(dispatcher)
     }
 
     @Suppress("UNUSED_PARAMETER")

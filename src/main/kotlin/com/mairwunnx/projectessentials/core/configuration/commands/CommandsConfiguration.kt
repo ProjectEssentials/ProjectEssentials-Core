@@ -18,6 +18,7 @@ internal data class CommandsConfiguration(
         var clone: List<String> = listOf(),
         var datapack: List<String> = listOf(),
         var debug: List<String> = listOf("dbg"),
-        var defaultgamemode: List<String> = listOf("defaultgm")
+        var defaultgamemode: List<String> = listOf("defaultgm"),
+        var deop: List<String> = listOf()
     )
 }
