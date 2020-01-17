@@ -248,12 +248,12 @@ object FillCommand {
     }
 
     @Suppress("UNUSED_ANONYMOUS_PARAMETER")
-    internal enum class Mode(val filter: SetBlockCommand.IFilter) {
-        REPLACE(SetBlockCommand.IFilter { p_198450_0_, p_198450_1_, p_198450_2_, p_198450_3_ ->
+    internal enum class Mode(val filter: net.minecraft.command.impl.SetBlockCommand.IFilter) {
+        REPLACE(net.minecraft.command.impl.SetBlockCommand.IFilter { p_198450_0_, p_198450_1_, p_198450_2_, p_198450_3_ ->
             p_198450_2_
         }),
         OUTLINE(
-            SetBlockCommand.IFilter { p_198454_0_, p_198454_1_, p_198454_2_, p_198454_3_ ->
+            net.minecraft.command.impl.SetBlockCommand.IFilter { p_198454_0_, p_198454_1_, p_198454_2_, p_198454_3_ ->
                 if (p_198454_1_.x != p_198454_0_.minX &&
                     p_198454_1_.x != p_198454_0_.maxX &&
                     p_198454_1_.y != p_198454_0_.minY &&
@@ -264,7 +264,7 @@ object FillCommand {
             }
         ),
         HOLLOW(
-            SetBlockCommand.IFilter { p_198453_0_, p_198453_1_, p_198453_2_, p_198453_3_ ->
+            net.minecraft.command.impl.SetBlockCommand.IFilter { p_198453_0_, p_198453_1_, p_198453_2_, p_198453_3_ ->
                 if (p_198453_1_.x != p_198453_0_.minX &&
                     p_198453_1_.x != p_198453_0_.maxX &&
                     p_198453_1_.y != p_198453_0_.minY &&
@@ -275,7 +275,7 @@ object FillCommand {
             }
         ),
         DESTROY(
-            SetBlockCommand.IFilter { p_198452_0_, p_198452_1_, p_198452_2_, p_198452_3_ ->
+            net.minecraft.command.impl.SetBlockCommand.IFilter { p_198452_0_, p_198452_1_, p_198452_2_, p_198452_3_ ->
                 p_198452_3_.destroyBlock(p_198452_1_, true)
                 p_198452_2_
             }
