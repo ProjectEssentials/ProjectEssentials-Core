@@ -11,6 +11,7 @@ internal data class CommandsConfiguration(
         var advancement: List<String> = listOf("achievements", "ac"),
         var ban: List<String> = listOf(),
         var banip: List<String> = listOf(),
-        var banlist: List<String> = listOf()
+        var banlist: List<String> = listOf(),
+        var bossbar: List<String> = listOf()
     )
 }
