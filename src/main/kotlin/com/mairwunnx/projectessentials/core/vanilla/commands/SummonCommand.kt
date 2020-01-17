@@ -32,7 +32,7 @@ import net.minecraft.util.math.Vec3d
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object SummonCommand {
+internal object SummonCommand {
     private val SUMMON_FAILED = SimpleCommandExceptionType(
         TranslationTextComponent("commands.summon.failed")
     )

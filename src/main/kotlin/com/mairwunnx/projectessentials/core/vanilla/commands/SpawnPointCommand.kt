@@ -22,7 +22,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object SpawnPointCommand {
+internal object SpawnPointCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.spawnpoint + "spawnpoint"
@@ -96,6 +96,7 @@ object SpawnPointCommand {
         checkPermissions(source)
 
         for (serverplayerentity in targets) {
+            @Suppress("DEPRECATION")
             serverplayerentity.setSpawnPoint(pos, true)
         }
         if (targets.size == 1) {

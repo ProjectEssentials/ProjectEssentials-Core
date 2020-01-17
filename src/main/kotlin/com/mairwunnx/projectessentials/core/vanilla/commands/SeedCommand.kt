@@ -20,7 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.ClickEvent
 import org.apache.logging.log4j.LogManager
 
-object SeedCommand {
+internal object SeedCommand {
     private val logger = LogManager.getLogger()
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

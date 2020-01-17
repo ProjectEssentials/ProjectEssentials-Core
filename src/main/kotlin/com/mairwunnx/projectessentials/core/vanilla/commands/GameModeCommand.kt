@@ -24,7 +24,7 @@ import net.minecraft.world.GameRules
 import net.minecraft.world.GameType
 import org.apache.logging.log4j.LogManager
 
-object GameModeCommand {
+internal object GameModeCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.gamemode + "gamemode"

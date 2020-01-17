@@ -19,7 +19,7 @@ import net.minecraft.command.Commands
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object SaveOnCommand {
+internal object SaveOnCommand {
     private val SAVE_ALREADY_ON_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.save.alreadyOn")
     )

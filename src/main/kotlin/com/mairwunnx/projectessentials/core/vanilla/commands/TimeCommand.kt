@@ -19,7 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.server.ServerWorld
 import org.apache.logging.log4j.LogManager
 
-object TimeCommand {
+internal object TimeCommand {
     private val logger = LogManager.getLogger()
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

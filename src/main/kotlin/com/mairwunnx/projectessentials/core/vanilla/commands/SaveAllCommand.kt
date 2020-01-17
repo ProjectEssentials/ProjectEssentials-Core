@@ -19,7 +19,7 @@ import net.minecraft.command.Commands
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object SaveAllCommand {
+internal object SaveAllCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.save.failed")
     )

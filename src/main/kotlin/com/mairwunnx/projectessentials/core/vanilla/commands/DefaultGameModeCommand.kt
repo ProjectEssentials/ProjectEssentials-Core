@@ -20,7 +20,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.GameType
 import org.apache.logging.log4j.LogManager
 
-object DefaultGameModeCommand {
+internal object DefaultGameModeCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.defaultgamemode + "defaultgamemode"

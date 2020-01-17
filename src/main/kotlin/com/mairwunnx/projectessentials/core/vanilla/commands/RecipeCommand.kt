@@ -25,7 +25,7 @@ import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object RecipeCommand {
+internal object RecipeCommand {
     private val GIVE_FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.recipe.give.failed")
     )
@@ -140,7 +140,7 @@ object RecipeCommand {
         recipes: Collection<IRecipe<*>>
     ): Int {
         checkPermissions(source)
-        
+
         var i = 0
         for (serverplayerentity in targets) {
             i += serverplayerentity.unlockRecipes(recipes)

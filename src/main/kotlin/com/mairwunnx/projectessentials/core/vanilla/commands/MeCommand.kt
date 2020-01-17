@@ -19,7 +19,7 @@ import net.minecraft.command.Commands
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object MeCommand {
+internal object MeCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.me + "me"

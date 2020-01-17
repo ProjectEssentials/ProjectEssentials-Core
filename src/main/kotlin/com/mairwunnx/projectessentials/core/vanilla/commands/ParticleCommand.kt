@@ -29,7 +29,7 @@ import net.minecraft.util.registry.Registry
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object ParticleCommand {
+internal object ParticleCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.particle.failed")
     )
@@ -214,7 +214,7 @@ object ParticleCommand {
         viewers: Collection<ServerPlayerEntity>
     ): Int {
         checkPermissions(source)
-        
+
         var i = 0
         for (serverplayerentity in viewers) {
             if (source.world.spawnParticle(

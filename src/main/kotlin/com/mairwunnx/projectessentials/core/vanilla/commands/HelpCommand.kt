@@ -22,7 +22,7 @@ import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object HelpCommand {
+internal object HelpCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.help.failed")
     )
@@ -52,7 +52,7 @@ object HelpCommand {
                     "command", StringArgumentType.greedyString()
                 ).executes { p_198512_1_ ->
                     checkPermissions(p_198512_1_.source)
-                    
+
                     val parseresults = dispatcher.parse(
                         StringArgumentType.getString(p_198512_1_, "command"),
                         p_198512_1_.source

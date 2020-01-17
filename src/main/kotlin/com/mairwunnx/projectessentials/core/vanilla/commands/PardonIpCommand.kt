@@ -22,7 +22,7 @@ import net.minecraft.command.ISuggestionProvider
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object PardonIpCommand {
+internal object PardonIpCommand {
     private val IP_INVALID_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.pardonip.invalid")
     )

@@ -23,7 +23,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
-object PublishCommand {
+internal object PublishCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.publish.failed")
     )

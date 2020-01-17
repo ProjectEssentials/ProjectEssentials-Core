@@ -27,7 +27,7 @@ import net.minecraft.potion.EffectInstance
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object EffectCommand {
+internal object EffectCommand {
     private val GIVE_FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.effect.give.failed")
     )

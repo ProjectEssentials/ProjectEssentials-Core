@@ -29,7 +29,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.util.concurrent.CompletableFuture
 
-object TriggerCommand {
+internal object TriggerCommand {
     private val logger = LogManager.getLogger()
 
     private val NOT_PRIMED = SimpleCommandExceptionType(

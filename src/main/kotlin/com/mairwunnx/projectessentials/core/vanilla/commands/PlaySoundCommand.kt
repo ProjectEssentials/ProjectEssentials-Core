@@ -31,7 +31,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.lang.Math.pow
 
-object PlaySoundCommand {
+internal object PlaySoundCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.playsound.failed")
     )

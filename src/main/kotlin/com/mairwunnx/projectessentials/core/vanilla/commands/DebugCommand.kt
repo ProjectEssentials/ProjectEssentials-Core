@@ -30,7 +30,7 @@ import java.nio.file.spi.FileSystemProvider
 import java.text.SimpleDateFormat
 import java.util.*
 
-object DebugCommand {
+internal object DebugCommand {
     private val field_225390_a = LogManager.getLogger()
     private val NOT_RUNNING_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.debug.notRunning")

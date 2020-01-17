@@ -36,7 +36,7 @@ import net.minecraft.world.BossInfo
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
-object BossBarCommand {
+internal object BossBarCommand {
     private val BOSS_BAR_ID_TAKEN = DynamicCommandExceptionType(
         Function { p_208783_0_: Any? ->
             TranslationTextComponent(

@@ -23,7 +23,7 @@ import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object TagCommand {
+internal object TagCommand {
     private val ADD_FAILED = SimpleCommandExceptionType(
         TranslationTextComponent("commands.tag.add.failed")
     )

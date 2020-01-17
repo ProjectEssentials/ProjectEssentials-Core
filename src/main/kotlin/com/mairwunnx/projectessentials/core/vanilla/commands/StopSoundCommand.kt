@@ -23,7 +23,7 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object StopSoundCommand {
+internal object StopSoundCommand {
     private val logger = LogManager.getLogger()
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

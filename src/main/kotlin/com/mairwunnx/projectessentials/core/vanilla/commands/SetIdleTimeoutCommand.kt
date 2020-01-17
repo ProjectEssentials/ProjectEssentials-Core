@@ -17,7 +17,7 @@ import net.minecraft.command.Commands
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object SetIdleTimeoutCommand {
+internal object SetIdleTimeoutCommand {
     private val logger = LogManager.getLogger()
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

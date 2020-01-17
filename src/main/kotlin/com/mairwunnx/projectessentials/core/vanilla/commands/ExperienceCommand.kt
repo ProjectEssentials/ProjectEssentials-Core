@@ -26,7 +26,7 @@ import java.util.function.BiConsumer
 import java.util.function.BiPredicate
 import java.util.function.ToIntFunction
 
-object ExperienceCommand {
+internal object ExperienceCommand {
     private val SET_POINTS_INVALID_EXCEPTION =
         SimpleCommandExceptionType(
             TranslationTextComponent("commands.experience.set.points.invalid")

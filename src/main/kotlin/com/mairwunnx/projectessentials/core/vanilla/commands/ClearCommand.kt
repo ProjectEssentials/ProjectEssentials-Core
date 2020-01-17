@@ -26,7 +26,7 @@ import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 import java.util.function.Predicate
 
-object ClearCommand {
+internal object ClearCommand {
     private val SINGLE_FAILED_EXCEPTION = DynamicCommandExceptionType(
         Function { p_208785_0_: Any? ->
             TranslationTextComponent(

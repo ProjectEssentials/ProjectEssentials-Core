@@ -27,7 +27,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
-object GiveCommand {
+internal object GiveCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.give + "give"
@@ -101,7 +101,7 @@ object GiveCommand {
         count: Int
     ): Int {
         checkPermissions(source)
-        
+
         for (serverplayerentity in targets) {
             var i = count
             while (i > 0) {

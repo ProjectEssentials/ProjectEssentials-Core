@@ -19,7 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.lang.String
 
-object WhitelistCommand {
+internal object WhitelistCommand {
     private val ALREADY_ON = SimpleCommandExceptionType(
         TranslationTextComponent("commands.whitelist.alreadyOn")
     )

@@ -29,7 +29,7 @@ import net.minecraft.util.text.event.HoverEvent
 import net.minecraftforge.registries.GameData
 import org.apache.logging.log4j.LogManager
 
-object LocateCommand {
+internal object LocateCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.locate.failed")
     )

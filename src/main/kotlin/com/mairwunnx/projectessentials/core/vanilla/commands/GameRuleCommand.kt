@@ -21,7 +21,7 @@ import net.minecraft.world.GameRules.*
 import org.apache.logging.log4j.LogManager
 
 @Suppress("FunctionName")
-object GameRuleCommand {
+internal object GameRuleCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.gamerule + "gamerule"

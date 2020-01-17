@@ -19,7 +19,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
-object WorldBorderCommand {
+internal object WorldBorderCommand {
     private val CENTER_NO_CHANGE = SimpleCommandExceptionType(
         TranslationTextComponent("commands.worldborder.center.failed")
     )

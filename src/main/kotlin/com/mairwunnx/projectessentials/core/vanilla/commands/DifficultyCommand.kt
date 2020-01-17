@@ -22,7 +22,7 @@ import net.minecraft.world.dimension.DimensionType
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
-object DifficultyCommand {
+internal object DifficultyCommand {
     private val FAILED_EXCEPTION = DynamicCommandExceptionType(
         Function { p_208823_0_: Any? ->
             TranslationTextComponent(

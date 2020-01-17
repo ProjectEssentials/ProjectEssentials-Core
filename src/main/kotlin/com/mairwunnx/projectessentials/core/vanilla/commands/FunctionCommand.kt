@@ -19,7 +19,7 @@ import net.minecraft.command.arguments.FunctionArgument
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object FunctionCommand {
+internal object FunctionCommand {
     val FUNCTION_SUGGESTER =
         SuggestionProvider { p_198477_0_: CommandContext<CommandSource>, p_198477_1_ ->
             val functionmanager = p_198477_0_.source.server.functionManager

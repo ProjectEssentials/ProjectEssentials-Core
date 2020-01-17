@@ -17,7 +17,7 @@ import net.minecraft.command.arguments.MessageArgument
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object SayCommand {
+internal object SayCommand {
     private val logger = LogManager.getLogger()
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

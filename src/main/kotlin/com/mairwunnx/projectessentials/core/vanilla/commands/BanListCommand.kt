@@ -21,7 +21,7 @@ import net.minecraft.server.management.BanEntry
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object BanListCommand {
+internal object BanListCommand {
     private val logger = LogManager.getLogger()
     private var aliases =
         CommandsConfigurationUtils.getConfig().aliases.banlist + "banlist"

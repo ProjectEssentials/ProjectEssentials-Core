@@ -17,7 +17,7 @@ import net.minecraft.command.arguments.GameProfileArgument
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object OpCommand {
+internal object OpCommand {
     private val ALREADY_OP = SimpleCommandExceptionType(
         TranslationTextComponent("commands.op.failed")
     )

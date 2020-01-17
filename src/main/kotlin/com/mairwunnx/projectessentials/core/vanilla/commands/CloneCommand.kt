@@ -33,7 +33,7 @@ import java.util.*
 import java.util.function.Predicate
 
 @Suppress("DEPRECATION")
-object CloneCommand {
+internal object CloneCommand {
     private val OVERLAP_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.clone.overlap")
     )

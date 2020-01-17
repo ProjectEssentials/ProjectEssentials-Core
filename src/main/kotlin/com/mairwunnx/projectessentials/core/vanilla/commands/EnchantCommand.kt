@@ -29,7 +29,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
-object EnchantCommand {
+internal object EnchantCommand {
     private val NONLIVING_ENTITY_EXCEPTION =
         DynamicCommandExceptionType(
             Function { p_208839_0_: Any? ->

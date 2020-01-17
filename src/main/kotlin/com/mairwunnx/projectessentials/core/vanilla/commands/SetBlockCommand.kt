@@ -27,7 +27,7 @@ import net.minecraft.world.server.ServerWorld
 import org.apache.logging.log4j.LogManager
 import java.util.function.Predicate
 
-object SetBlockCommand {
+internal object SetBlockCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.setblock.failed")
     )

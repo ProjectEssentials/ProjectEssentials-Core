@@ -33,7 +33,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
-object ReplaceItemCommand {
+internal object ReplaceItemCommand {
     val BLOCK_FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.replaceitem.block.failed")
     )
@@ -212,7 +212,7 @@ object ReplaceItemCommand {
         newStack: ItemStack
     ): Int {
         checkPermissions(source)
-        
+
         val list: MutableList<Entity> = Lists.newArrayListWithCapacity(targets.size)
         for (entity in targets) {
             if (entity is ServerPlayerEntity) {

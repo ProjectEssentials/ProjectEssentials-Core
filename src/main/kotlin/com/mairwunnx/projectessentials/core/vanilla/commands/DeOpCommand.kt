@@ -24,7 +24,7 @@ import net.minecraft.command.arguments.GameProfileArgument
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 
-object DeOpCommand {
+internal object DeOpCommand {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.deop.failed")
     )

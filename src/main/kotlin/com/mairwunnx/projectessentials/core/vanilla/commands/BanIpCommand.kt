@@ -26,7 +26,7 @@ import org.apache.logging.log4j.LogManager
 import java.util.*
 import java.util.regex.Pattern
 
-object BanIpCommand {
+internal object BanIpCommand {
     val IP_PATTERN: Pattern =
         Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
     private val IP_INVALID = SimpleCommandExceptionType(

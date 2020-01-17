@@ -32,7 +32,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Predicate
 
-object FillCommand {
+internal object FillCommand {
     private val TOO_BIG_EXCEPTION = Dynamic2CommandExceptionType(
         Dynamic2CommandExceptionType.Function { p_208897_0_: Any?, p_208897_1_: Any? ->
             TranslationTextComponent(

@@ -19,7 +19,7 @@ import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Consumer
 
-object TeamMsgCommand {
+internal object TeamMsgCommand {
     private val field_218919_a = SimpleCommandExceptionType(
         TranslationTextComponent("commands.teammsg.failed.noteam")
     )

@@ -31,7 +31,7 @@ import org.apache.logging.log4j.LogManager
 import java.util.function.Consumer
 import java.util.function.Function
 
-object DataPackCommand {
+internal object DataPackCommand {
     private val UNKNOWN_DATA_PACK_EXCEPTION =
         DynamicCommandExceptionType(
             Function { p_208808_0_: Any? ->
