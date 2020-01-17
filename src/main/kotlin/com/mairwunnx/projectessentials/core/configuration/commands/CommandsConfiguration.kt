@@ -10,6 +10,7 @@ internal data class CommandsConfiguration(
     data class Aliases(
         var advancement: List<String> = listOf("achievements", "ac"),
         var ban: List<String> = listOf(),
-        var banip: List<String> = listOf()
+        var banip: List<String> = listOf(),
+        var banlist: List<String> = listOf()
     )
 }

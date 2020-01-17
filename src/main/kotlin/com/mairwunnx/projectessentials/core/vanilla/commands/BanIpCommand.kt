@@ -27,7 +27,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 object BanIpCommand {
-    val IP_PATTERN =
+    val IP_PATTERN: Pattern =
         Pattern.compile("^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.([01]?\\d\\d?|2[0-4]\\d|25[0-5])$")
     private val IP_INVALID = SimpleCommandExceptionType(
         TranslationTextComponent("commands.banip.invalid")

@@ -3,6 +3,8 @@ package com.mairwunnx.projectessentials.core
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.vanilla.commands.AdvancementCommand
 import com.mairwunnx.projectessentials.core.vanilla.commands.BanCommand
+import com.mairwunnx.projectessentials.core.vanilla.commands.BanIpCommand
+import com.mairwunnx.projectessentials.core.vanilla.commands.BanListCommand
 import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
@@ -74,6 +76,8 @@ internal class EntryPoint : EssBase() {
         logger.info("Replacing native vanilla commands")
         AdvancementCommand.register(dispatcher)
         BanCommand.register(dispatcher)
+        BanIpCommand.register(dispatcher)
+        BanListCommand.register(dispatcher)
     }
 
     @Suppress("UNUSED_PARAMETER")
