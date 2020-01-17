@@ -117,6 +117,7 @@ internal class EntryPoint : EssBase() {
         SeedCommand.register(dispatcher)
         SetBlockCommand.register(dispatcher)
         SetWorldSpawnCommand.register(dispatcher)
+        SpawnPointCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")

@@ -46,6 +46,7 @@ internal data class CommandsConfiguration(
         var replaceItem: List<String> = listOf(),
         var saveall: List<String> = listOf("saveall"),
         var saveoff: List<String> = listOf("saveoff"),
-        var saveon: List<String> = listOf("saveon")
+        var saveon: List<String> = listOf("saveon"),
+        var spawnpoint: List<String> = listOf("respawnhere")
     )
 }
