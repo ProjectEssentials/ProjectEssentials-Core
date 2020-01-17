@@ -123,6 +123,7 @@ internal class EntryPoint : EssBase() {
         SummonCommand.register(dispatcher)
         TagCommand.register(dispatcher)
         TeamCommand.register(dispatcher)
+        TeamMsgCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
