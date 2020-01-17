@@ -129,6 +129,7 @@ internal class EntryPoint : EssBase() {
         TimeCommand.register(dispatcher)
         TitleCommand.register(dispatcher)
         TriggerCommand.register(dispatcher)
+        WeatherCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
