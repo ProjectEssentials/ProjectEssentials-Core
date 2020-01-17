@@ -128,6 +128,7 @@ internal class EntryPoint : EssBase() {
         TellRawCommand.register(dispatcher)
         TimeCommand.register(dispatcher)
         TitleCommand.register(dispatcher)
+        TriggerCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
