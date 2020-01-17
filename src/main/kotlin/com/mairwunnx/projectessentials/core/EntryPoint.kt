@@ -90,6 +90,7 @@ internal class EntryPoint : EssBase() {
         EffectCommand.register(dispatcher)
         EnchantCommand.register(dispatcher)
         ExecuteCommand.register(dispatcher)
+        ExperienceCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
