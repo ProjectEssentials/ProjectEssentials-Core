@@ -28,6 +28,7 @@ internal data class CommandsConfiguration(
         var fill: List<String> = listOf(),
         var function: List<String> = listOf("fn", "fun"),
         var gamemode: List<String> = listOf("gm"),
-        var gamerule: List<String> = listOf()
+        var gamerule: List<String> = listOf(),
+        var give: List<String> = listOf()
     )
 }
