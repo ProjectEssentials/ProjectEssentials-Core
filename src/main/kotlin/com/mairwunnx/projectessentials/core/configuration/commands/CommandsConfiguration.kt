@@ -45,6 +45,7 @@ internal data class CommandsConfiguration(
         var recipe: List<String> = listOf(),
         var replaceItem: List<String> = listOf(),
         var saveall: List<String> = listOf("saveall"),
-        var saveoff: List<String> = listOf("saveoff")
+        var saveoff: List<String> = listOf("saveoff"),
+        var saveon: List<String> = listOf("saveon")
     )
 }
