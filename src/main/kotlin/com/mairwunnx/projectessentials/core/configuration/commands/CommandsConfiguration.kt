@@ -26,6 +26,7 @@ internal data class CommandsConfiguration(
         var enchant: List<String> = listOf(),
         var experience: List<String> = listOf("exp", "xp"),
         var fill: List<String> = listOf(),
-        var function: List<String> = listOf("fn", "fun")
+        var function: List<String> = listOf("fn", "fun"),
+        var gamemode: List<String> = listOf("gm")
     )
 }
