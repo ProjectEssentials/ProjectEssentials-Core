@@ -92,6 +92,7 @@ internal class EntryPoint : EssBase() {
         ExecuteCommand.register(dispatcher)
         ExperienceCommand.register(dispatcher)
         FillCommand.register(dispatcher)
+        ForceLoadCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
