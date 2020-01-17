@@ -16,6 +16,7 @@ internal data class CommandsConfiguration(
         var bossbar: List<String> = listOf(),
         var clear: List<String> = listOf("ci", "clearinventory"),
         var clone: List<String> = listOf(),
-        var datapack: List<String> = listOf()
+        var datapack: List<String> = listOf(),
+        var debug: List<String> = listOf("dbg")
     )
 }

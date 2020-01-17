@@ -81,6 +81,7 @@ internal class EntryPoint : EssBase() {
         ClearCommand.register(dispatcher)
         CloneCommand.register(dispatcher)
         DataPackCommand.register(dispatcher)
+        DebugCommand.register(dispatcher)
     }
 
     @Suppress("UNUSED_PARAMETER")
