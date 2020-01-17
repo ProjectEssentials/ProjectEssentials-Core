@@ -31,6 +31,7 @@ internal data class CommandsConfiguration(
         var gamerule: List<String> = listOf(),
         var give: List<String> = listOf(),
         var help: List<String> = listOf(),
-        var kick: List<String> = listOf()
+        var kick: List<String> = listOf(),
+        var kill: List<String> = listOf()
     )
 }
