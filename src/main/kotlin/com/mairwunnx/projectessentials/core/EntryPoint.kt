@@ -67,23 +67,43 @@ internal class EntryPoint : EssBase() {
     @SubscribeEvent
     internal fun onServerStarting(it: FMLServerStartingEvent) {
         if (CommandsConfigurationUtils.getConfig().nativeReplace) {
-            registerNativeCommands(it.server.commandManager.dispatcher)
+            registerNativeCommands(
+                it.server.commandManager.dispatcher,
+                it.server.isDedicatedServer
+            )
         }
     }
 
-    private fun registerNativeCommands(dispatcher: CommandDispatcher<CommandSource>) {
+    private fun registerNativeCommands(
+        dispatcher: CommandDispatcher<CommandSource>,
+        isDedicatedServer: Boolean
+    ) {
         logger.info("Replacing native vanilla commands")
         AdvancementCommand.register(dispatcher)
-        BanCommand.register(dispatcher)
-        BanIpCommand.register(dispatcher)
-        BanListCommand.register(dispatcher)
         BossBarCommand.register(dispatcher)
         ClearCommand.register(dispatcher)
         CloneCommand.register(dispatcher)
         DataPackCommand.register(dispatcher)
         DebugCommand.register(dispatcher)
         DefaultGameModeCommand.register(dispatcher)
-        DeOpCommand.register(dispatcher)
+        DifficultyCommand.register(dispatcher)
+
+        if (isDedicatedServer) {
+            logger.info("Replacing native vanilla server commands")
+            BanCommand.register(dispatcher)
+            BanIpCommand.register(dispatcher)
+            BanListCommand.register(dispatcher)
+            DeOpCommand.register(dispatcher)
+//            OpCommand.register(dispatcher)
+//            PardonCommand.register(dispatcher)
+//            PardonIpCommand.register(dispatcher)
+//            SaveAllCommand.register(dispatcher)
+//            SaveOffCommand.register(dispatcher)
+//            SaveOnCommand.register(dispatcher)
+//            SetIdleTimeoutCommand.register(dispatcher)
+//            StopCommand.register(dispatcher)
+//            WhitelistCommand.register(dispatcher)
+        }
     }
 
     @Suppress("UNUSED_PARAMETER")

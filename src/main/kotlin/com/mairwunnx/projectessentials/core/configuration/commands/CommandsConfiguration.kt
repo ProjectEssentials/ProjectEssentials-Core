@@ -19,6 +19,7 @@ internal data class CommandsConfiguration(
         var datapack: List<String> = listOf(),
         var debug: List<String> = listOf("dbg"),
         var defaultgamemode: List<String> = listOf("defaultgm"),
-        var deop: List<String> = listOf()
+        var deop: List<String> = listOf(),
+        var difficulty: List<String> = listOf()
     )
 }
