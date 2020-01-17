@@ -115,6 +115,7 @@ internal class EntryPoint : EssBase() {
         ScheduleCommand.register(dispatcher)
         ScoreboardCommand.register(dispatcher)
         SeedCommand.register(dispatcher)
+        SetBlockCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
