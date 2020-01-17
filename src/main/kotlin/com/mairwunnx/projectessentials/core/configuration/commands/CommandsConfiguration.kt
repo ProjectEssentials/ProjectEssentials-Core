@@ -47,6 +47,7 @@ internal data class CommandsConfiguration(
         var saveall: List<String> = listOf("saveall"),
         var saveoff: List<String> = listOf("saveoff"),
         var saveon: List<String> = listOf("saveon"),
-        var spawnpoint: List<String> = listOf("respawnhere")
+        var spawnpoint: List<String> = listOf("respawnhere"),
+        var summon: List<String> = listOf("spawnmob")
     )
 }
