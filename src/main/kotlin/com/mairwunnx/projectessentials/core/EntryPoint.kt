@@ -66,7 +66,9 @@ internal class EntryPoint : EssBase() {
 
     @SubscribeEvent
     internal fun onServerStarting(it: FMLServerStartingEvent) {
-        registerNativeCommands(it.server.commandManager.dispatcher)
+        if (CommandsConfigurationUtils.getConfig().nativeReplace) {
+            registerNativeCommands(it.server.commandManager.dispatcher)
+        }
     }
 
     private fun registerNativeCommands(dispatcher: CommandDispatcher<CommandSource>) {

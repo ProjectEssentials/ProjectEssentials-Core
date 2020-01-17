@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 internal data class CommandsConfiguration(
+    var nativeReplace: Boolean = true,
     var aliases: Aliases = Aliases()
 ) {
     @Serializable
