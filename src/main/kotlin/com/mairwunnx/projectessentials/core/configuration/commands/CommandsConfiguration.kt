@@ -35,6 +35,7 @@ internal data class CommandsConfiguration(
         var kick: List<String> = listOf(),
         var kill: List<String> = listOf(),
         var list: List<String> = listOf("online"),
-        var locate: List<String> = listOf("find", "where")
+        var locate: List<String> = listOf("find", "where"),
+        var me: List<String> = listOf("action", "describe")
     )
 }

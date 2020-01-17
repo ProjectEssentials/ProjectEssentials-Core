@@ -103,6 +103,7 @@ internal class EntryPoint : EssBase() {
         ListCommand.register(dispatcher)
         LocateCommand.register(dispatcher)
         LootCommand.register(dispatcher)
+        MeCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
