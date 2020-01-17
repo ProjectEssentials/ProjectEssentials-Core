@@ -79,6 +79,7 @@ internal class EntryPoint : EssBase() {
         BanListCommand.register(dispatcher)
         BossBarCommand.register(dispatcher)
         ClearCommand.register(dispatcher)
+        CloneCommand.register(dispatcher)
     }
 
     @Suppress("UNUSED_PARAMETER")

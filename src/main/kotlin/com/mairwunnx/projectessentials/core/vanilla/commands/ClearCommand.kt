@@ -69,8 +69,7 @@ object ClearCommand {
                     )
                 }.then(
                     Commands.argument(
-                        "targets",
-                        EntityArgument.players()
+                        "targets", EntityArgument.players()
                     ).executes { p_198245_0_ ->
                         clearInventory(
                             p_198245_0_.source,
@@ -80,8 +79,7 @@ object ClearCommand {
                         )
                     }.then(
                         Commands.argument(
-                            "item",
-                            ItemPredicateArgument.itemPredicate()
+                            "item", ItemPredicateArgument.itemPredicate()
                         ).executes { p_198240_0_ ->
                             clearInventory(
                                 p_198240_0_.source,
@@ -91,8 +89,7 @@ object ClearCommand {
                             )
                         }.then(
                             Commands.argument(
-                                "maxCount",
-                                IntegerArgumentType.integer(0)
+                                "maxCount", IntegerArgumentType.integer(0)
                             ).executes { p_198246_0_ ->
                                 clearInventory(
                                     p_198246_0_.source,
