@@ -16,6 +16,7 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.ISuggestionProvider;
 import net.minecraft.command.arguments.*;
+import net.minecraft.command.impl.ReplaceItemCommand;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
@@ -123,7 +124,7 @@ public class LootCommand {
     private static IInventory func_218862_a(CommandSource p_218862_0_, BlockPos p_218862_1_) throws CommandSyntaxException {
         TileEntity tileentity = p_218862_0_.getWorld().getTileEntity(p_218862_1_);
         if (!(tileentity instanceof IInventory)) {
-            throw ReplaceItemCommand.BLOCK_FAILED_EXCEPTION.create();
+            throw net.minecraft.command.impl.ReplaceItemCommand.BLOCK_FAILED_EXCEPTION.create();
         } else {
             return (IInventory) tileentity;
         }
