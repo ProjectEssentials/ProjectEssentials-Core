@@ -12,12 +12,14 @@ import com.google.common.collect.Lists
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
+import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
 import com.mojang.brigadier.suggestion.SuggestionProvider
+import net.minecraft.command.CommandException
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.ISuggestionProvider
@@ -221,6 +223,25 @@ object DataPackCommand {
         }
     }
 
+    private fun checkPermissions(source: CommandSource) {
+        try {
+            if (!EntryPoint.hasPermission(source.asPlayer(), "native.datapack", 2)) {
+                logger.info(
+                    PERMISSION_LEVEL
+                        .replace("%0", source.asPlayer().name.string)
+                        .replace("%1", "datapack")
+                )
+                throw CommandException(
+                    TranslationTextComponent(
+                        "native.datapack.restricted"
+                    )
+                )
+            }
+        } catch (e: CommandSyntaxException) {
+            // ignored, because command executed by server.
+        }
+    }
+
     /**
      * Enables the given pack.
      *
@@ -232,6 +253,8 @@ object DataPackCommand {
         pack: ResourcePackInfo,
         priorityCallback: IHandler
     ): Int {
+        checkPermissions(source)
+
         val resourcepacklist = source.server.resourcePacks
         val list: MutableList<ResourcePackInfo> = Lists.newArrayList(resourcepacklist.enabledPacks)
         priorityCallback.apply(list, pack)
@@ -258,6 +281,8 @@ object DataPackCommand {
      * @return The number of packs that are loaded after this operation.
      */
     private fun disablePack(source: CommandSource, pack: ResourcePackInfo): Int {
+        checkPermissions(source)
+
         val resourcepacklist = source.server.resourcePacks
         val list: MutableList<ResourcePackInfo> = Lists.newArrayList(resourcepacklist.enabledPacks)
         list.remove(pack)
@@ -283,8 +308,10 @@ object DataPackCommand {
      *
      * @return The total number of packs.
      */
-    private fun listAllPacks(source: CommandSource): Int =
-        listEnabledPacks(source) + listAvailablePacks(source)
+    private fun listAllPacks(source: CommandSource): Int {
+        checkPermissions(source)
+        return listEnabledPacks(source) + listAvailablePacks(source)
+    }
 
     /**
      * Sends a list of available packs to the user.
@@ -292,6 +319,8 @@ object DataPackCommand {
      * @return The number of available packs.
      */
     private fun listAvailablePacks(source: CommandSource): Int {
+        checkPermissions(source)
+
         val resourcepacklist = source.server.resourcePacks
         if (resourcepacklist.availablePacks.isEmpty()) {
             source.sendFeedback(
@@ -320,6 +349,8 @@ object DataPackCommand {
      * @return The number of enabled packs.
      */
     private fun listEnabledPacks(source: CommandSource): Int {
+        checkPermissions(source)
+
         val resourcepacklist = source.server.resourcePacks
         if (resourcepacklist.enabledPacks.isEmpty()) {
             source.sendFeedback(
