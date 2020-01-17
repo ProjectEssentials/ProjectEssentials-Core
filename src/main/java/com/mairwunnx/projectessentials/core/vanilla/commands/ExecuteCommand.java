@@ -68,6 +68,8 @@ public class ExecuteCommand {
     private static Logger logger = LogManager.getLogger();
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
+        logger.info("Replacing `/execute` vanilla command");
+
         LiteralCommandNode<CommandSource> literalcommandnode = dispatcher.register(Commands.literal("execute"));
         dispatcher.register(Commands.literal("execute").then(Commands.literal("run").redirect(dispatcher.getRoot())).then(makeIfCommand(literalcommandnode, Commands.literal("if"), true)).then(makeIfCommand(literalcommandnode, Commands.literal("unless"), false)).then(Commands.literal("as").then(Commands.argument("targets", EntityArgument.entities()).fork(literalcommandnode, (p_198385_0_) -> {
             List<CommandSource> list = Lists.newArrayList();

@@ -33,7 +33,7 @@ internal class EntryPoint : EssBase() {
         internal var permissionsInstalled: Boolean = false
         internal var cooldownInstalled: Boolean = false
 
-        fun hasPermission(
+        internal fun hasPermission(
             player: ServerPlayerEntity,
             node: String,
             opLevel: Int = 4
