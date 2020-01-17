@@ -37,6 +37,7 @@ internal data class CommandsConfiguration(
         var list: List<String> = listOf("online"),
         var locate: List<String> = listOf("find", "where"),
         var me: List<String> = listOf("action", "describe"),
-        var op: List<String> = listOf()
+        var op: List<String> = listOf(),
+        var pardon: List<String> = listOf("unban")
     )
 }
