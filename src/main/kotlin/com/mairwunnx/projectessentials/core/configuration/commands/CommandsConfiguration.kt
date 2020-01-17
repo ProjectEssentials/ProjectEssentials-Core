@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 internal data class CommandsConfiguration(
     var nativeReplace: Boolean = true,
     var disableSafelyEnchantLevel: Boolean = false,
+    var locateFindRadius: Int = 100,
     var aliases: Aliases = Aliases()
 ) {
     @Serializable
@@ -33,6 +34,7 @@ internal data class CommandsConfiguration(
         var help: List<String> = listOf(),
         var kick: List<String> = listOf(),
         var kill: List<String> = listOf(),
-        var list: List<String> = listOf("online")
+        var list: List<String> = listOf("online"),
+        var locate: List<String> = listOf("find", "where")
     )
 }

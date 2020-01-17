@@ -101,6 +101,7 @@ internal class EntryPoint : EssBase() {
         KickCommand.register(dispatcher)
         KillCommand.register(dispatcher)
         ListCommand.register(dispatcher)
+        LocateCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
