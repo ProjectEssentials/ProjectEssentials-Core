@@ -33,7 +33,7 @@ internal class EntryPoint : EssBase() {
         internal var permissionsInstalled: Boolean = false
         internal var cooldownInstalled: Boolean = false
 
-        internal fun hasPermission(
+        fun hasPermission(
             player: ServerPlayerEntity,
             node: String,
             opLevel: Int = 4
@@ -89,6 +89,7 @@ internal class EntryPoint : EssBase() {
         DifficultyCommand.register(dispatcher)
         EffectCommand.register(dispatcher)
         EnchantCommand.register(dispatcher)
+        ExecuteCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
