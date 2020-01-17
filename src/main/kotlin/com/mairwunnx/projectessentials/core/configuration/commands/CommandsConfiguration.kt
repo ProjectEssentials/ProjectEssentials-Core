@@ -40,6 +40,7 @@ internal data class CommandsConfiguration(
         var op: List<String> = listOf(),
         var pardon: List<String> = listOf("unban"),
         var pardonip: List<String> = listOf("unbanip", "pardonip"),
-        var particle: List<String> = listOf()
+        var particle: List<String> = listOf(),
+        var publish: List<String> = listOf("openlan")
     )
 }
