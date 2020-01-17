@@ -109,6 +109,7 @@ internal class EntryPoint : EssBase() {
         PlaySoundCommand.register(dispatcher)
         PublishCommand.register(dispatcher)
         RecipeCommand.register(dispatcher)
+        ReloadCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
