@@ -98,6 +98,7 @@ internal class EntryPoint : EssBase() {
         GameRuleCommand.register(dispatcher)
         GiveCommand.register(dispatcher)
         HelpCommand.register(dispatcher)
+        KickCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
