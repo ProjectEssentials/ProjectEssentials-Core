@@ -125,6 +125,7 @@ internal class EntryPoint : EssBase() {
         TeamCommand.register(dispatcher)
         TeamMsgCommand.register(dispatcher)
         TeleportCommand.register(dispatcher)
+        TellRawCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
