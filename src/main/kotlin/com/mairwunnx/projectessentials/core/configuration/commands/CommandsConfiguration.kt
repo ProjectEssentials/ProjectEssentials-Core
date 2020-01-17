@@ -42,6 +42,7 @@ internal data class CommandsConfiguration(
         var pardonip: List<String> = listOf("unbanip", "pardonip"),
         var particle: List<String> = listOf(),
         var publish: List<String> = listOf("openlan"),
-        var recipe: List<String> = listOf()
+        var recipe: List<String> = listOf(),
+        var replaceItem: List<String> = listOf()
     )
 }

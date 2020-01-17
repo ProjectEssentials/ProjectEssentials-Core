@@ -110,6 +110,7 @@ internal class EntryPoint : EssBase() {
         PublishCommand.register(dispatcher)
         RecipeCommand.register(dispatcher)
         ReloadCommand.register(dispatcher)
+        ReplaceItemCommand.register(dispatcher)
 
         if (isDedicatedServer) {
             logger.info("Replacing native vanilla server commands")
