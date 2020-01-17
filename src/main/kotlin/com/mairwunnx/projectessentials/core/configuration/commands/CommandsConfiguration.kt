@@ -24,6 +24,7 @@ internal data class CommandsConfiguration(
         var difficulty: List<String> = listOf(),
         var effect: List<String> = listOf("potion", "eff"),
         var enchant: List<String> = listOf(),
-        var experience: List<String> = listOf("exp", "xp")
+        var experience: List<String> = listOf("exp", "xp"),
+        var fill: List<String> = listOf()
     )
 }
