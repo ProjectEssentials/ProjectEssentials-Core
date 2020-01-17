@@ -13,7 +13,7 @@ internal data class CommandsConfiguration(
     data class Aliases(
         var advancement: List<String> = listOf("achievements", "ac"),
         var ban: List<String> = listOf(),
-        var banip: List<String> = listOf(),
+        var banip: List<String> = listOf("banip"),
         var banlist: List<String> = listOf(),
         var bossbar: List<String> = listOf(),
         var clear: List<String> = listOf("ci", "clearinventory"),
@@ -38,6 +38,7 @@ internal data class CommandsConfiguration(
         var locate: List<String> = listOf("find", "where"),
         var me: List<String> = listOf("action", "describe"),
         var op: List<String> = listOf(),
-        var pardon: List<String> = listOf("unban")
+        var pardon: List<String> = listOf("unban"),
+        var pardonip: List<String> = listOf("unbanip", "pardonip")
     )
 }
