@@ -11,7 +11,7 @@ dependencies {
     compile(
         group: "com.github.projectessentials",
         name: "ProjectEssentials-Core",
-        version: "v1.14.4-1.0.3.2"
+        version: "v1.14.4-1.1.0.0"
     )
 }
 ```
@@ -133,6 +133,14 @@ JsonHelper.jsonInstance
 - return: json instance with configured JsonConfiguration. (Json)
 
 - description: Common json instance with default configuration for Project Essentials modules, if module using json configuration, then you need use this property.
+```
+
+```
+NativeCommandUtils.removeCommand
+- accepts:
+    - commandName - command name to remove. (string)
+
+- description: Just remove vanilla or other registered command.
 ```
 
 ### Dependencies using by Core API.
