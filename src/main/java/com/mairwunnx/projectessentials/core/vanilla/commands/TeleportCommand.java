@@ -2,6 +2,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -32,6 +33,7 @@ public class TeleportCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         logger.info("Replacing `/teleport` vanilla command");
+        NativeCommandUtils.removeCommand("teleport");
 
         LiteralCommandNode<CommandSource> literalcommandnode = dispatcher.register(Commands.literal("teleport").then(Commands.argument("targets", EntityArgument.entities()).then(Commands.argument("location", Vec3Argument.vec3()).executes((p_198807_0_) -> {
             return teleportToPos(p_198807_0_.getSource(), EntityArgument.getEntities(p_198807_0_, "targets"), p_198807_0_.getSource().getWorld(), Vec3Argument.getLocation(p_198807_0_, "location"), null, null);

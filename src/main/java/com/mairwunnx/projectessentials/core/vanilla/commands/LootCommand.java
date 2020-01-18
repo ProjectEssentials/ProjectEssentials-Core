@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 import com.google.common.collect.Lists;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.builder.ArgumentBuilder;
@@ -56,6 +57,7 @@ public class LootCommand {
 
     public static void register(CommandDispatcher<CommandSource> p_218886_0_) {
         logger.info("Replacing `/loot` vanilla command");
+        NativeCommandUtils.removeCommand("loot");
 
         p_218886_0_.register(func_218868_a(Commands.literal("loot"), (p_218880_0_, p_218880_1_) -> {
             return p_218880_0_.then(Commands.literal("fish").then(Commands.argument("loot_table", ResourceLocationArgument.resourceLocation()).suggests(field_218904_a).then(Commands.argument("pos", BlockPosArgument.blockPos()).executes((p_218899_1_) -> {

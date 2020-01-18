@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 import com.google.common.collect.Lists;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -46,6 +47,7 @@ public class TeamCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         logger.info("Replacing `/team` vanilla command");
+        NativeCommandUtils.removeCommand("team");
 
         dispatcher.register(Commands.literal("team").then(Commands.literal("list").executes((p_198760_0_) -> {
             return listTeams(p_198760_0_.getSource());

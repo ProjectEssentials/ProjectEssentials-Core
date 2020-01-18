@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 import com.google.common.collect.Lists;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.Command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.ResultConsumer;
@@ -69,6 +70,7 @@ public class ExecuteCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         logger.info("Replacing `/execute` vanilla command");
+        NativeCommandUtils.removeCommand("execute");
 
         LiteralCommandNode<CommandSource> literalcommandnode = dispatcher.register(Commands.literal("execute"));
         dispatcher.register(Commands.literal("execute").then(Commands.literal("run").redirect(dispatcher.getRoot())).then(makeIfCommand(literalcommandnode, Commands.literal("if"), true)).then(makeIfCommand(literalcommandnode, Commands.literal("unless"), false)).then(Commands.literal("as").then(Commands.argument("targets", EntityArgument.entities()).fork(literalcommandnode, (p_198385_0_) -> {

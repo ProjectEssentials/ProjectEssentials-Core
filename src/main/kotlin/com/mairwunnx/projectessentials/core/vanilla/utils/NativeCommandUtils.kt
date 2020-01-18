@@ -21,7 +21,8 @@ internal object NativeCommandUtils {
         registeredCommands = root.get(dispatcher) as RootCommandNode<CommandSource>
     }
 
-    internal fun removeCommand(commandName: String) {
+    @JvmStatic
+    fun removeCommand(commandName: String) {
         logger.info("Removing native vanilla command /$commandName")
         registeredCommands.children.removeIf {
             it.name == commandName

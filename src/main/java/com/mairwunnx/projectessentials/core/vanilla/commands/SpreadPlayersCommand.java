@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.FloatArgumentType;
@@ -42,6 +43,8 @@ public class SpreadPlayersCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         logger.info("Replacing `/spreadplayers` vanilla command");
+        NativeCommandUtils.removeCommand("spreadplayers");
+
         dispatcher.register(Commands.literal("spreadplayers").then(Commands.argument("center", Vec2Argument.vec2()).then(Commands.argument("spreadDistance", FloatArgumentType.floatArg(0.0F)).then(Commands.argument("maxRange", FloatArgumentType.floatArg(1.0F)).then(Commands.argument("respectTeams", BoolArgumentType.bool()).then(Commands.argument("targets", EntityArgument.entities()).executes((p_198718_0_) -> {
             return spreadPlayers(p_198718_0_.getSource(), Vec2Argument.getVec2f(p_198718_0_, "center"), FloatArgumentType.getFloat(p_198718_0_, "spreadDistance"), FloatArgumentType.getFloat(p_198718_0_, "maxRange"), BoolArgumentType.getBool(p_198718_0_, "respectTeams"), EntityArgument.getEntities(p_198718_0_, "targets"));
         })))))));

@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 import com.google.common.collect.Lists;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
@@ -48,6 +49,7 @@ public class ScoreboardCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         logger.info("Replacing `/scoreboard` vanilla command");
+        NativeCommandUtils.removeCommand("scoreboard");
 
         dispatcher.register(Commands.literal("scoreboard").then(Commands.literal("objectives").then(Commands.literal("list").executes((p_198640_0_) -> {
             return listObjectives(p_198640_0_.getSource());

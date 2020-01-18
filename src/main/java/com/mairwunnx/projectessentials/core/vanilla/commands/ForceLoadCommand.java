@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 import com.google.common.base.Joiner;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;
@@ -35,6 +36,7 @@ public class ForceLoadCommand {
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         logger.info("Replacing `/forceload` vanilla command");
+        NativeCommandUtils.removeCommand("forceload");
 
         dispatcher.register(Commands.literal("forceload").then(Commands.literal("add").then(Commands.argument("from", ColumnPosArgument.columnPos()).executes((p_212711_0_) -> {
             return func_212719_a(p_212711_0_.getSource(), ColumnPosArgument.func_218101_a(p_212711_0_, "from"), ColumnPosArgument.func_218101_a(p_212711_0_, "from"), true);
