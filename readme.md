@@ -8,7 +8,7 @@ This is the base module (core) for all other Project Essentials modules. It cont
 
 ### Last steps
 
-#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.0.3.2/ProjectEssentials-Core-MOD-1.14.4-1.0.3.2.jar) · [Download API](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.0.3.2/ProjectEssentials-Core-API-1.14.4-1.0.3.2.jar) · [How to install](documentation/for-players.md) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [News & updates](https://t.me/minecraftforge)
+#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.1.0.0/ProjectEssentials-Core-MOD-1.14.4-1.1.0.0.jar) · [Download API](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.1.0.0/ProjectEssentials-Core-API-1.14.4-1.1.0.0.jar) · [How to install](documentation/for-players.md) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [News & updates](https://t.me/minecraftforge)
 
 <a href="https://ko-fi.com/mairwunnx" target="_blank"><img src="./assets/support_social.png"></a>
 
@@ -19,5 +19,5 @@ Currently mod branch supported forge version `28.0.X` and `28.1.X` (Minecraft `1
 ### Credits
 
 - Author: Pavel Erokhin [@mairwunnx](https://github.com/mairwunnx)
-- JetBrains Licenses: [JetBrains](https://www.jetbrains.com/)
+- [JetBrains](https://www.jetbrains.com/) for product licenses
 - Inspired by: [EssentialsX](https://github.com/EssentialsX)
