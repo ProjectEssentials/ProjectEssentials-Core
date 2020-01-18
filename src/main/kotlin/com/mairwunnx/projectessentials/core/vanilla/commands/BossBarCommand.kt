@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -96,6 +97,7 @@ internal object BossBarCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/bossbar` vanilla command")
+        NativeCommandUtils.removeCommand("bossbar")
         tryAssignAliases()
 
         aliases.forEach { command ->

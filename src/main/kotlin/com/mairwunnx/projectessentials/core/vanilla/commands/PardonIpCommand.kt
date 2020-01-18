@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -41,6 +42,7 @@ internal object PardonIpCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/pardon-ip` vanilla command")
+        NativeCommandUtils.removeCommand("pardon-ip")
         tryAssignAliases()
 
         aliases.forEach { command ->

@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.minecraft.command.CommandException
@@ -34,6 +35,7 @@ internal object KickCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/kick` vanilla command")
+        NativeCommandUtils.removeCommand("kick")
         tryAssignAliases()
 
         dispatcher.register(

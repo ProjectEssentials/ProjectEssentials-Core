@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.exceptions.CommandSyntaxException
@@ -39,6 +40,7 @@ internal object GiveCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/give` vanilla command")
+        NativeCommandUtils.removeCommand("give")
         tryAssignAliases()
 
         aliases.forEach { command ->

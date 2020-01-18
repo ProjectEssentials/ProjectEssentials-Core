@@ -8,6 +8,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.minecraft.command.CommandException
@@ -24,6 +25,7 @@ internal object SetWorldSpawnCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/setworldspawn` vanilla command")
+        NativeCommandUtils.removeCommand("setworldspawn")
 
         dispatcher.register(
             Commands.literal("setworldspawn").executes { p_198700_0_ ->

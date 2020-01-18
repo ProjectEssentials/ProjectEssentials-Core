@@ -8,6 +8,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.minecraft.command.CommandException
@@ -25,6 +26,12 @@ internal object MessageCommand {
     private val logger = LogManager.getLogger()
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        logger.info("Replacing `/msg` vanilla command")
+        NativeCommandUtils.removeCommand("msg")
+        NativeCommandUtils.removeCommand("tell")
+        NativeCommandUtils.removeCommand("w")
+        NativeCommandUtils.removeCommand("m")
+
         val literalcommandnode = dispatcher.register(
             Commands.literal("msg").then(
                 Commands.argument(

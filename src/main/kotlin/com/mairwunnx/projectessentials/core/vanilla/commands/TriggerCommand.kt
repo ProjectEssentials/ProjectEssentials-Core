@@ -9,6 +9,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 import com.google.common.collect.Lists
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.exceptions.CommandSyntaxException
@@ -41,6 +42,7 @@ internal object TriggerCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/trigger` vanilla command")
+        NativeCommandUtils.removeCommand("trigger")
 
         dispatcher.register(
             Commands.literal("trigger").then(

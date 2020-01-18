@@ -4,6 +4,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.authlib.GameProfile
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
@@ -36,6 +37,7 @@ internal object WhitelistCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/whitelist` vanilla command")
+        NativeCommandUtils.removeCommand("whitelist")
 
         dispatcher.register(
             Commands.literal("whitelist").then(

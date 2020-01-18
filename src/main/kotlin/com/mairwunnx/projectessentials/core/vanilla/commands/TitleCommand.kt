@@ -8,6 +8,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.exceptions.CommandSyntaxException
@@ -29,6 +30,7 @@ internal object TitleCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/title` vanilla command")
+        NativeCommandUtils.removeCommand("title")
 
         dispatcher.register(
             Commands.literal("title").then(

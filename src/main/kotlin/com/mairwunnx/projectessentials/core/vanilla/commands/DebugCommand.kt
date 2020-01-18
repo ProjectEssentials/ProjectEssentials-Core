@@ -13,6 +13,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
@@ -53,6 +54,7 @@ internal object DebugCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         field_225390_a.info("Replacing `/debug` vanilla command")
+        NativeCommandUtils.removeCommand("debug")
         tryAssignAliases()
 
         aliases.forEach { command ->

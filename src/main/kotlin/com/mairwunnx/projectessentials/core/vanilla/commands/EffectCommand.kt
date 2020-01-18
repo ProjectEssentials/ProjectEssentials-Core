@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -49,6 +50,7 @@ internal object EffectCommand {
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        NativeCommandUtils.removeCommand("effect")
         logger.info("Replacing `/effect` vanilla command")
         tryAssignAliases()
 

@@ -9,6 +9,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 import com.google.common.collect.Sets
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.exceptions.CommandSyntaxException
@@ -34,6 +35,7 @@ internal object TagCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/tag` vanilla command")
+        NativeCommandUtils.removeCommand("tag")
 
         dispatcher.register(
             Commands.literal("tag").then(

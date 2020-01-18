@@ -2,6 +2,7 @@ package com.mairwunnx.projectessentials.core
 
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.vanilla.commands.*
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
@@ -67,6 +68,9 @@ internal class EntryPoint : EssBase() {
     @SubscribeEvent
     internal fun onServerStarting(it: FMLServerStartingEvent) {
         if (CommandsConfigurationUtils.getConfig().nativeReplace) {
+            NativeCommandUtils.assignDispatcherRoot(
+                it.server.commandManager.dispatcher
+            )
             registerNativeCommands(
                 it.server.commandManager.dispatcher,
                 it.server.isDedicatedServer

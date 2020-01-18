@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
@@ -32,6 +33,8 @@ internal object TeamMsgCommand {
 
     fun register(p_218915_0_: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/teammsg` vanilla command")
+        NativeCommandUtils.removeCommand("teammsg")
+        NativeCommandUtils.removeCommand("tm")
         tryAssignAliases()
 
         val literalcommandnode = p_218915_0_.register(

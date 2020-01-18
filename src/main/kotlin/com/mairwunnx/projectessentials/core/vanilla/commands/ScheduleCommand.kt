@@ -8,6 +8,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -30,6 +31,7 @@ internal object ScheduleCommand {
 
     fun register(p_218909_0_: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/schedule` vanilla command")
+        NativeCommandUtils.removeCommand("schedule")
 
         p_218909_0_.register(
             Commands.literal("schedule").then(

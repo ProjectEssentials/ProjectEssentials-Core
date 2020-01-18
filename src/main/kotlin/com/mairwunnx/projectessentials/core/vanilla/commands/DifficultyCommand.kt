@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType
@@ -41,6 +42,7 @@ internal object DifficultyCommand {
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        NativeCommandUtils.removeCommand("difficulty")
         logger.info("Replacing `/difficulty` vanilla command")
         tryAssignAliases()
 

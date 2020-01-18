@@ -12,6 +12,7 @@ import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.EntryPoint.Companion.hasPermission
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -27,6 +28,7 @@ import net.minecraft.command.arguments.ResourceLocationArgument
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.text.TranslationTextComponent
 import org.apache.logging.log4j.LogManager
+
 
 internal object AdvancementCommand {
     private val logger = LogManager.getLogger()
@@ -50,6 +52,7 @@ internal object AdvancementCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/advancement` vanilla command")
+        NativeCommandUtils.removeCommand("advancement")
         tryAssignAliases()
 
         aliases.forEach { command ->

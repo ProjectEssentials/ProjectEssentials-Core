@@ -2,6 +2,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.minecraft.command.CommandException
@@ -15,6 +16,7 @@ internal object ReloadCommand {
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
         logger.info("Replacing `/reload` vanilla command")
+        NativeCommandUtils.removeCommand("reload")
 
         dispatcher.register(
             Commands.literal("reload").executes {

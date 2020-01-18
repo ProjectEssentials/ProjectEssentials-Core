@@ -10,6 +10,7 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
+import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import com.mojang.authlib.GameProfile
 import com.mojang.brigadier.CommandDispatcher
@@ -38,6 +39,7 @@ internal object DeOpCommand {
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        NativeCommandUtils.removeCommand("deop")
         logger.info("Replacing `/deop` vanilla command")
         tryAssignAliases()
 
