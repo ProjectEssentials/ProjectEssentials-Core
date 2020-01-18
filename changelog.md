@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.4-1.1.0.0] - 2020-01-18
+
+### Added
+- Cooldown and Permission modules as not mandatory dependency.
+- Configuration for native vanilla commands.
+- Implemented all vanilla commands.
+- Permission checking on all vanilla commands.
+- Cooldown checking on all vanilla commands.
+- `NativeCommandUtils` with ability to remove command.
+
 ## [1.14.4-1.0.3.2] - 2020-01-15
 
 ### Added
