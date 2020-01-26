@@ -6,6 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.4-1.2.0] - 2020-01-26
+
+### Added
+- Localizaton for restricted messages.
+- Hover event with restricred message description.
+
+### Fixed
+- Wrong op level for `pardon-ip` command.
+
 ## [1.14.4-1.1.0.0] - 2020-01-18
 
 ### Added
