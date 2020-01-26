@@ -23,7 +23,9 @@ import net.minecraft.inventory.IClearable
 import net.minecraft.util.CachedBlockInfo
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import net.minecraft.world.server.ServerWorld
 import org.apache.logging.log4j.LogManager
 import java.util.function.Predicate
@@ -100,7 +102,16 @@ internal object SetBlockCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.setblock.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.setblock", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

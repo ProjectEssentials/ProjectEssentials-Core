@@ -37,7 +37,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.CachedBlockInfo;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -141,7 +143,16 @@ public class ExecuteCommand {
                 );
                 throw new CommandException(
                     new TranslationTextComponent(
-                        "native.execute.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        new Style().setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                new TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.execute", "2"
+                                )
+                            )
+                        )
                     )
                 );
             }

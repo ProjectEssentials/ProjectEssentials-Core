@@ -20,8 +20,10 @@ import net.minecraft.command.Commands
 import net.minecraft.command.ISuggestionProvider
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.Entity
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object TagCommand {
@@ -93,7 +95,16 @@ internal object TagCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.tag.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.tag", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

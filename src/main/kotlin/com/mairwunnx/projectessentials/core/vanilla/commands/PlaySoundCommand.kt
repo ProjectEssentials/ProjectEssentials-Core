@@ -28,7 +28,9 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.MathHelper
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.lang.Math.pow
 
@@ -64,7 +66,16 @@ internal object PlaySoundCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.playsound.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.playsound", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

@@ -20,7 +20,9 @@ import net.minecraft.command.arguments.BlockPosArgument
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object SpawnPointCommand {
@@ -81,7 +83,16 @@ internal object SpawnPointCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.spawnpoint.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.spawnpoint", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

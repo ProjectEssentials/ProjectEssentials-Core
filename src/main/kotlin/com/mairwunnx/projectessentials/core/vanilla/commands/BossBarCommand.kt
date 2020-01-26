@@ -31,8 +31,10 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.server.CustomServerBossInfo
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import net.minecraft.world.BossInfo
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
@@ -348,7 +350,16 @@ internal object BossBarCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.bossbar.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.bossbar", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

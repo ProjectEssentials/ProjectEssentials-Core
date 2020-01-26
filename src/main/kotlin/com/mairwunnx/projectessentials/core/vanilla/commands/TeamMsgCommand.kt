@@ -62,7 +62,16 @@ internal object TeamMsgCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.teammsg.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.teammsg", "0"
+                                )
+                            )
+                        )
                     )
                 )
             }

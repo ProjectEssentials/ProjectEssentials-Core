@@ -30,7 +30,9 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object SummonCommand {
@@ -110,7 +112,16 @@ internal object SummonCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.summon.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.summon", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

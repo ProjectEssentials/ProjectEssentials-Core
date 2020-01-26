@@ -17,7 +17,9 @@ import net.minecraft.command.Commands
 import net.minecraft.command.arguments.BlockPosArgument
 import net.minecraft.network.play.server.SSpawnPositionPacket
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object SetWorldSpawnCommand {
@@ -54,7 +56,16 @@ internal object SetWorldSpawnCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.setworldspawn.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.setworldspawn", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

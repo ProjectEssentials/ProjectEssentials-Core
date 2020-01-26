@@ -15,8 +15,10 @@ import net.minecraft.command.Commands
 import net.minecraft.command.ISuggestionProvider
 import net.minecraft.command.arguments.GameProfileArgument
 import net.minecraft.server.management.WhitelistEntry
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.lang.String
 
@@ -108,7 +110,16 @@ internal object WhitelistCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.whitelist.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.whitelist", "3"
+                                )
+                            )
+                        )
                     )
                 )
             }

@@ -15,7 +15,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import net.minecraft.command.CommandException
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object SetIdleTimeoutCommand {
@@ -50,7 +52,16 @@ internal object SetIdleTimeoutCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.setidletimeout.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.setidletimeout", "3"
+                                )
+                            )
+                        )
                     )
                 )
             }

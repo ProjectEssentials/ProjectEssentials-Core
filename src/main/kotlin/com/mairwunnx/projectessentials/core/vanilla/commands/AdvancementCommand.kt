@@ -26,7 +26,9 @@ import net.minecraft.command.ISuggestionProvider
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.command.arguments.ResourceLocationArgument
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 
@@ -302,7 +304,16 @@ internal object AdvancementCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.advancement.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.advancement", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

@@ -24,7 +24,9 @@ import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvents
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import kotlin.math.min
 
@@ -86,7 +88,16 @@ internal object GiveCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.give.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.give", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

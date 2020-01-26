@@ -27,7 +27,9 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.particles.IParticleData
 import net.minecraft.util.math.Vec3d
 import net.minecraft.util.registry.Registry
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object ParticleCommand {
@@ -195,7 +197,16 @@ internal object ParticleCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.particle.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.particle", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

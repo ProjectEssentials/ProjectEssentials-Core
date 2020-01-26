@@ -21,7 +21,9 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.network.play.server.SStopSoundPacket
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundCategory
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object StopSoundCommand {
@@ -97,7 +99,16 @@ internal object StopSoundCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.stopsound.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.stopsound", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

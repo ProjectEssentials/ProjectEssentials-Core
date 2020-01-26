@@ -20,8 +20,10 @@ import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.network.play.server.STitlePacket
 import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
@@ -126,7 +128,16 @@ internal object TitleCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.title.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.title", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

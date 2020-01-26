@@ -25,8 +25,10 @@ import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.ISuggestionProvider
 import net.minecraft.resources.ResourcePackInfo
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import net.minecraft.world.dimension.DimensionType
 import org.apache.logging.log4j.LogManager
 import java.util.function.Consumer
@@ -235,7 +237,16 @@ internal object DataPackCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.datapack.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.datapack", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

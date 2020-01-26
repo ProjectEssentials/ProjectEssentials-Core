@@ -28,7 +28,9 @@ import net.minecraft.nbt.CompoundNBT
 import net.minecraft.util.CachedBlockInfo
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MutableBoundingBox
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.*
 import java.util.function.Predicate
@@ -299,7 +301,16 @@ internal object CloneCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.clone.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.clone", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

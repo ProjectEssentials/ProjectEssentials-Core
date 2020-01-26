@@ -30,7 +30,9 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
@@ -167,7 +169,16 @@ internal object ReplaceItemCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.replaceitem.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.replaceitem", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

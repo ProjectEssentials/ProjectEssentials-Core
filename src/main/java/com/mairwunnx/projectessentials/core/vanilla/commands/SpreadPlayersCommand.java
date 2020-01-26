@@ -23,7 +23,9 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.LogManager;
@@ -62,7 +64,16 @@ public class SpreadPlayersCommand {
                 );
                 throw new CommandException(
                     new TranslationTextComponent(
-                        "native.spreadplayers.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        new Style().setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                new TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.spreadplayers", "2"
+                                )
+                            )
+                        )
                     )
                 );
             }

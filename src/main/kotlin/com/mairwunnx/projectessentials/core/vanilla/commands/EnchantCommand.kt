@@ -26,7 +26,9 @@ import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
@@ -120,7 +122,16 @@ internal object EnchantCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.enchant.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.enchant", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

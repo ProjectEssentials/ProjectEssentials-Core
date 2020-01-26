@@ -21,7 +21,9 @@ import net.minecraft.command.Commands
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.function.BiConsumer
 import java.util.function.BiPredicate
@@ -177,7 +179,16 @@ internal object ExperienceCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.experience.$action.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.experience.$action", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

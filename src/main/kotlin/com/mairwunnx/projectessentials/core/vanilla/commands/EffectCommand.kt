@@ -25,7 +25,9 @@ import net.minecraft.entity.Entity
 import net.minecraft.entity.LivingEntity
 import net.minecraft.potion.Effect
 import net.minecraft.potion.EffectInstance
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object EffectCommand {
@@ -158,7 +160,16 @@ internal object EffectCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.effect.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.effect", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

@@ -17,7 +17,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.SuggestionProvider
 import net.minecraft.command.*
 import net.minecraft.command.arguments.FunctionArgument
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object FunctionCommand {
@@ -69,7 +71,16 @@ internal object FunctionCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.function.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.function", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

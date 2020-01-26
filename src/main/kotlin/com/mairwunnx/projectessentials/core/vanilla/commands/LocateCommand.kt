@@ -22,6 +22,7 @@ import net.minecraft.command.arguments.ResourceLocationArgument
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.MathHelper
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TextFormatting
 import net.minecraft.util.text.TranslationTextComponent
@@ -144,7 +145,16 @@ internal object LocateCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.locate.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.locate", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

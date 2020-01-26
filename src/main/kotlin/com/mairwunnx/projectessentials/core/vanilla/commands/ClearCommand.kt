@@ -22,7 +22,9 @@ import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.command.arguments.ItemPredicateArgument
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.ItemStack
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 import java.util.function.Predicate
@@ -118,7 +120,16 @@ internal object ClearCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.clear.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.clear", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

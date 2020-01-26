@@ -20,7 +20,9 @@ import net.minecraft.command.CommandException
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.ISuggestionProvider
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object PardonIpCommand {
@@ -68,7 +70,7 @@ internal object PardonIpCommand {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!EntryPoint.hasPermission(source.asPlayer(), "native.pardonip", 6)) {
+            if (!EntryPoint.hasPermission(source.asPlayer(), "native.pardonip", 3)) {
                 logger.info(
                     PERMISSION_LEVEL
                         .replace("%0", source.asPlayer().name.string)
@@ -76,7 +78,16 @@ internal object PardonIpCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.pardonip.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.pardonip", "3"
+                                )
+                            )
+                        )
                     )
                 )
             }

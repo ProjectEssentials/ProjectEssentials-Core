@@ -22,8 +22,10 @@ import net.minecraft.command.arguments.GameProfileArgument
 import net.minecraft.command.arguments.MessageArgument
 import net.minecraft.server.management.ProfileBanEntry
 import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.*
 
@@ -87,7 +89,16 @@ internal object BanCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.ban.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.ban", "3"
+                                )
+                            )
+                        )
                     )
                 )
             }

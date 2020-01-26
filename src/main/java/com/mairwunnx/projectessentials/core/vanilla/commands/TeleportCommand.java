@@ -15,7 +15,9 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.*;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.server.TicketType;
 import org.apache.logging.log4j.LogManager;
@@ -69,7 +71,16 @@ public class TeleportCommand {
                 );
                 throw new CommandException(
                     new TranslationTextComponent(
-                        "native.teleport.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        new Style().setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                new TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.teleport", "2"
+                                )
+                            )
+                        )
                     )
                 );
             }

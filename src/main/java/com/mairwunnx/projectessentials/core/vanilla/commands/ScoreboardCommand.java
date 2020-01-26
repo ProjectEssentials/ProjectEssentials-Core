@@ -22,10 +22,8 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreCriteria;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextComponentUtils;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.HoverEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,7 +100,16 @@ public class ScoreboardCommand {
                 );
                 throw new CommandException(
                     new TranslationTextComponent(
-                        "native.scoreboard.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        new Style().setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                new TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.scoreboard", "2"
+                                )
+                            )
+                        )
                     )
                 );
             }

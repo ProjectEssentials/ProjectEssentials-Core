@@ -20,7 +20,9 @@ import net.minecraft.command.Commands
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.text.ITextComponent
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import net.minecraft.world.GameRules
 import net.minecraft.world.GameType
 import org.apache.logging.log4j.LogManager
@@ -75,7 +77,16 @@ internal object GameModeCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.gamemode.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.gamemode", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

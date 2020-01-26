@@ -23,7 +23,9 @@ import net.minecraft.command.arguments.ResourceLocationArgument
 import net.minecraft.command.arguments.SuggestionProviders
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object RecipeCommand {
@@ -125,7 +127,16 @@ internal object RecipeCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.recipe.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.recipe", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

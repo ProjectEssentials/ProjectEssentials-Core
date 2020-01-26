@@ -17,7 +17,9 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import net.minecraft.command.CommandException
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object SaveAllCommand {
@@ -62,7 +64,16 @@ internal object SaveAllCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.saveall.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.saveall", "4"
+                                )
+                            )
+                        )
                     )
                 )
             }

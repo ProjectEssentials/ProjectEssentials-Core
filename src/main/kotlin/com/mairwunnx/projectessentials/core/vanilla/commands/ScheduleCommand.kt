@@ -19,7 +19,9 @@ import net.minecraft.command.*
 import net.minecraft.command.arguments.FunctionArgument
 import net.minecraft.command.arguments.TimeArgument
 import net.minecraft.tags.Tag
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object ScheduleCommand {
@@ -64,7 +66,16 @@ internal object ScheduleCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.schedule.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.schedule", "2"
+                                )
+                            )
+                        )
                     )
                 )
             }

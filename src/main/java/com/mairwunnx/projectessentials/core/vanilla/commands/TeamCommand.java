@@ -21,6 +21,7 @@ import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.util.text.*;
+import net.minecraft.util.text.event.HoverEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -118,7 +119,16 @@ public class TeamCommand {
                 );
                 throw new CommandException(
                     new TranslationTextComponent(
-                        "native.team.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        new Style().setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                new TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.team", "2"
+                                )
+                            )
+                        )
                     )
                 );
             }

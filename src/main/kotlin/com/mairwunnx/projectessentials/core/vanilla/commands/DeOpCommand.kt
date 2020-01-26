@@ -22,7 +22,9 @@ import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.ISuggestionProvider
 import net.minecraft.command.arguments.GameProfileArgument
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object DeOpCommand {
@@ -73,7 +75,16 @@ internal object DeOpCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.deop.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.deop", "3"
+                                )
+                            )
+                        )
                     )
                 )
             }

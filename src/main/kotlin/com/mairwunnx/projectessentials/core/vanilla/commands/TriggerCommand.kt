@@ -26,7 +26,9 @@ import net.minecraft.scoreboard.Score
 import net.minecraft.scoreboard.ScoreCriteria
 import net.minecraft.scoreboard.ScoreObjective
 import net.minecraft.scoreboard.Scoreboard
+import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.concurrent.CompletableFuture
 
@@ -103,7 +105,16 @@ internal object TriggerCommand {
                 )
                 throw CommandException(
                     TranslationTextComponent(
-                        "native.trigger.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        Style().setHoverEvent(
+                            HoverEvent(
+                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.trigger", "0"
+                                )
+                            )
+                        )
                     )
                 )
             }

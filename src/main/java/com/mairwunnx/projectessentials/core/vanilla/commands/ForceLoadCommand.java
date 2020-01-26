@@ -16,7 +16,9 @@ import net.minecraft.command.arguments.BlockPosArgument;
 import net.minecraft.command.arguments.ColumnPosArgument;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.ColumnPos;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.LogManager;
@@ -67,7 +69,16 @@ public class ForceLoadCommand {
                 );
                 throw new CommandException(
                     new TranslationTextComponent(
-                        "native.forceload.restricted"
+                        "native.command.restricted"
+                    ).setStyle(
+                        new Style().setHoverEvent(
+                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                                new TranslationTextComponent(
+                                    "native.command.restricted_hover",
+                                    "native.forceload", "2"
+                                )
+                            )
+                        )
                     )
                 );
             }
