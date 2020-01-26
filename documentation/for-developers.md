@@ -11,7 +11,7 @@ dependencies {
     compile(
         group: "com.github.projectessentials",
         name: "ProjectEssentials-Core",
-        version: "v1.14.4-1.1.0.0"
+        version: "v1.14.4-1.2.0"
     )
 }
 ```
