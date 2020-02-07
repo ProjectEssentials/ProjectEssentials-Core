@@ -1,5 +1,5 @@
 modLoader="javafml" 
-loaderVersion="[28,)"
+loaderVersion="[31,)"
 logoFile="logo.png"
 issueTrackerURL="https://github.com/ProjectEssentials/ProjectEssentials-Core/issues"
 
@@ -7,7 +7,7 @@ issueTrackerURL="https://github.com/ProjectEssentials/ProjectEssentials-Core/iss
     modId="project_essentials_core"
     version="1.15.2-1.0.0"
     displayName="Project Essentials Core"
-    updateJSONURL="https://raw.githubusercontent.com/ProjectEssentials/ProjectEssentials-Core/MC-1.14.4/update.json"
+    updateJSONURL="https://raw.githubusercontent.com/ProjectEssentials/ProjectEssentials-Core/MC-1.15.2/update.json"
     displayURL="https://github.com/ProjectEssentials/ProjectEssentials-Core"
     credits="Thanks JetBrains for Intellij IDEA license!"
     authors="MairwunNx (Pavel Erokhin)"
@@ -19,13 +19,13 @@ issueTrackerURL="https://github.com/ProjectEssentials/ProjectEssentials-Core/iss
 [[dependencies.projectessentialscore]]
     modId="forge"
     mandatory=true
-    versionRange="[28,)"
+    versionRange="[31,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.projectessentialscore]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.14.4]"
+    versionRange="[1.15.2]"
     ordering="NONE"
     side="BOTH"
