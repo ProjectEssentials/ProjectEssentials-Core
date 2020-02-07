@@ -15,7 +15,7 @@ abstract class EssBase {
 
     var modId = "project_essentials_null"
     var modName = "Project Essentials Null"
-    var modVersion = "1.14.4-0.0.0.0"
+    var modVersion = "1.14.4-0.0.0"
     var modModuleName = "Null"
     var modMaintainer = "MairwunNx (Pavel Erokhin)"
     var modTargetForge = "28.1.X"
@@ -31,7 +31,7 @@ abstract class EssBase {
         modModuleName = modName.split(" ").last()
         modSources = "https://github.com/ProjectEssentials/ProjectEssentials-$modModuleName/"
         modCurseForge =
-            "https://www.curseforge.com/minecraft/mc-mods/ProjectEssentials-$modModuleName"
+            "https://www.curseforge.com/minecraft/mc-mods/project-essentials-${modModuleName.toLowerCase()}"
     }
 
     /**
