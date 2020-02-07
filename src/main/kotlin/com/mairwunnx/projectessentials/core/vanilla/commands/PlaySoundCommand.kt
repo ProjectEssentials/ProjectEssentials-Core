@@ -202,10 +202,11 @@ internal object PlaySoundCommand {
                     }
                     return i
                 }
+
                 serverplayerentity = iterator.next() as ServerPlayerEntity
-                val d1 = pos.x - serverplayerentity.posX
-                val d2 = pos.y - serverplayerentity.posY
-                val d3 = pos.z - serverplayerentity.posZ
+                val d1 = pos.x - serverplayerentity.func_226277_ct_()
+                val d2 = pos.y - serverplayerentity.func_226278_cu_()
+                val d3 = pos.z - serverplayerentity.func_226281_cx_()
                 val d4 = d1 * d1 + d2 * d2 + d3 * d3
                 vec3d = pos
                 f = volume
@@ -213,9 +214,9 @@ internal object PlaySoundCommand {
                 if (minVolume > 0.0f) {
                     val d5 = MathHelper.sqrt(d4).toDouble()
                     vec3d = Vec3d(
-                        serverplayerentity.posX + d1 / d5 * 2.0,
-                        serverplayerentity.posY + d2 / d5 * 2.0,
-                        serverplayerentity.posZ + d3 / d5 * 2.0
+                        serverplayerentity.func_226277_ct_() + d1 / d5 * 2.0,
+                        serverplayerentity.func_226278_cu_() + d2 / d5 * 2.0,
+                        serverplayerentity.func_226281_cx_() + d3 / d5 * 2.0
                     )
                     f = minVolume
                     break
