@@ -14,7 +14,10 @@ fun CommandContext<CommandSource>.isPlayerSender(): Boolean =
     this.source.entity is ServerPlayerEntity
 
 /**
- * @return player nickname from CommandContext.
+ * @return if command source is player then nickname
+ * from CommandContext. If command source is server
+ * then return `#server`.
  * @since 1.14.4-1.0.1.0
  */
-fun CommandContext<CommandSource>.playerName(): String = this.source.asPlayer().name.string
+fun CommandContext<CommandSource>.playerName(): String =
+    if (this.isPlayerSender()) this.source.asPlayer().name.string else "#server"
