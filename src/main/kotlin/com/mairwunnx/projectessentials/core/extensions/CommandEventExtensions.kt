@@ -15,8 +15,7 @@ import net.minecraftforge.event.CommandEvent
  */
 val CommandEvent.commandName: String
     get() = this.executedCommand
-        .replace("/", "")
-        .split(" ")[0]
+        .replace("/", "").split(" ")[0]
 
 /**
  * Return fully executed command as string.
@@ -29,12 +28,20 @@ val CommandEvent.executedCommand: String
     get() = this.parseResults.reader.string
 
 /**
- * Return **`ServerPlayerEntity`** class instance from
- * **`CommandEvent`** class instance.
+ * Return true if source is player.
+ * @since 1.14.4-1.2.1
+ */
+val CommandEvent.isPlayerSender: Boolean
+    get() = this.source.entity is ServerPlayerEntity
+
+/**
+ * Return **`ServerPlayerEntity?`** class instance from
+ * **`CommandEvent`** class instance. If source is server
+ * then return null.
  * @since 1.14.4-1.0.0.0
  */
-val CommandEvent.player: ServerPlayerEntity
-    get() = this.parseResults.context.source.asPlayer()
+val CommandEvent.player: ServerPlayerEntity?
+    get() = if (this.isPlayerSender) this.source.asPlayer() else null
 
 /**
  * Return command **`source`** from **`CommandEvent`**
