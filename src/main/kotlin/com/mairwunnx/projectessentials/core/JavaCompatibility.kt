@@ -7,10 +7,10 @@ internal object JavaCompatibility {
     fun hasPermission(
         player: ServerPlayerEntity,
         node: String,
-        opLevel: Int = 4
+        opLevel: Int
     ): Boolean = if (EntryPoint.permissionsInstalled) {
         PermissionsAPI.hasPermission(player.name.string, node)
     } else {
-        player.server.opPermissionLevel >= opLevel
+        player.hasPermissionLevel(opLevel)
     }
 }

@@ -37,11 +37,11 @@ internal class EntryPoint : EssBase() {
         internal fun hasPermission(
             player: ServerPlayerEntity,
             node: String,
-            opLevel: Int = 4
+            opLevel: Int
         ): Boolean = if (permissionsInstalled) {
             PermissionsAPI.hasPermission(player.name.string, node)
         } else {
-            player.server.opPermissionLevel >= opLevel
+            player.hasPermissionLevel(opLevel)
         }
     }
 
