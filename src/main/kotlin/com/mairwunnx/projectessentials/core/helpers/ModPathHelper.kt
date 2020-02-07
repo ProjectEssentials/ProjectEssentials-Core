@@ -21,18 +21,12 @@ internal val root: String
         var rootPath = ""
         DistExecutor.runWhenOn(Dist.CLIENT) {
             Runnable {
-                rootPath =
-                    getRootPath(
-                        ForgeRootPaths.CLIENT
-                    )
+                rootPath = getRootPath(ForgeRootPaths.CLIENT)
             }
         }
         DistExecutor.runWhenOn(Dist.DEDICATED_SERVER) {
             Runnable {
-                rootPath =
-                    getRootPath(
-                        ForgeRootPaths.SERVER
-                    )
+                rootPath = getRootPath(ForgeRootPaths.SERVER)
             }
         }
         return rootPath
