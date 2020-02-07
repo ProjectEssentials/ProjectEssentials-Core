@@ -110,8 +110,9 @@ internal object SpawnPointCommand {
 
         for (serverplayerentity in targets) {
             @Suppress("DEPRECATION")
-            serverplayerentity.setSpawnPoint(pos, true)
+            serverplayerentity.func_226560_a_(pos, true, false)
         }
+
         if (targets.size == 1) {
             source.sendFeedback(
                 TranslationTextComponent(
