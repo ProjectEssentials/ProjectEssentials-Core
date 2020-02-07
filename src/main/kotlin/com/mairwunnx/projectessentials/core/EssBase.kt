@@ -69,4 +69,25 @@ abstract class EssBase {
             )
         }
     }
+
+    companion object {
+        /**
+         * Base class path of Project Essentials,
+         * includes domain, maintainer and project name.
+         * @since 1.14.4-1.2.1
+         */
+        const val baseClassPath = "com.mairwunnx.projectessentials"
+
+        /**
+         * Class path of PermissionAPI module.
+         * @since 1.14.4-1.2.1
+         */
+        const val permissionAPIClassPath = "$baseClassPath.permissions.permissions.PermissionsAPI"
+
+        /**
+         * Class path of CooldownAPI module.
+         * @since 1.14.4-1.2.1
+         */
+        const val cooldownAPIClassPath = "$baseClassPath.cooldown.essentials.CooldownAPI"
+    }
 }
