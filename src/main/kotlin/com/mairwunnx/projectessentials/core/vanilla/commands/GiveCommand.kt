@@ -128,9 +128,9 @@ internal object GiveCommand {
                     itementity1?.makeFakeItem()
                     serverplayerentity.world.playSound(
                         null as PlayerEntity?,
-                        serverplayerentity.posX,
-                        serverplayerentity.posY,
-                        serverplayerentity.posZ,
+                        serverplayerentity.func_226277_ct_(),
+                        serverplayerentity.func_226278_cu_(),
+                        serverplayerentity.func_226281_cx_(),
                         SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.PLAYERS,
                         0.2f,
@@ -146,6 +146,7 @@ internal object GiveCommand {
                 }
             }
         }
+
         if (targets.size == 1) {
             source.sendFeedback(
                 TranslationTextComponent(
