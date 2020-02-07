@@ -29,8 +29,7 @@ internal object CommandsConfigurationUtils {
         logger.info("Saving confuguration for native vanilla commands")
 
         val commandsConfigRaw = jsonInstance.stringify(
-            CommandsConfiguration.serializer(),
-            configuration
+            CommandsConfiguration.serializer(), configuration
         )
 
         try {
