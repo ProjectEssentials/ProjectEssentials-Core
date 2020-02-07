@@ -47,18 +47,14 @@ internal class EntryPoint : EssBase() {
 
     private fun loadAdditionalModules() {
         try {
-            Class.forName(
-                "com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI"
-            )
+            Class.forName(permissionAPIClassPath)
             permissionsInstalled = true
         } catch (_: ClassNotFoundException) {
             // ignored
         }
 
         try {
-            Class.forName(
-                "com.mairwunnx.projectessentials.cooldown.essentials.CooldownAPI"
-            )
+            Class.forName(cooldownAPIClassPath)
             cooldownInstalled = true
         } catch (_: ClassNotFoundException) {
             // ignored
