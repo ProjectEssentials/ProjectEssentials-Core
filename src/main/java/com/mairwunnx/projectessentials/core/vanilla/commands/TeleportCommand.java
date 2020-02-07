@@ -54,9 +54,7 @@ public class TeleportCommand {
         })).then(Commands.argument("destination", EntityArgument.entity()).executes((p_200562_0_) -> {
             return teleportToEntity(p_200562_0_.getSource(), Collections.singleton(p_200562_0_.getSource().assertIsEntity()), EntityArgument.getEntity(p_200562_0_, "destination"));
         })));
-        dispatcher.register(Commands.literal("tp").requires((p_200556_0_) -> {
-            return p_200556_0_.hasPermissionLevel(2);
-        }).redirect(literalcommandnode));
+        dispatcher.register(Commands.literal("tp").redirect(literalcommandnode));
     }
 
     private static void checkPermissions(CommandSource source) {
@@ -93,7 +91,7 @@ public class TeleportCommand {
         checkPermissions(source);
 
         for (Entity entity : targets) {
-            teleport(source, entity, (ServerWorld) destination.world, destination.posX, destination.posY, destination.posZ, EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class), destination.rotationYaw, destination.rotationPitch, null);
+            teleport(source, entity, (ServerWorld) destination.world, destination.func_226277_ct_(), destination.func_226278_cu_(), destination.func_226281_cx_(), EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class), destination.rotationYaw, destination.rotationPitch, null);
         }
 
         if (targets.size() == 1) {
@@ -158,7 +156,7 @@ public class TeleportCommand {
             worldIn.getChunkProvider().func_217228_a(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
             entityIn.stopRiding();
             if (((ServerPlayerEntity) entityIn).isSleeping()) {
-                ((ServerPlayerEntity) entityIn).wakeUpPlayer(true, true, false);
+                ((ServerPlayerEntity) entityIn).func_225652_a_(true, true);
             }
 
             if (worldIn == entityIn.world) {
@@ -199,7 +197,6 @@ public class TeleportCommand {
             entityIn.setMotion(entityIn.getMotion().mul(1.0D, 0.0D, 1.0D));
             entityIn.onGround = true;
         }
-
     }
 
     static class Facing {
@@ -229,7 +226,6 @@ public class TeleportCommand {
             } else {
                 entityIn.lookAt(source.getEntityAnchorType(), this.position);
             }
-
         }
     }
 }
