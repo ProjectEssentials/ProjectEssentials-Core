@@ -1,6 +1,7 @@
 {
-  "homepage": "https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/tag/v1.14.4-1.2.0",
+  "homepage": "https://github.com/ProjectEssentials/ProjectEssentials-Core",
   "1.14.4": {
+    "1.14.4-1.2.1": "Changelog for 1.2.1 https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/MC-1.14.4/changelog.md#1144-121---2020-02-07",
     "1.14.4-1.2.0": " - Wrong op level for `pardon-ip` command fixed.\n - Localizaton for restricted messages added.\n - Hover event with restricred message description added.",
     "1.14.4-1.0.1.0": " - Added cooldown and permission modules as not mandatory dependency.\n - Added configuration for native vanilla commands.\n - Implemented all vanilla commands.\n - Permission checking on all vanilla commands.\n - Cooldown checking on all vanilla commands.\n - Added NativeCommandUtils with ability to remove command.",
     "1.14.4-1.0.3.2": " - Added JsonHelper.kt with jsonInstance.",
@@ -9,7 +10,7 @@
     "1.14.4-1.0.2.0": " - Fixed crash while dependency using CoreAPI."
   },
   "promos": {
-    "1.14.4-latest": "1.14.4-1.2.0",
-    "1.14.4-recommended": "1.14.4-1.2.0"
+    "1.14.4-latest": "1.14.4-1.2.1",
+    "1.14.4-recommended": "1.14.4-1.2.1"
   }
 }

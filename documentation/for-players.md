@@ -1,5 +1,8 @@
 > ## Installation instructions.
 
+# Documentation outdated, i'm so lazy for updating documentation here, see this documentation this https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#how-to-install
+## If you want to help me, you can update this documentation through pull request.
+
 For start the modification, you need installed Forge, it is desirable that the version matches the supported versions. You can download Forge from the [link](https://files.minecraftforge.net/maven/net/minecraftforge/forge/index_1.14.4.html).
 Move the downloaded mod (marked `-MOD` in the file name) to the `mods` folder (installation example below).
 

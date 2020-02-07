@@ -6,6 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.14.4-1.2.1] - 2020-02-07
+
+### Added
+- Class paths added to `EssBase.kt` to `companion object`.
+- `CommandEvent.isPlayerSender` added to `CommandEventExtensions.kt`.
+
+### Changed
+- `EntryPoint.kt` uses class paths from `CoreAPI`.
+- `CommandsConfigurationUtils.kt` formatted.
+- `CommandContext<...>.playerName()` now if source is server, then return `#server` as nickname.
+- `CommandEvent.player` (changed return type to nullable `ServerPlayerEntity`) now return `null` if source is server.
+- `ModPathHelper.kt` formatted.
+
+### Fixed
+- Curse forge incorrect link on mod startup phase.
+
 ## [1.14.4-1.2.0] - 2020-01-26
 
 ### Added

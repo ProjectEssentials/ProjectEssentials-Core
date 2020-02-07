@@ -1,5 +1,8 @@
 > ## Documentation for basic use of the CoreAPI.
 
+# Documentation outdated, i'm so lazy for updating documentation here, see this documentation this https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#using-as-api
+## If you want to help me, you can update this documentation through pull request.
+
 ### Getting Core API as dependency
 
 ```groovy
