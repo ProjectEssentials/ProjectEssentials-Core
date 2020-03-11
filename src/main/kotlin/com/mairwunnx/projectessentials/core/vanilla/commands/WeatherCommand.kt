@@ -7,6 +7,9 @@
 package com.mairwunnx.projectessentials.core.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.EntryPoint
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
+import com.mairwunnx.projectessentials.core.extensions.hoverEventFrom
+import com.mairwunnx.projectessentials.core.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
@@ -17,7 +20,6 @@ import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 
 internal object WeatherCommand {
@@ -80,15 +82,17 @@ internal object WeatherCommand {
                         .replace("%1", "weather")
                 )
                 throw CommandException(
-                    TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.getConfig().enabled,
                         "native.command.restricted"
                     ).setStyle(
                         Style().setHoverEvent(
-                            HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.weather", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.getConfig().enabled,
+                                "native.command.restricted_hover",
+                                "native.weather", "2"
                             )
                         )
                     )
