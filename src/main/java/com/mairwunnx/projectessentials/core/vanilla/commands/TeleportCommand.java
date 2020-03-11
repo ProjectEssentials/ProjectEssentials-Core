@@ -1,6 +1,7 @@
 package com.mairwunnx.projectessentials.core.vanilla.commands;
 
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
@@ -17,7 +18,6 @@ import net.minecraft.network.play.server.SPlayerPositionLookPacket;
 import net.minecraft.util.math.*;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.server.TicketType;
 import org.apache.logging.log4j.LogManager;
@@ -28,6 +28,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+
+import static com.mairwunnx.projectessentials.core.extensions.HoverEventExtensionsKt.hoverEventFrom;
+import static com.mairwunnx.projectessentials.core.extensions.TextComponentExtensionsKt.textComponentFrom;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class TeleportCommand {
@@ -71,15 +74,17 @@ public class TeleportCommand {
                         .replace("%1", "teleport")
                 );
                 throw new CommandException(
-                    new TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
                         "native.command.restricted"
                     ).setStyle(
                         new Style().setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                new TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.teleport", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
+                                "native.command.restricted_hover",
+                                "native.teleport", "2"
                             )
                         )
                     )
