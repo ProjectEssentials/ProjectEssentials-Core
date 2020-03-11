@@ -1,4 +1,7 @@
 {
   "native.command.restricted": "§cУ вас §7нет прав §cчтобы выполнить эту команду.",
-  "native.command.restricted_hover": "§7Для выполнения этой команды, нужно право \"§c%s§7\" или уровень оператора больший или равный \"§c%s§7\"."
+  "native.command.restricted_hover": "§7Для выполнения этой команды, нужно право \"§c%s§7\" или уровень оператора больший или равный \"§c%s§7\".",
+  "project_essentials_core.back.success": "§6Откат вашей локации к предыдущей ...",
+  "project_essentials_core.back.tickets_not_exists": "§cОткат локации недоступен. Не было телепортации.",
+  "project_essentials_core.back.restricted": "§cУ вас §7нет прав §cчтобы выполнить откат вашей локации."
 }
