@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.mairwunnx.projectessentials.core.teleport
+package com.mairwunnx.projectessentials.core.backlocation
 
 import net.minecraft.entity.player.ServerPlayerEntity
 

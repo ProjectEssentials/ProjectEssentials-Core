@@ -1,5 +1,6 @@
 package com.mairwunnx.projectessentials.core
 
+import com.mairwunnx.projectessentials.core.backlocation.BackLocationCommand
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
 import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
 import com.mairwunnx.projectessentials.core.localization.fallbackLanguage
@@ -88,6 +89,9 @@ internal class EntryPoint : EssBase() {
             registerNativeCommands(
                 it.server.commandManager.dispatcher,
                 it.server.isDedicatedServer
+            )
+            BackLocationCommand.register(
+                it.server.commandManager.dispatcher
             )
         }
     }

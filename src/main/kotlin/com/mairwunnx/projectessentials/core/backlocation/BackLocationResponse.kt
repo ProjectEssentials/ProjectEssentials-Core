@@ -1,4 +1,4 @@
-package com.mairwunnx.projectessentials.core.teleport
+package com.mairwunnx.projectessentials.core.backlocation
 
 enum class BackLocationResponse {
     SUCCESS,

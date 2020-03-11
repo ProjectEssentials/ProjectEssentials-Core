@@ -1,4 +1,4 @@
-package com.mairwunnx.projectessentials.core.teleport
+package com.mairwunnx.projectessentials.core.backlocation
 
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.world.server.ServerWorld
