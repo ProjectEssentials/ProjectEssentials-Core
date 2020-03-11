@@ -10,6 +10,9 @@ import com.google.common.collect.Lists
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
+import com.mairwunnx.projectessentials.core.extensions.hoverEventFrom
+import com.mairwunnx.projectessentials.core.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
@@ -32,7 +35,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.util.text.event.HoverEvent
 import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
@@ -168,15 +170,17 @@ internal object ReplaceItemCommand {
                         .replace("%1", "replaceitem")
                 )
                 throw CommandException(
-                    TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.getConfig().enabled,
                         "native.command.restricted"
                     ).setStyle(
                         Style().setHoverEvent(
-                            HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.replaceitem", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.getConfig().enabled,
+                                "native.command.restricted_hover",
+                                "native.replaceitem", "2"
                             )
                         )
                     )
