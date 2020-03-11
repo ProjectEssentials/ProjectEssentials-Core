@@ -30,6 +30,21 @@ internal class EntryPoint : EssBase() {
         MinecraftForge.EVENT_BUS.register(this)
         loadAdditionalModules()
         CommandsConfigurationUtils.loadConfig()
+        LocalizationConfigurationUtils.loadConfig()
+        loadLocalization()
+    }
+
+    private fun loadLocalization() {
+        fallbackLanguage = LocalizationConfigurationUtils.getConfig().fallbackLanguage
+
+        if (LocalizationConfigurationUtils.getConfig().enabled) {
+            processLocalizations(
+                EntryPoint::class.java, listOf(
+                    "/assets/projectessentialscore/lang/en_us.json",
+                    "/assets/projectessentialscore/lang/ru_ru.json"
+                )
+            )
+        }
     }
 
     companion object {
@@ -158,5 +173,6 @@ internal class EntryPoint : EssBase() {
     fun onServerStopping(it: FMLServerStoppingEvent) {
         logger.info("Shutting down $modName mod ...")
         CommandsConfigurationUtils.saveConfig()
+        LocalizationConfigurationUtils.saveConfig()
     }
 }
