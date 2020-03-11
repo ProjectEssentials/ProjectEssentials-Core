@@ -23,6 +23,7 @@ object BackLocationProvider {
      * @since 1.14.4-1.3.0
      */
     fun commit(player: ServerPlayerEntity) {
+        if (exist(player)) revoke(player)
         commits[player.name.string] = BackLocationData(player)
     }
 
