@@ -122,18 +122,21 @@ internal object DeOpCommand {
         }
 
         players.forEach {
-            if (PermissionsAPI.hasPermission(it.name, "*")) {
-                PermissionsAPI.removeUserPermission(it.name, "*")
-                if (i == 0) {
-                    source.sendFeedback(
-                        TranslationTextComponent(
-                            "commands.deop.success",
-                            players.iterator().next().name
-                        ), true
-                    )
+            if (EntryPoint.permissionsInstalled) {
+                if (PermissionsAPI.hasPermission(it.name, "*")) {
+                    PermissionsAPI.removeUserPermission(it.name, "*")
                 }
-                ++i
             }
+
+            if (i == 0) {
+                source.sendFeedback(
+                    TranslationTextComponent(
+                        "commands.deop.success",
+                        players.iterator().next().name
+                    ), true
+                )
+            }
+            ++i
         }
 
         return if (i == 0) {

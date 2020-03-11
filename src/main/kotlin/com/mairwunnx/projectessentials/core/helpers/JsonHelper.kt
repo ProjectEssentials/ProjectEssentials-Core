@@ -11,6 +11,7 @@ import kotlinx.serialization.json.JsonConfiguration
  * json configuration, then you need use this property.
  * @since 1.14.4-1.0.3.2
  */
+@OptIn(kotlinx.serialization.UnstableDefault::class)
 val jsonInstance = Json(
     JsonConfiguration(
         encodeDefaults = true,
