@@ -1,6 +1,7 @@
 package com.mairwunnx.projectessentials.core.vanilla.commands;
 
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
+import com.mairwunnx.projectessentials.core.backlocation.BackLocationProvider;
 import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
@@ -159,6 +160,12 @@ public class TeleportCommand {
     }
 
     private static void teleport(CommandSource source, Entity entityIn, ServerWorld worldIn, double x, double y, double z, Set<SPlayerPositionLookPacket.Flags> relativeList, float yaw, float pitch, @Nullable Facing facing) {
+        try {
+            BackLocationProvider.INSTANCE.commit(source.asPlayer());
+        } catch (CommandSyntaxException e) {
+            // suppressed. Sorry.
+        }
+
         if (entityIn instanceof ServerPlayerEntity) {
             ChunkPos chunkpos = new ChunkPos(new BlockPos(x, y, z));
             worldIn.getChunkProvider().func_217228_a(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
