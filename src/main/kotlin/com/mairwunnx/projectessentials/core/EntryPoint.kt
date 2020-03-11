@@ -1,6 +1,9 @@
 package com.mairwunnx.projectessentials.core
 
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
+import com.mairwunnx.projectessentials.core.localization.fallbackLanguage
+import com.mairwunnx.projectessentials.core.localization.processLocalizations
 import com.mairwunnx.projectessentials.core.vanilla.commands.*
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
@@ -21,7 +24,7 @@ internal class EntryPoint : EssBase() {
 
     init {
         modInstance = this
-        modVersion = "1.14.4-1.2.1"
+        modVersion = "1.14.4-1.3.0"
         logBaseInfo()
         validateForgeVersion()
         MinecraftForge.EVENT_BUS.register(this)
