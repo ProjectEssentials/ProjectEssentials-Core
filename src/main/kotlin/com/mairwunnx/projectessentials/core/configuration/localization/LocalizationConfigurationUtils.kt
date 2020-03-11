@@ -39,5 +39,5 @@ internal object LocalizationConfigurationUtils {
         }
     }
 
-    internal fun getConfig() = configuration
+    fun getConfig() = configuration
 }
