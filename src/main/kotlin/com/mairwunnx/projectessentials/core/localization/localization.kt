@@ -99,7 +99,6 @@ fun processLocalizations(
  *
  * @since 1.14.4-1.3.0
  */
-@UseExperimental(ExperimentalStdlibApi::class)
 fun loadLocalization(clazz: Class<*>, localization: String, fullPath: String) {
     logger.info("Loading localization $localization in $fullPath")
 
