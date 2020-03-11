@@ -3,6 +3,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
@@ -25,13 +26,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec2f;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.util.text.event.HoverEvent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
+
+import static com.mairwunnx.projectessentials.core.extensions.HoverEventExtensionsKt.hoverEventFrom;
+import static com.mairwunnx.projectessentials.core.extensions.TextComponentExtensionsKt.textComponentFrom;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class SpreadPlayersCommand {
@@ -63,15 +66,17 @@ public class SpreadPlayersCommand {
                         .replace("%1", "spreadplayers")
                 );
                 throw new CommandException(
-                    new TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
                         "native.command.restricted"
                     ).setStyle(
                         new Style().setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                new TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.spreadplayers", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
+                                "native.command.restricted_hover",
+                                "native.spreadplayers", "2"
                             )
                         )
                     )
