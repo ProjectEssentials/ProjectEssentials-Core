@@ -78,14 +78,14 @@ fun processLocalizations(
     clazz: Class<*>,
     langPaths: List<String>
 ) {
-    logger.info("Processing localization for lang directory by class ${clazz.name}")
+    logger.debug("Processing localization for lang directory by class ${clazz.name}")
 
     langPaths.forEach {
         val localizationName = it.substring(
             it.lastIndexOf("/")
         ).drop(1).dropLast(5)
 
-        logger.info("Starting processing localization $localizationName")
+        logger.debug("Starting processing localization $localizationName")
         loadLocalization(clazz, localizationName, it)
     }
 }
@@ -100,7 +100,7 @@ fun processLocalizations(
  * @since 1.14.4-1.3.0
  */
 fun loadLocalization(clazz: Class<*>, localization: String, fullPath: String) {
-    logger.info("Loading localization $localization in $fullPath")
+    logger.debug("Loading localization $localization in $fullPath")
 
     val json = getResourceAsFile(clazz.classLoader, fullPath)?.readText()
         ?: throw KotlinNullPointerException()
@@ -111,7 +111,7 @@ fun loadLocalization(clazz: Class<*>, localization: String, fullPath: String) {
         val key = keys.next() as String
         val value = jsonObject.get(key) as String
 
-        logger.info("Loaded localization key $key with value $value")
+        logger.debug("Loaded localization key $key with value $value")
 
         localizations[localization]?.add(hashMapOf(Pair(key, value)))
             ?: localizations.set(
