@@ -153,7 +153,7 @@ fun getLocalizedString(
     return msg
 }
 
-fun getResourceAsFile(classLoader: ClassLoader, resourcePath: String): File? {
+private fun getResourceAsFile(classLoader: ClassLoader, resourcePath: String): File? {
     return try {
         val inputStream = classLoader.getResourceAsStream(
             resourcePath
