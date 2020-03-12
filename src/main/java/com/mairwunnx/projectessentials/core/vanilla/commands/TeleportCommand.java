@@ -1,6 +1,8 @@
 package com.mairwunnx.projectessentials.core.vanilla.commands;
 
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
+import com.mairwunnx.projectessentials.core.backlocation.BackLocationProvider;
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
@@ -28,6 +30,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
+
+import static com.mairwunnx.projectessentials.core.extensions.HoverEventExtensionsKt.hoverEventFrom;
+import static com.mairwunnx.projectessentials.core.extensions.TextComponentExtensionsKt.textComponentFrom;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class TeleportCommand {
@@ -69,15 +74,17 @@ public class TeleportCommand {
                         .replace("%1", "teleport")
                 );
                 throw new CommandException(
-                    new TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
                         "native.command.restricted"
                     ).setStyle(
                         new Style().setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                new TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.teleport", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
+                                "native.command.restricted_hover",
+                                "native.teleport", "2"
                             )
                         )
                     )
@@ -152,6 +159,12 @@ public class TeleportCommand {
     }
 
     private static void teleport(CommandSource source, Entity entityIn, ServerWorld worldIn, double x, double y, double z, Set<SPlayerPositionLookPacket.Flags> relativeList, float yaw, float pitch, @Nullable Facing facing) {
+        try {
+            BackLocationProvider.INSTANCE.commit(source.asPlayer());
+        } catch (CommandSyntaxException e) {
+            // suppressed. Sorry.
+        }
+
         if (entityIn instanceof ServerPlayerEntity) {
             ChunkPos chunkpos = new ChunkPos(new BlockPos(x, y, z));
             worldIn.getChunkProvider().func_217228_a(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());

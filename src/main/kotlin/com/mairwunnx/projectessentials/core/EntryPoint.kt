@@ -1,6 +1,10 @@
 package com.mairwunnx.projectessentials.core
 
+import com.mairwunnx.projectessentials.core.backlocation.BackLocationCommand
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
+import com.mairwunnx.projectessentials.core.localization.fallbackLanguage
+import com.mairwunnx.projectessentials.core.localization.processLocalizations
 import com.mairwunnx.projectessentials.core.vanilla.commands.*
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
@@ -21,12 +25,27 @@ internal class EntryPoint : EssBase() {
 
     init {
         modInstance = this
-        modVersion = "1.15.2-1.0.0"
+        modVersion = "1.15.2-1.1.0"
         logBaseInfo()
         validateForgeVersion()
         MinecraftForge.EVENT_BUS.register(this)
         loadAdditionalModules()
         CommandsConfigurationUtils.loadConfig()
+        LocalizationConfigurationUtils.loadConfig()
+        loadLocalization()
+    }
+
+    private fun loadLocalization() {
+        fallbackLanguage = LocalizationConfigurationUtils.getConfig().fallbackLanguage
+
+        if (LocalizationConfigurationUtils.getConfig().enabled) {
+            processLocalizations(
+                EntryPoint::class.java, listOf(
+                    "/assets/projectessentialscore/lang/en_us.json",
+                    "/assets/projectessentialscore/lang/ru_ru.json"
+                )
+            )
+        }
     }
 
     companion object {
@@ -37,7 +56,7 @@ internal class EntryPoint : EssBase() {
         internal fun hasPermission(
             player: ServerPlayerEntity,
             node: String,
-            opLevel: Int
+            opLevel: Int = 4
         ): Boolean = if (permissionsInstalled) {
             PermissionsAPI.hasPermission(player.name.string, node)
         } else {
@@ -70,6 +89,9 @@ internal class EntryPoint : EssBase() {
             registerNativeCommands(
                 it.server.commandManager.dispatcher,
                 it.server.isDedicatedServer
+            )
+            BackLocationCommand.register(
+                it.server.commandManager.dispatcher
             )
         }
     }
@@ -155,5 +177,6 @@ internal class EntryPoint : EssBase() {
     fun onServerStopping(it: FMLServerStoppingEvent) {
         logger.info("Shutting down $modName mod ...")
         CommandsConfigurationUtils.saveConfig()
+        LocalizationConfigurationUtils.saveConfig()
     }
 }

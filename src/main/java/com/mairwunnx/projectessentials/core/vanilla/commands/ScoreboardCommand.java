@@ -2,6 +2,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 
 import com.google.common.collect.Lists;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
@@ -32,6 +33,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CompletableFuture;
+
+import static com.mairwunnx.projectessentials.core.extensions.HoverEventExtensionsKt.hoverEventFrom;
+import static com.mairwunnx.projectessentials.core.extensions.TextComponentExtensionsKt.textComponentFrom;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class ScoreboardCommand {
@@ -99,15 +103,17 @@ public class ScoreboardCommand {
                         .replace("%1", "scoreboard")
                 );
                 throw new CommandException(
-                    new TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
                         "native.command.restricted"
                     ).setStyle(
                         new Style().setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                new TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.scoreboard", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
+                                "native.command.restricted_hover",
+                                "native.scoreboard", "2"
                             )
                         )
                     )

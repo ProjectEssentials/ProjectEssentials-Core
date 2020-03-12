@@ -2,7 +2,6 @@
 
 package com.mairwunnx.projectessentials.core.helpers
 
-import kotlinx.serialization.UnstableDefault
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
@@ -12,11 +11,16 @@ import kotlinx.serialization.json.JsonConfiguration
  * json configuration, then you need use this property.
  * @since 1.14.4-1.0.3.2
  */
-@UseExperimental(UnstableDefault::class)
+@OptIn(kotlinx.serialization.UnstableDefault::class)
 val jsonInstance = Json(
     JsonConfiguration(
-        strictMode = false,
+        encodeDefaults = true,
+        ignoreUnknownKeys = true,
+        isLenient = false,
+        serializeSpecialFloatingPointValues = false,
         allowStructuredMapKeys = true,
-        prettyPrint = true
+        prettyPrint = true,
+        unquotedPrint = false,
+        useArrayPolymorphism = false
     )
 )

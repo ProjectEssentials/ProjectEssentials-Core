@@ -9,6 +9,9 @@ package com.mairwunnx.projectessentials.core.vanilla.commands
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
+import com.mairwunnx.projectessentials.core.extensions.hoverEventFrom
+import com.mairwunnx.projectessentials.core.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
@@ -74,15 +77,17 @@ internal object DeOpCommand {
                         .replace("%1", "deop")
                 )
                 throw CommandException(
-                    TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.getConfig().enabled,
                         "native.command.restricted"
                     ).setStyle(
                         Style().setHoverEvent(
-                            HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.deop", "3"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.getConfig().enabled,
+                                "native.command.restricted_hover",
+                                "native.deop", "3"
                             )
                         )
                     )
@@ -118,18 +123,21 @@ internal object DeOpCommand {
         }
 
         players.forEach {
-            if (PermissionsAPI.hasPermission(it.name, "*")) {
-                PermissionsAPI.removeUserPermission(it.name, "*")
-                if (i == 0) {
-                    source.sendFeedback(
-                        TranslationTextComponent(
-                            "commands.deop.success",
-                            players.iterator().next().name
-                        ), true
-                    )
+            if (EntryPoint.permissionsInstalled) {
+                if (PermissionsAPI.hasPermission(it.name, "*")) {
+                    PermissionsAPI.removeUserPermission(it.name, "*")
                 }
-                ++i
             }
+
+            if (i == 0) {
+                source.sendFeedback(
+                    TranslationTextComponent(
+                        "commands.deop.success",
+                        players.iterator().next().name
+                    ), true
+                )
+            }
+            ++i
         }
 
         return if (i == 0) {

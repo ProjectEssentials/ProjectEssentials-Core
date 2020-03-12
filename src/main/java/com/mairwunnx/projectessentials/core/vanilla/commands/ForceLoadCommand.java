@@ -2,6 +2,7 @@ package com.mairwunnx.projectessentials.core.vanilla.commands;
 
 import com.google.common.base.Joiner;
 import com.mairwunnx.projectessentials.core.JavaCompatibility;
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils;
 import com.mairwunnx.projectessentials.core.helpers.ModErrorsHelperKt;
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils;
 import com.mojang.brigadier.CommandDispatcher;
@@ -23,6 +24,9 @@ import net.minecraft.world.dimension.DimensionType;
 import net.minecraft.world.server.ServerWorld;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import static com.mairwunnx.projectessentials.core.extensions.HoverEventExtensionsKt.hoverEventFrom;
+import static com.mairwunnx.projectessentials.core.extensions.TextComponentExtensionsKt.textComponentFrom;
 
 @SuppressWarnings("CodeBlock2Expr")
 public class ForceLoadCommand {
@@ -68,15 +72,17 @@ public class ForceLoadCommand {
                         .replace("%1", "forceload")
                 );
                 throw new CommandException(
-                    new TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
                         "native.command.restricted"
                     ).setStyle(
                         new Style().setHoverEvent(
-                            new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                                new TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.forceload", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.INSTANCE.getConfig().getEnabled(),
+                                "native.command.restricted_hover",
+                                "native.forceload", "2"
                             )
                         )
                     )

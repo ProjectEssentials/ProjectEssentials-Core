@@ -11,6 +11,9 @@ import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.EntryPoint
 import com.mairwunnx.projectessentials.core.EntryPoint.Companion.hasPermission
 import com.mairwunnx.projectessentials.core.configuration.commands.CommandsConfigurationUtils
+import com.mairwunnx.projectessentials.core.configuration.localization.LocalizationConfigurationUtils
+import com.mairwunnx.projectessentials.core.extensions.hoverEventFrom
+import com.mairwunnx.projectessentials.core.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.helpers.PERMISSION_LEVEL
 import com.mairwunnx.projectessentials.core.vanilla.utils.NativeCommandUtils
 import com.mojang.brigadier.CommandDispatcher
@@ -303,15 +306,17 @@ internal object AdvancementCommand {
                         .replace("%1", "advancement")
                 )
                 throw CommandException(
-                    TranslationTextComponent(
+                    textComponentFrom(
+                        source.asPlayer(),
+                        LocalizationConfigurationUtils.getConfig().enabled,
                         "native.command.restricted"
                     ).setStyle(
                         Style().setHoverEvent(
-                            HoverEvent(
-                                HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(
-                                    "native.command.restricted_hover",
-                                    "native.advancement", "2"
-                                )
+                            hoverEventFrom(
+                                source.asPlayer(),
+                                LocalizationConfigurationUtils.getConfig().enabled,
+                                "native.command.restricted_hover",
+                                "native.advancement", "2"
                             )
                         )
                     )
