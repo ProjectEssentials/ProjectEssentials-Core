@@ -40,6 +40,8 @@ configurations {
 }
 
 minecraft {
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+
     mappings(
         channel: forge_mappings_channel_type,
         version: forge_mappings_channel_version
@@ -77,7 +79,6 @@ minecraft {
 repositories {
     jcenter()
     mavenCentral()
-    maven { url("https://minecraft.curseforge.com/api/maven/") }
     maven { url("https://libraries.minecraft.net") }
     maven { url("https://jitpack.io") }
 }
@@ -115,6 +116,8 @@ dependencies {
         name: "ProjectEssentials-Cooldown",
         version: cooldown_version
     )
+    compile group: 'org.json', name: 'json', version: '20190722'
+    embed group: 'org.json', name: 'json', version: '20190722'
 }
 
 dokka {
@@ -173,10 +176,3 @@ sourceCompatibility = targetCompatibility =
 
 compileKotlin.kotlinOptions.jvmTarget =
     compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
-
-//noinspection GroovyAssignabilityCheck
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        freeCompilerArgs += "-Xuse-experimental=kotlin.Experimental"
-    }
-}
