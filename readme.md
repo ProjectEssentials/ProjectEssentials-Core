@@ -8,7 +8,7 @@ This is the base module (core) for all other Project Essentials modules. It cont
 
 ### Last steps
 
-#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.2.1/ProjectEssentials-Core-MOD-1.14.4-1.2.1.jar) · [Download API](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.2.1/ProjectEssentials-Core-API-1.14.4-1.2.1.jar) · [How to install](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#how-to-install) · [Configuration](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#configuration) · [API Using](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#using-as-api) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [Telegram Chat](https://t.me/minecraftforge)
+#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.3.0/ProjectEssentials-Core-MOD-1.14.4-1.3.0.jar) · [Download API](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.14.4-1.3.0/ProjectEssentials-Core-API-1.14.4-1.3.0.jar) · [How to install](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#how-to-install) · [Configuration](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#configuration) · [API Using](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#using-as-api) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [Telegram Chat](https://t.me/minecraftforge)
 
 <a href="https://ko-fi.com/mairwunnx" target="_blank"><img src="./assets/support_social.png"></a>
 

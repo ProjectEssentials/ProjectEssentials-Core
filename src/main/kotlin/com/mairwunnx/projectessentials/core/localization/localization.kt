@@ -30,7 +30,7 @@ var fallbackLanguage = "en_us"
 /**
  * Send localized message, what contains in localized files.
  *
- * **Use on server side only!**
+ * **Server-side only using stable!**
  *
  * @param player server player instance.
  * @param l10nString localized string.
@@ -153,7 +153,9 @@ fun getLocalizedString(
     return msg
 }
 
-private fun getResourceAsFile(classLoader: ClassLoader, resourcePath: String): File? {
+private fun getResourceAsFile(
+    classLoader: ClassLoader, resourcePath: String
+): File? {
     return try {
         val inputStream = classLoader.getResourceAsStream(
             resourcePath
