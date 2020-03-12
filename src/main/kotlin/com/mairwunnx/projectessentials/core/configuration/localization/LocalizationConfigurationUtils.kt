@@ -6,7 +6,7 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileNotFoundException
 
-internal object LocalizationConfigurationUtils {
+object LocalizationConfigurationUtils {
     private val logger = LogManager.getLogger()
     private var configuration = LocalizationConfiguration()
     private val LOCALIZATION_CONFIG = MOD_CONFIG_FOLDER + File.separator + "localization.json"
@@ -39,5 +39,8 @@ internal object LocalizationConfigurationUtils {
         }
     }
 
+    /**
+     * @return localization configuration instance.
+     */
     fun getConfig() = configuration
 }
