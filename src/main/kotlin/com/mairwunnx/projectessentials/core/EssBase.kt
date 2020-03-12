@@ -41,7 +41,7 @@ abstract class EssBase {
     fun logBaseInfo() {
         logger.info(
             "\n" +
-                    "            **** $modName starting initializing ***\n\n" +
+                    "            **** $modName starting initializing ****\n\n" +
                     "    - Mod Id: $modId\n" +
                     "    - Version: $modVersion\n" +
                     "    - Maintainer: $modMaintainer\n" +
