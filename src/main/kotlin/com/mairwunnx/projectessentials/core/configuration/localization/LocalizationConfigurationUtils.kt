@@ -7,19 +7,24 @@ import java.io.File
 import java.io.FileNotFoundException
 
 object LocalizationConfigurationUtils {
+    private var initialized = false
     private val logger = LogManager.getLogger()
     private var configuration = LocalizationConfiguration()
     private val LOCALIZATION_CONFIG = MOD_CONFIG_FOLDER + File.separator + "localization.json"
 
     internal fun loadConfig() {
-        logger.info("Loading localization configuration")
+        if (!initialized) {
+            logger.info("Loading localization configuration")
 
-        try {
-            val configRaw = File(LOCALIZATION_CONFIG).readText()
-            configuration = jsonInstance.parse(LocalizationConfiguration.serializer(), configRaw)
-        } catch (ex: FileNotFoundException) {
-            logger.error("Configuration file ($LOCALIZATION_CONFIG) not found!")
-            logger.warn("The default configuration will be used")
+            try {
+                val configRaw = File(LOCALIZATION_CONFIG).readText()
+                configuration =
+                    jsonInstance.parse(LocalizationConfiguration.serializer(), configRaw)
+            } catch (ex: FileNotFoundException) {
+                logger.error("Configuration file ($LOCALIZATION_CONFIG) not found!")
+                logger.warn("The default configuration will be used")
+            }
+            initialized = true
         }
     }
 
@@ -42,5 +47,8 @@ object LocalizationConfigurationUtils {
     /**
      * @return localization configuration instance.
      */
-    fun getConfig() = configuration
+    fun getConfig(): LocalizationConfiguration {
+        if (!initialized) loadConfig()
+        return configuration
+    }
 }
