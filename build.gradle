@@ -17,6 +17,7 @@ buildscript {
 plugins {
     id "maven-publish"
     id "java-library"
+    id "maven"
 }
 
 apply plugin: "org.jetbrains.dokka"
@@ -57,14 +58,29 @@ repositories {
     jcenter()
     mavenCentral()
     maven { url "https://libraries.minecraft.net" }
-    maven { url "https://jitpack.io" }
+    maven {
+        name = "GitHubPackages"
+        url = uri "https://maven.pkg.github.com/ProjectEssentials/ProjectEssentials-Cooldown"
+        credentials {
+            username = "MairwunNx@gmail.com"
+            password = package_public_token
+        }
+    }
+    maven {
+        name = "GitHubPackages"
+        url = uri "https://maven.pkg.github.com/ProjectEssentials/ProjectEssentials-Permissions"
+        credentials {
+            username = "MairwunNx@gmail.com"
+            password = package_public_token
+        }
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     implementation "com.mojang:brigadier:$brigadier_version"
-    implementation "com.github.projectessentials:ProjectEssentials-Permissions:$permissions_version"
-    implementation "com.github.projectessentials:ProjectEssentials-Cooldown:$cooldown_version"
+    implementation 'com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:1.15.2-1.0.1'
+    implementation 'com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:1.15.2-1.0.1'
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
     internal "org.json:json:$json_version"
