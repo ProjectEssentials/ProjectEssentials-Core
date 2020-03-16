@@ -1,77 +1,54 @@
 buildscript {
     repositories {
-        maven { url("https://files.minecraftforge.net/maven") }
-        maven { url("https://libraries.minecraft.net") }
-        maven { url("https://plugins.gradle.org/m2/") }
+        maven { url "https://files.minecraftforge.net/maven" }
+        maven { url "https://libraries.minecraft.net" }
+        maven { url "https://plugins.gradle.org/m2/" }
         jcenter()
         mavenCentral()
     }
     dependencies {
-        classpath(
-            group: "net.minecraftforge.gradle",
-            name: "ForgeGradle",
-            version: forge_gradle_version,
-            changing: true
-        )
-        classpath(
-            "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        )
-        classpath(
-            "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
-        )
-        classpath(
-            "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
-        )
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: forge_gradle_version, changing: true
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
     }
 }
 
-apply(plugin: "org.jetbrains.dokka")
-apply(plugin: "net.minecraftforge.gradle")
-apply(plugin: "kotlin")
-apply(plugin: "kotlinx-serialization")
+plugins {
+    id "maven-publish"
+    id "java-library"
+}
 
-version = module_version
+apply plugin: "org.jetbrains.dokka"
+apply plugin: "net.minecraftforge.gradle"
+apply plugin: "kotlin"
+apply plugin: "kotlinx-serialization"
+
+version = module_version as Object
 group = "com.mairwunnx.$module_id"
 archivesBaseName = module_name
 
 configurations {
-    embed
-    compile.extendsFrom(embed)
+    internal
+    implementation.extendsFrom internal
 }
 
 minecraft {
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-    mappings(
-        channel: forge_mappings_channel_type,
-        version: forge_mappings_channel_version
-    )
+    accessTransformer = file 'src/main/resources/META-INF/accesstransformer.cfg'
+    mappings channel: forge_mappings_channel_type, version: forge_mappings_channel_version
 
     runs {
         client {
-            //noinspection GroovyAssignabilityCheck
-            workingDirectory(project.file(dev_run_client_path))
-            property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
-            property("forge.logging.console.level", "debug")
-            mods {
-                ProjectEssentialsCore {
-                    //noinspection GroovyAssignabilityCheck
-                    source(sourceSets.main)
-                }
-            }
+            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+            property "forge.logging.console.level", "debug"
+            mods { ProjectEssentialsCore { source sourceSets.main } }
+            workingDirectory project.file(dev_run_client_path as Object)
         }
-
         server {
-            //noinspection GroovyAssignabilityCheck
-            workingDirectory(project.file(dev_run_server_path))
-            property("forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP")
-            property("forge.logging.console.level", "debug")
-            mods {
-                ProjectEssentialsCore {
-                    //noinspection GroovyAssignabilityCheck
-                    source(sourceSets.main)
-                }
-            }
+            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
+            property "forge.logging.console.level", "debug"
+            mods { ProjectEssentialsCore { source sourceSets.main } }
+            workingDirectory project.file(dev_run_server_path as Object)
         }
     }
 }
@@ -79,45 +56,18 @@ minecraft {
 repositories {
     jcenter()
     mavenCentral()
-    maven { url("https://libraries.minecraft.net") }
-    maven { url("https://jitpack.io") }
+    maven { url "https://libraries.minecraft.net" }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    minecraft(group: "net.minecraftforge", name: "forge", version: forge_version)
-    compile(group: "com.mojang", name: "brigadier", version: brigadier_version)
-    compile(
-        group: "org.jetbrains.kotlinx",
-        name: "kotlinx-serialization-runtime",
-        version: kotlinx_serialization_version
-    )
-    embed(
-        group: "org.jetbrains.kotlinx",
-        name: "kotlinx-serialization-runtime",
-        version: kotlinx_serialization_version
-    )
-    compile(
-        group: "org.jetbrains.kotlin",
-        name: "kotlin-stdlib-$kotlin_jdk_version_target",
-        version: kotlin_version
-    )
-    embed(
-        group: "org.jetbrains.kotlin",
-        name: "kotlin-stdlib-$kotlin_jdk_version_target",
-        version: kotlin_version
-    )
-    compile(
-        group: "com.github.projectessentials",
-        name: "ProjectEssentials-Permissions",
-        version: permissions_version
-    )
-    compile(
-        group: "com.github.projectessentials",
-        name: "ProjectEssentials-Cooldown",
-        version: cooldown_version
-    )
-    compile group: 'org.json', name: 'json', version: '20190722'
-    embed group: 'org.json', name: 'json', version: '20190722'
+    minecraft "net.minecraftforge:forge:$forge_version"
+    implementation "com.mojang:brigadier:$brigadier_version"
+    internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
+    internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
+    internal "com.github.projectessentials:ProjectEssentials-Permissions:$permissions_version"
+    internal "com.github.projectessentials:ProjectEssentials-Cooldown:$cooldown_version"
+    internal "org.json:json:$json_version"
 }
 
 dokka {
@@ -125,11 +75,10 @@ dokka {
     outputDirectory = "$buildDir/libs/docs"
 }
 
-project.tasks["jar"].dependsOn(project.tasks["dokka"])
-
 task modJar(type: Jar) {
     with tasks.jar
-    from configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }
+    from configurations.internal.collect { it.isDirectory() ? it : zipTree(it) }
+
     manifest {
         attributes([
             "Specification-Title"     : module_name,
@@ -141,11 +90,9 @@ task modJar(type: Jar) {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    //noinspection GrDeprecatedAPIUsage
-    baseName = project.name + '-MOD'
-}
 
-project.tasks["modJar"].dependsOn(project.tasks["jar"])
+    baseName = module_name + '-MOD'
+}
 
 jar {
     manifest {
@@ -159,8 +106,8 @@ jar {
             "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
-    //noinspection GrDeprecatedAPIUsage
-    baseName = project.name + '-API'
+
+    baseName = module_name + '-API'
 }
 
 reobf {
@@ -170,9 +117,38 @@ reobf {
     }
 }
 
+project.tasks["jar"].dependsOn project.tasks["dokka"]
+project.tasks["modJar"].dependsOn project.tasks["jar"]
+
 sourceCompatibility = targetCompatibility =
     compileJava.sourceCompatibility =
         compileJava.targetCompatibility = project_jvm_version_target
 
 compileKotlin.kotlinOptions.jvmTarget =
     compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
+
+task dokkaJar(type: Jar) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = "Assembles Kotlin docs with Dokka"
+    classifier = "javadoc"
+    from tasks.dokka as Object
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri "https://maven.pkg.github.com/projectessentials/projectessentials-core"
+            credentials {
+                username = System.getenv("GradleUser")
+                password = System.getenv("GradlePass")
+            }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from components.java
+            artifact dokkaJar
+        }
+    }
+}
