@@ -55,32 +55,34 @@ minecraft {
 }
 
 repositories {
+    maven {
+        name = "GitHubPackages"
+        url = uri "https://maven.pkg.github.com/projectessentials/projectessentials-permissions"
+        credentials {
+            username = "MairwunNx@gmail.com"
+            password = package_public_token
+        }
+    }
+    maven {
+        name = "GitHubPackages"
+        url = uri "https://maven.pkg.github.com/projectessentials/projectessentials-cooldown"
+        credentials {
+            username = "MairwunNx@gmail.com"
+            password = package_public_token
+        }
+    }
+
     jcenter()
     mavenCentral()
     maven { url "https://libraries.minecraft.net" }
-    maven {
-        name = "GitHubPackages"
-        url = uri "https://maven.pkg.github.com/ProjectEssentials/ProjectEssentials-Cooldown"
-        credentials {
-            username = "MairwunNx@gmail.com"
-            password = package_public_token
-        }
-    }
-    maven {
-        name = "GitHubPackages"
-        url = uri "https://maven.pkg.github.com/ProjectEssentials/ProjectEssentials-Permissions"
-        credentials {
-            username = "MairwunNx@gmail.com"
-            password = package_public_token
-        }
-    }
+    maven { url("https://jitpack.io") }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     implementation "com.mojang:brigadier:$brigadier_version"
-    implementation 'com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:1.15.2-1.0.1'
-    implementation 'com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:1.15.2-1.0.1'
+    implementation "com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:1.15.2-1.0.1"
+    implementation "com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:1.15.2-1.0.1"
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
     internal "org.json:json:$json_version"
@@ -89,6 +91,11 @@ dependencies {
 dokka {
     outputFormat = 'html'
     outputDirectory = "$buildDir/libs/docs"
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 
 task modJar(type: Jar) {
@@ -164,6 +171,7 @@ publishing {
     publications {
         gpr(MavenPublication) {
             from components.java
+            artifact sourcesJar
             artifact dokkaJar
         }
     }
