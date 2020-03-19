@@ -1,4 +1,4 @@
-package com.mairwunnx.projectessentials.core.configuration
+package com.mairwunnx.projectessentials.core.api.v1.configuration
 
 /**
  * Configuration interface for all configuration
@@ -6,21 +6,21 @@ package com.mairwunnx.projectessentials.core.configuration
  *
  * @param T configuration data class.
  *
- * @since 1.14.4-1.3.0
+ * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 interface IConfiguration<T> {
     /**
      * Configuration instance (must initialized in
      * `load` method).
      *
-     * @since 1.14.4-1.3.0
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     val configuration: T
 
     /**
      * Path to configuration.
      *
-     * @since 1.14.4-1.3.0
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     val path: String
 
@@ -28,21 +28,21 @@ interface IConfiguration<T> {
      * Load configuration from local storage or memory.
      * Also initializing configuration field.
      *
-     * @since 1.14.4-1.3.0
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun load()
 
     /**
      * Save configuration to local storage.
      *
-     * @since 1.14.4-1.3.0
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun save()
 
     /**
      * @return configuration model instance.
      *
-     * @since 1.14.4-1.3.0
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun take(): T
 }

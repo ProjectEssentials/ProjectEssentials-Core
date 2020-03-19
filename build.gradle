@@ -82,6 +82,7 @@ dependencies {
 
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
+    internal "org.reflections:reflections:$reflections_version"
     internal "org.json:json:$json_version"
 }
 
@@ -171,5 +172,11 @@ publishing {
             artifact sourcesJar
             artifact dokkaJar
         }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
     }
 }
