@@ -1,29 +1,25 @@
 buildscript {
     repositories {
         maven { url "https://files.minecraftforge.net/maven" }
-        maven { url "https://libraries.minecraft.net" }
-        maven { url "https://plugins.gradle.org/m2/" }
-        jcenter()
-        mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: forge_gradle_version, changing: true
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
     }
 }
 
 plugins {
-    id "maven-publish"
-    id "java-library"
-    id "maven"
+    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.70'
+    id 'org.jetbrains.dokka' version '0.10.1'
+    id 'maven-publish'
+    id 'java-library'
 }
 
-apply plugin: "org.jetbrains.dokka"
-apply plugin: "net.minecraftforge.gradle"
-apply plugin: "kotlin"
-apply plugin: "kotlinx-serialization"
+apply plugin: 'net.minecraftforge.gradle'
+
+String packagesToken = new String(
+    package_public_token.decodeBase64()
+)
 
 version = module_version as Object
 group = "com.mairwunnx.$module_id"
@@ -40,14 +36,14 @@ minecraft {
 
     runs {
         client {
-            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-            property "forge.logging.console.level", "debug"
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
             mods { ProjectEssentialsCore { source sourceSets.main } }
             workingDirectory project.file(dev_run_client_path as Object)
         }
         server {
-            property "forge.logging.markers", "SCAN,REGISTRIES,REGISTRYDUMP"
-            property "forge.logging.console.level", "debug"
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
             mods { ProjectEssentialsCore { source sourceSets.main } }
             workingDirectory project.file(dev_run_server_path as Object)
         }
@@ -56,33 +52,34 @@ minecraft {
 
 repositories {
     maven {
-        name = "GitHubPackages"
-        url = uri "https://maven.pkg.github.com/projectessentials/projectessentials-permissions"
+        name = package_maven_repo_name
+        url = uri "$package_maven_repo-permissions"
         credentials {
-            username = "MairwunNx@gmail.com"
-            password = package_public_token
+            username = package_maven_repo_mail
+            password = packagesToken
         }
     }
     maven {
-        name = "GitHubPackages"
-        url = uri "https://maven.pkg.github.com/projectessentials/projectessentials-cooldown"
+        name = package_maven_repo_name
+        url = uri "$package_maven_repo-cooldown"
         credentials {
-            username = "MairwunNx@gmail.com"
-            password = package_public_token
+            username = package_maven_repo_mail
+            password = packagesToken
         }
     }
-
-    jcenter()
+    maven { url 'https://libraries.minecraft.net' }
+    maven { url 'https://jitpack.io' }
     mavenCentral()
-    maven { url "https://libraries.minecraft.net" }
-    maven { url("https://jitpack.io") }
+    jcenter()
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     implementation "com.mojang:brigadier:$brigadier_version"
-    implementation "com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:1.15.2-1.0.1"
-    implementation "com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:1.15.2-1.0.1"
+
+    implementation "com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:$permissions_version"
+    implementation "com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:$cooldown_version"
+
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
     internal "org.json:json:$json_version"
@@ -140,8 +137,8 @@ reobf {
     }
 }
 
-project.tasks["jar"].dependsOn project.tasks["dokka"]
-project.tasks["modJar"].dependsOn project.tasks["jar"]
+project.tasks['jar'].dependsOn project.tasks['dokka']
+project.tasks['modJar'].dependsOn project.tasks['jar']
 
 sourceCompatibility = targetCompatibility =
     compileJava.sourceCompatibility =
@@ -152,19 +149,19 @@ compileKotlin.kotlinOptions.jvmTarget =
 
 task dokkaJar(type: Jar) {
     group = JavaBasePlugin.DOCUMENTATION_GROUP
-    description = "Assembles Kotlin docs with Dokka"
-    classifier = "javadoc"
+    description = 'Assembles Kotlin docs with Dokka'
+    classifier = 'javadoc'
     from tasks.dokka as Object
 }
 
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri "https://maven.pkg.github.com/projectessentials/projectessentials-core"
+            name = 'GitHubPackages'
+            url = uri 'https://maven.pkg.github.com/projectessentials/projectessentials-core'
             credentials {
-                username = System.getenv("GradleUser")
-                password = System.getenv("GradlePass")
+                username = System.getenv('GradleUser')
+                password = System.getenv('GradlePass')
             }
         }
     }
