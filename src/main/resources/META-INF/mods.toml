@@ -16,14 +16,14 @@ issueTrackerURL="https://github.com/ProjectEssentials/ProjectEssentials-Core/iss
     Just API with common code for Project Essentials developers.
     '''
 
-[[dependencies.projectessentialscore]]
+[[dependencies.project_essentials_core]]
     modId="forge"
     mandatory=true
     versionRange="[28,)"
     ordering="NONE"
     side="BOTH"
 
-[[dependencies.projectessentialscore]]
+[[dependencies.project_essentials_core]]
     modId="minecraft"
     mandatory=true
     versionRange="[1.14.4]"
