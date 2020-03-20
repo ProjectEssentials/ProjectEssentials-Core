@@ -49,6 +49,7 @@ fun sendMsgV2(
     var msg = String.empty
     val messagesList =
         localizations[player.language.toLowerCase()] ?: localizations[fallbackLanguage]
+
     messagesList?.forEach {
         it[l10nString]?.let { message ->
             msg = message

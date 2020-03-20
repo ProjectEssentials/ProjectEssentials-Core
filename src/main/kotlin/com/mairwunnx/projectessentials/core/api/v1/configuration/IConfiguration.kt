@@ -8,18 +8,17 @@ package com.mairwunnx.projectessentials.core.api.v1.configuration
  *
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
+@Suppress("unused")
 interface IConfiguration<T> {
     /**
      * Configuration instance (must initialized in
      * `load` method).
-     *
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     val configuration: T
 
     /**
      * Path to configuration.
-     *
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     val path: String
@@ -27,22 +26,25 @@ interface IConfiguration<T> {
     /**
      * Load configuration from local storage or memory.
      * Also initializing configuration field.
-     *
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun load()
 
     /**
      * Save configuration to local storage.
-     *
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun save()
 
     /**
      * @return configuration model instance.
-     *
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun take(): T
+
+    /**
+     * @return configuration meta data as Configuration annotation class.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun getConfigurationData(): Configuration
 }

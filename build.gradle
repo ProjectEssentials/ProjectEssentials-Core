@@ -21,7 +21,7 @@ String packagesToken = new String(
     package_public_token.decodeBase64()
 )
 
-version = module_version as Object
+version = module_version
 group = "com.mairwunnx.$module_id"
 archivesBaseName = module_name
 

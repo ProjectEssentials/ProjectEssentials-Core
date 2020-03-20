@@ -13,6 +13,22 @@ object ModuleAPI {
     fun getAllModules() = ModuleProcessor.getModules()
 
     /**
+     * @return module by provided name.
+     * @throws ModuleNotFoundException when module not found.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun getModuleByName(name: String): IModule {
+        getAllModules().forEach {
+            if (it.getModuleData().name == name) {
+                return it
+            }
+        }
+        throw ModuleNotFoundException(
+            "Module with name $name not found and not processed."
+        )
+    }
+
+    /**
      * @param module module class instance.
      * @return true if module existing or installed.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0

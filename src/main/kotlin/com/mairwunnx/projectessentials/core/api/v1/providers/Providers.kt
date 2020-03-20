@@ -1,8 +1,12 @@
 package com.mairwunnx.projectessentials.core.api.v1.providers
 
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.MarkerManager
 import java.io.File
 
 private var initialized = false
+private val logger = LogManager.getLogger()
+private val marker = MarkerManager.Log4jMarker("PROVIDER")
 
 /**
  * Provider directory.
@@ -25,6 +29,8 @@ val providerDirectory by lazy {
  */
 fun initializeProviders() {
     if (!initialized) {
+        logger.info(marker, "Initializing providers, creating directories")
+
         File(providerDirectory).mkdirs()
         initialized = true
     }
@@ -37,6 +43,8 @@ fun initializeProviders() {
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 fun createProvider(provider: String): File {
+    logger.info(marker, "Creating provider file for $provider provider")
+
     val file = File(
         providerDirectory + File.separator + "$provider.provider"
     )

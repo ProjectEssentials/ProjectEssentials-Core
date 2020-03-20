@@ -19,7 +19,7 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent
 import org.apache.logging.log4j.LogManager
 
 @Suppress("unused")
-@Mod("project_essentials_core")
+@Mod(value = "project_essentials_core")
 internal class EntryPoint : EssBase() {
     private val logger = LogManager.getLogger()
 
@@ -84,14 +84,14 @@ internal class EntryPoint : EssBase() {
     internal fun onServerStarting(it: FMLServerStartingEvent) {
         if (CommandsConfigurationUtils.getConfig().nativeReplace) {
             NativeCommandUtils.assignDispatcherRoot(
-                it.server.commandManager.dispatcher
+                it.commandDispatcher
             )
             registerNativeCommands(
-                it.server.commandManager.dispatcher,
+                it.commandDispatcher,
                 it.server.isDedicatedServer
             )
             BackLocationCommand.register(
-                it.server.commandManager.dispatcher
+                it.commandDispatcher
             )
         }
     }

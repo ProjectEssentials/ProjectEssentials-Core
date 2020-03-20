@@ -2,6 +2,9 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.processor
 
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.MarkerManager
+
 /**
  * Processor API, for interacting with processors.
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -10,6 +13,8 @@ package com.mairwunnx.projectessentials.core.api.v1.processor
 object ProcessorAPI {
     private var processed = false
     private var postProcessed = false
+    private val logger = LogManager.getLogger()
+    private val marker = MarkerManager.Log4jMarker("PROCESSOR")
     private val processors = mutableListOf<IProcessor>()
 
     /**
@@ -21,6 +26,11 @@ object ProcessorAPI {
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun register(processor: IProcessor) {
+        logger.info(
+            marker,
+            "Registering processor ${processor.processorName} with load index ${processor.processorLoadIndex}"
+        )
+
         getAllProcessors().forEach {
             if (it.processorLoadIndex == processor.processorLoadIndex) {
                 throw ProcessorIndexDuplicateException(
@@ -49,6 +59,12 @@ object ProcessorAPI {
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun getIsProcessed() = processed
+
+    /**
+     * @return true if processors already post processed.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun getIsPostProcessed() = postProcessed
 
     /**
      * @return all registered processors.
@@ -81,11 +97,21 @@ object ProcessorAPI {
             processors.sortedWith(compareBy {
                 it.processorLoadIndex
             }).forEach {
+                logger.info(
+                    marker,
+                    "Starting work on processor ${it.processorName}, index: ${it.processorLoadIndex}"
+                )
+
                 try {
+                    logger.info(marker, "Initializing processor ${it.processorName}")
                     it.initialize()
+                    logger.info(marker, "Processing processor ${it.processorName}")
                     it.process()
                 } catch (_: NotImplementedError) {
-                    // ignoring exception.
+                    logger.error(
+                        marker,
+                        "Processing or initialize method (`process` or `initialize`) for ${it.processorName} not implemented. Processing skipped."
+                    )
                 }
             }
 
@@ -103,10 +129,18 @@ object ProcessorAPI {
             processors.sortedWith(compareBy {
                 it.processorLoadIndex
             }).forEach {
+                logger.info(
+                    marker,
+                    "Post processing processor ${it.processorName}, index: ${it.processorLoadIndex}"
+                )
+
                 try {
                     it.postProcess()
                 } catch (_: NotImplementedError) {
-                    // ignoring exception.
+                    logger.error(
+                        marker,
+                        "Post processing method (`postProcess`) for ${it.processorName} not implemented. Post processing skipped."
+                    )
                 }
             }
 
