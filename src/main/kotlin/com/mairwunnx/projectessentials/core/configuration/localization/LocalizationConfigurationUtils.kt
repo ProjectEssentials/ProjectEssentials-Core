@@ -15,6 +15,7 @@ object LocalizationConfigurationUtils {
     internal fun loadConfig() {
         if (!initialized) {
             logger.info("Loading localization configuration")
+            initialized = true
 
             try {
                 val configRaw = File(LOCALIZATION_CONFIG).readText()
@@ -24,7 +25,6 @@ object LocalizationConfigurationUtils {
                 logger.error("Configuration file ($LOCALIZATION_CONFIG) not found!")
                 logger.warn("The default configuration will be used")
             }
-            initialized = true
         }
     }
 
