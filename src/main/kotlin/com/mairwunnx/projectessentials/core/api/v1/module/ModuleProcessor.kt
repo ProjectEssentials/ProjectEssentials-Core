@@ -1,5 +1,9 @@
 package com.mairwunnx.projectessentials.core.api.v1.module
 
+import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleEventData
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
 import com.mairwunnx.projectessentials.core.api.v1.providers.createProvider
 import org.apache.logging.log4j.LogManager
@@ -31,6 +35,7 @@ internal object ModuleProcessor : IProcessor {
 
     private fun loadDomains() {
         provider.readLines().forEach {
+            ModuleEventAPI.fire(OnAllowedDomainLoading, DomainEventData(it))
             logger.info(marker, "Loaded module domain: $it")
             allowedDomains.add(it)
         }
@@ -40,12 +45,17 @@ internal object ModuleProcessor : IProcessor {
         logger.info(marker, "Finding and processing modules")
 
         allowedDomains.forEach { domain ->
+            ModuleEventAPI.fire(OnAllowedDomainProcessing, DomainEventData(domain))
+
             val reflections = Reflections(domain)
             reflections.getTypesAnnotatedWith(
                 Module::class.java
             ).forEach { moduleClass ->
                 if (isModule(moduleClass)) {
                     moduleClass as IModule
+
+                    ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(moduleClass))
+
                     processIndexes(
                         moduleClass.getModuleData().loadIndex
                     )
@@ -61,6 +71,8 @@ internal object ModuleProcessor : IProcessor {
                         )
                     )
                     modules = modules + moduleClass
+
+                    ModuleEventAPI.fire(OnModuleClassProcessed, ModuleEventData(moduleClass))
                 }
             }
         }
@@ -95,6 +107,7 @@ internal object ModuleProcessor : IProcessor {
 
     override fun postProcess() {
         getModules().forEach {
+            ModuleEventAPI.fire(OnModuleClassPostProcessing, ModuleEventData(it))
             logger.info(marker, "Starting initializing module ${it.getModuleData().name}")
             it.init()
         }

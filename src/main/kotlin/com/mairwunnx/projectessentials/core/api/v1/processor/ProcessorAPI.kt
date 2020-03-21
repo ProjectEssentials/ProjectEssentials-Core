@@ -2,6 +2,9 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.processor
 
+import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ProcessorEventData
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
 
@@ -26,6 +29,8 @@ object ProcessorAPI {
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun register(processor: IProcessor) {
+        ModuleEventAPI.fire(OnProcessorRegister, ProcessorEventData(processor))
+
         logger.info(
             marker,
             "Registering processor ${processor.processorName} with load index ${processor.processorLoadIndex}"
@@ -39,6 +44,8 @@ object ProcessorAPI {
             }
         }
         processors.add(processor)
+
+        ModuleEventAPI.fire(OnProcessorAfterRegister, ProcessorEventData(processor))
     }
 
     /**
@@ -94,6 +101,8 @@ object ProcessorAPI {
      */
     internal fun processProcessors() {
         if (!processed) {
+            processed = true
+
             processors.sortedWith(compareBy {
                 it.processorLoadIndex
             }).forEach {
@@ -103,10 +112,19 @@ object ProcessorAPI {
                 )
 
                 try {
+                    ModuleEventAPI.fire(OnProcessorInitializing, ProcessorEventData(it))
+
                     logger.info(marker, "Initializing processor ${it.processorName}")
                     it.initialize()
+
+                    ModuleEventAPI.fire(OnProcessorAfterInitializing, ProcessorEventData(it))
+
+                    ModuleEventAPI.fire(OnProcessorProcessing, ProcessorEventData(it))
+
                     logger.info(marker, "Processing processor ${it.processorName}")
                     it.process()
+
+                    ModuleEventAPI.fire(OnProcessorAfterProcessing, ProcessorEventData(it))
                 } catch (_: NotImplementedError) {
                     logger.error(
                         marker,
@@ -114,8 +132,6 @@ object ProcessorAPI {
                     )
                 }
             }
-
-            processed = true
         }
     }
 
@@ -126,6 +142,8 @@ object ProcessorAPI {
      */
     internal fun postProcessProcessors() {
         if (!postProcessed) {
+            postProcessed = true
+
             processors.sortedWith(compareBy {
                 it.processorLoadIndex
             }).forEach {
@@ -135,7 +153,9 @@ object ProcessorAPI {
                 )
 
                 try {
+                    ModuleEventAPI.fire(OnProcessorPostProcessing, ProcessorEventData(it))
                     it.postProcess()
+                    ModuleEventAPI.fire(OnProcessorAfterPostProcessing, ProcessorEventData(it))
                 } catch (_: NotImplementedError) {
                     logger.error(
                         marker,
@@ -143,8 +163,6 @@ object ProcessorAPI {
                     )
                 }
             }
-
-            postProcessed = true
         }
     }
 }

@@ -8,10 +8,17 @@ package com.mairwunnx.projectessentials.core.api.v1.configuration
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 @Target(AnnotationTarget.CLASS)
+@OptIn(ExperimentalUnsignedTypes::class)
 annotation class Configuration(
     /**
      * Configuration name, for working with it later.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
-    val name: String
+    val name: String,
+    /**
+     * Configuration version, for compatibility checking. By
+     * default value is 0.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    val version: UInt = 0u
 )

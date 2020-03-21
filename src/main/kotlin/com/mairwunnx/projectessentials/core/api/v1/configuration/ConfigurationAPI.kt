@@ -27,7 +27,7 @@ object ConfigurationAPI {
      */
     fun getConfigurationByName(name: String): IConfiguration<*> {
         getAllConfigurations().forEach {
-            if (it.getConfigurationData().name == name) {
+            if (it.data().name == name) {
                 return it
             }
         }
@@ -35,4 +35,51 @@ object ConfigurationAPI {
             "Configuration with name $name not found."
         )
     }
+
+    /**
+     * Reloads all initialized and processed configurations.
+     * @param saveBeforeLoad if value is true then configuration
+     * will be saved before loading. Default value is `true`.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun reloadAll(saveBeforeLoad: Boolean = true) {
+        getAllConfigurations().forEach {
+            if (saveBeforeLoad) {
+                it.save()
+            }
+            it.load()
+        }
+    }
+
+    /**
+     * Reloads specified configuration.
+     * @param configuration configuration for reloading.
+     * @param saveBeforeLoad if value is true then configuration
+     * will be saved before loading. Default value is `true`.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun reloadSpecified(
+        configuration: IConfiguration<*>,
+        saveBeforeLoad: Boolean = true
+    ) {
+        if (saveBeforeLoad) {
+            configuration.save()
+        }
+        configuration.load()
+    }
+
+    /**
+     * Saves all initialized and processed configurations.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun saveAll() = getAllConfigurations().forEach {
+        it.save()
+    }
+
+    /**
+     * Saves specified configuration.
+     * @param configuration configuration for saving.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    fun saveSpecified(configuration: IConfiguration<*>) = configuration.save()
 }

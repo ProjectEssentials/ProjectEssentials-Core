@@ -1,5 +1,9 @@
 package com.mairwunnx.projectessentials.core.api.v1.configuration
 
+import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ConfigurationEventData
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
 import com.mairwunnx.projectessentials.core.api.v1.providers.createProvider
 import org.apache.logging.log4j.LogManager
@@ -31,6 +35,7 @@ internal object ConfigurationProcessor : IProcessor {
 
     private fun loadDomains() {
         provider.readLines().forEach {
+            ModuleEventAPI.fire(OnAllowedDomainLoading, DomainEventData(it))
             logger.info(marker, "Loaded configuration domain: $it")
             allowedDomains.add(it)
         }
@@ -40,21 +45,35 @@ internal object ConfigurationProcessor : IProcessor {
         logger.info(marker, "Finding and processing configurations")
 
         allowedDomains.forEach { domain ->
+            ModuleEventAPI.fire(OnAllowedDomainProcessing, DomainEventData(domain))
+
             val reflections = Reflections(domain)
             reflections.getTypesAnnotatedWith(
                 Configuration::class.java
             ).forEach { configurationClass ->
                 if (isConfiguration(configurationClass)) {
                     configurationClass as IConfiguration<*>
+
+                    ModuleEventAPI.fire(
+                        OnConfigurationClassProcessing, ConfigurationEventData(configurationClass)
+                    )
+
                     logger.info(
                         marker,
                         "\n    *** Configuration taken! ${configurationClass.name}".plus(
-                            "\n  - Name: ${configurationClass.getConfigurationData().name}"
+                            "\n  - Name: ${configurationClass.data().name}"
+                        ).plus(
+                            "\n  - Version: ${configurationClass.data().version}"
                         ).plus(
                             "\n  - Path: ${configurationClass.path}"
                         )
                     )
                     configurations = configurations + configurationClass
+
+                    ModuleEventAPI.fire(
+                        OnConfigurationClassProcessed,
+                        ConfigurationEventData(configurationClass)
+                    )
                 }
             }
         }
@@ -72,8 +91,12 @@ internal object ConfigurationProcessor : IProcessor {
 
     override fun postProcess() {
         getConfigurations().forEach {
+            ModuleEventAPI.fire(
+                OnConfigurationClassPostProcessing, ConfigurationEventData(it)
+            )
+
             logger.info(
-                marker, "Starting loading configuration ${it.getConfigurationData().name}"
+                marker, "Starting loading configuration ${it.data().name}"
             )
             it.load()
         }

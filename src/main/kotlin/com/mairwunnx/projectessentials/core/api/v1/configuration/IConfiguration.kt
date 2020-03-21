@@ -46,5 +46,5 @@ interface IConfiguration<T> {
      * @return configuration meta data as Configuration annotation class.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
-    fun getConfigurationData(): Configuration
+    fun data(): Configuration
 }
