@@ -25,10 +25,11 @@ object ConfigurationAPI {
      * name not exist then throws `ConfigurationNotFoundException`.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
-    fun getConfigurationByName(name: String): IConfiguration<*> {
+    @Suppress("UNCHECKED_CAST")
+    fun <T> getConfigurationByName(name: String): T where T : IConfiguration<*> {
         getAllConfigurations().forEach {
             if (it.data().name == name) {
-                return it
+                return it as T
             }
         }
         throw ConfigurationNotFoundException(
