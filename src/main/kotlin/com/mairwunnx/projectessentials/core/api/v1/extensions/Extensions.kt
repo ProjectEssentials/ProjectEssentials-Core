@@ -2,8 +2,8 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.extensions
 
+import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI.getLocalizedString
 import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
-import com.mairwunnx.projectessentials.core.localization.getLocalizedString
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -163,7 +163,7 @@ fun hoverEventFrom(
     HoverEvent(
         HoverEvent.Action.SHOW_TEXT,
         TextComponentUtils.toTextComponent {
-            getLocalizedString(player, l10n, *args)
+            getLocalizedString(player.language, l10n, *args)
         }
     )
 } else {
@@ -191,7 +191,7 @@ fun textComponentFrom(
     vararg args: String
 ): ITextComponent = TextComponentUtils.toTextComponent {
     if (safeLocalization) {
-        getLocalizedString(player, l10n, *args)
+        getLocalizedString(player.language, l10n, *args)
     } else {
         TranslationTextComponent(l10n, args).formattedText
     }
