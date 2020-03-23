@@ -9,6 +9,7 @@ package com.mairwunnx.projectessentials.core.api.v1.configuration
  */
 @Target(AnnotationTarget.CLASS)
 @OptIn(ExperimentalUnsignedTypes::class)
+@MustBeDocumented
 annotation class Configuration(
     /**
      * Configuration name, for working with it later.

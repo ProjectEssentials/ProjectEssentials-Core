@@ -5,16 +5,16 @@
 
 package com.mairwunnx.projectessentials.core.localization
 
+import com.beust.klaxon.JsonReader
 import com.mairwunnx.projectessentials.core.extensions.empty
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.util.text.TextComponentUtils.toTextComponent
 import org.apache.logging.log4j.LogManager
-import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.StringReader
 import java.util.*
-
 
 private val logger = LogManager.getLogger()
 private var localizations: HashMap<String, MutableList<HashMap<String, String>>> = hashMapOf()
@@ -49,6 +49,13 @@ fun sendMsgV2(
     var msg = String.empty
     val messagesList =
         localizations[player.language.toLowerCase()] ?: localizations[fallbackLanguage]
+
+    logger.info("---------------------------------")
+    logger.info(l10nString)
+    logger.info(player.language.toLowerCase())
+    logger.info(localizations.keys)
+    logger.info(messagesList?.isEmpty())
+    logger.info("---------------------------------")
 
     messagesList?.forEach {
         it[l10nString]?.let { message ->
@@ -105,19 +112,20 @@ fun loadLocalization(clazz: Class<*>, localization: String, fullPath: String) {
 
     val json = getResourceAsFile(clazz.classLoader, fullPath)?.readText()
         ?: throw KotlinNullPointerException()
-    val jsonObject = JSONObject(json)
-    val keys = jsonObject.keys()
 
-    while (keys.hasNext()) {
-        val key = keys.next() as String
-        val value = jsonObject.get(key) as String
+    JsonReader(StringReader(json)).use { reader ->
+        reader.beginObject {
+            while (reader.hasNext()) {
+                val key = reader.nextName()
+                val value = reader.nextString()
 
-        logger.debug("Loaded localization key $key with value $value")
-
-        localizations[localization]?.add(hashMapOf(Pair(key, value)))
-            ?: localizations.set(
-                localization, mutableListOf(hashMapOf(Pair(key, value)))
-            )
+                localizations[localization]?.add(
+                    hashMapOf(Pair(key, value))
+                ) ?: localizations.set(
+                    localization, mutableListOf(hashMapOf(Pair(key, value)))
+                )
+            }
+        }
     }
 }
 

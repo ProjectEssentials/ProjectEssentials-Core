@@ -9,6 +9,7 @@ package com.mairwunnx.projectessentials.core.api.v1.module
  */
 @Target(AnnotationTarget.CLASS)
 @OptIn(ExperimentalUnsignedTypes::class)
+@MustBeDocumented
 annotation class Module(
     /**
      * Module name, for example `Project Essentials` or

@@ -1,5 +1,6 @@
 package com.mairwunnx.projectessentials.core.api.v1.module
 
+import com.mairwunnx.projectessentials.core.api.v1.MODULE_PROCESSOR_INDEX
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
@@ -24,7 +25,7 @@ internal object ModuleProcessor : IProcessor {
     fun getModules() = modules
     fun getAllowedDomains() = allowedDomains
 
-    override val processorLoadIndex = 1u
+    override val processorLoadIndex = MODULE_PROCESSOR_INDEX
     override val processorName = "module"
 
     override fun initialize() {

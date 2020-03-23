@@ -2,12 +2,18 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.events
 
+import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.MarkerManager
+
 /**
  * Event API class, contains all methods for interacting
  * with events.
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 object ModuleEventAPI {
+    private val logger = LogManager.getLogger()
+    private val marker = MarkerManager.Log4jMarker("EVENT MANAGER")
+
     private val events: HashMap<IModuleEventType, MutableList<(
         IModuleEventData
     ) -> Unit>> = hashMapOf()
@@ -24,6 +30,8 @@ object ModuleEventAPI {
     ) {
         events.keys.forEach {
             if (it == eventType) {
+                logger.debug("Firing all methods event types of `$it`")
+
                 events[it]?.forEach { method ->
                     method.invoke(eventData)
                 }
@@ -91,6 +99,8 @@ object ModuleEventAPI {
     fun killEventsByType(eventType: IModuleEventType) {
         events.keys.forEach {
             if (it == eventType) {
+                logger.debug("Removing methods references from event types of `$it`")
+
                 getAllEvents()[it]?.clear()
                 return
             }

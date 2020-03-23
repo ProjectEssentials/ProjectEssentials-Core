@@ -1,5 +1,6 @@
 package com.mairwunnx.projectessentials.core.api.v1.configuration
 
+import com.mairwunnx.projectessentials.core.api.v1.CONFIGURATION_PROCESSOR_INDEX
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ConfigurationEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
@@ -24,7 +25,7 @@ internal object ConfigurationProcessor : IProcessor {
     fun getConfigurations() = configurations
     fun getAllowedDomains() = allowedDomains
 
-    override val processorLoadIndex = 0u
+    override val processorLoadIndex = CONFIGURATION_PROCESSOR_INDEX
     override val processorName = "configuration"
 
     override fun initialize() {
