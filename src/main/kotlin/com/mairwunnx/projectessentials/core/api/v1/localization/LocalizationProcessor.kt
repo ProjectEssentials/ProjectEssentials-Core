@@ -37,7 +37,7 @@ internal object LocalizationProcessor : IProcessor {
         )
         logger.info(marker, "Initializing localization processor")
 
-//        configuration = ConfigurationAPI.getConfigurationByName("localization")
+//        configuration = ConfigurationAPI.getConfigurationByName<*>("localization")
 //        fallbackLanguage = configuration.take().fallbackLanguage
     }
 

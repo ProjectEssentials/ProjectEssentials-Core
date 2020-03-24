@@ -152,5 +152,26 @@ enum class ModuleCoreEventType : IModuleEventType {
      * localization processing.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
-    OnLocalizationProcessed
+    OnLocalizationProcessed,
+
+    /**
+     * This event type will be fired on
+     * command class processing.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    OnCommandClassProcessing,
+
+    /**
+     * This event type will be fired after
+     * command class processing.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    OnCommandClassProcessed,
+
+    /**
+     * This event type will be fired on
+     * command class post processing.
+     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     */
+    OnCommandClassPostProcessing
 }
