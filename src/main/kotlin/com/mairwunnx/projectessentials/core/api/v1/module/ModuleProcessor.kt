@@ -4,16 +4,21 @@ import com.mairwunnx.projectessentials.core.api.v1.MODULE_PROCESSOR_INDEX
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleEventData
+import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
+import net.minecraftforge.fml.ModList
+import net.minecraftforge.fml.common.Mod
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.full.isSubclassOf
 
-@OptIn(ExperimentalUnsignedTypes::class)
+@OptIn(ExperimentalUnsignedTypes::class, ExperimentalStdlibApi::class)
 internal object ModuleProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("MODULE PROCESSOR")
@@ -31,7 +36,13 @@ internal object ModuleProcessor : IProcessor {
 
         ProviderAPI.getProvidersByType(ProviderType.MODULE).forEach {
             if (isModule(it)) {
-                val clazz = it.createInstance() as IModule
+                val clazz = if (isForgeInstanceProvider(it)) {
+                    // For other modules whose instances created by forge.
+                    getForgeProvidedInstance(it)
+                } else {
+                    // For core basically. Because core also load modules and other stuff.
+                    it.createInstance() as IModule
+                }
 
                 ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(clazz))
 
@@ -70,6 +81,17 @@ internal object ModuleProcessor : IProcessor {
     }
 
     private fun isModule(kclazz: KClass<*>) = kclazz.isSubclassOf(IModule::class)
+
+    private fun getInstanceModId(kclazz: KClass<*>) =
+        kclazz.findAnnotation<Mod>()?.value ?: String.empty
+
+    private fun isForgeInstanceProvider(kclazz: KClass<*>) =
+        kclazz.hasAnnotation<Mod>()
+
+    private fun getForgeProvidedInstance(kclazz: KClass<*>): IModule =
+        ModList.get().getModObjectById<IModule>(
+            getInstanceModId(kclazz)
+        ).get()
 
     private fun sortByLoadIndex() {
         modules = modules.sortedWith(compareBy {
