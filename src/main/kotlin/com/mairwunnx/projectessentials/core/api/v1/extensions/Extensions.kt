@@ -23,7 +23,7 @@ import net.minecraftforge.event.CommandEvent
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun ServerPlayerEntity.sendMessage(
     l10nString: String,
@@ -43,7 +43,7 @@ fun ServerPlayerEntity.sendMessage(
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun ServerPlayerEntity.sendActionBarMessage(
     l10nString: String,
@@ -63,7 +63,7 @@ fun ServerPlayerEntity.sendActionBarMessage(
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun MinecraftServer.sendMessageToAll(
     l10nString: String,
@@ -84,7 +84,7 @@ fun MinecraftServer.sendMessageToAll(
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun MinecraftServer.sendMessageToAllInWorld(
     worldId: Int,
@@ -98,7 +98,7 @@ fun MinecraftServer.sendMessageToAllInWorld(
 
 /**
  * @return true if command sender is player.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandContext<CommandSource>.isPlayerSender() =
     this.source.entity is ServerPlayerEntity
@@ -106,7 +106,7 @@ fun CommandContext<CommandSource>.isPlayerSender() =
 /**
  * @return player if sender is player, if sender is
  * entity or server then return null.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandContext<CommandSource>.getPlayer() =
     if (this.isPlayerSender()) this.source.asPlayer() else null
@@ -115,7 +115,7 @@ fun CommandContext<CommandSource>.getPlayer() =
  * @return if command source is player then nickname
  * from CommandContext. If command source is server
  * then return `#server`.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandContext<CommandSource>.playerName(): String =
     if (this.isPlayerSender()) this.source.asPlayer().name.string else "#server"
@@ -125,7 +125,7 @@ fun CommandContext<CommandSource>.playerName(): String =
  *
  * Example: player execute command **`/heal MairwunNx`**,
  * then you get **`heal`** as string.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.commandName
     get() = this.executedCommand
@@ -136,14 +136,14 @@ val CommandEvent.commandName
  *
  * Example: player execute command **`/heal MairwunNx`**,
  * then you get **`/heal MairwunNx`** as string.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.executedCommand: String
     get() = this.parseResults.reader.string
 
 /**
  * @return true if source is player.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandEvent.isPlayerSender() = this.source.entity is ServerPlayerEntity
 
@@ -151,7 +151,7 @@ fun CommandEvent.isPlayerSender() = this.source.entity is ServerPlayerEntity
  * Return **`ServerPlayerEntity?`** class instance from
  * **`CommandEvent`** class instance. If source is server
  * then return null.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandEvent.getPlayer() =
     if (this.isPlayerSender()) this.source.asPlayer() else null
@@ -159,7 +159,7 @@ fun CommandEvent.getPlayer() =
 /**
  * Return command **`source`** from **`CommandEvent`**
  * class instance.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.source: CommandSource
     get() = this.parseResults.context.source
@@ -172,7 +172,7 @@ val CommandEvent.source: CommandSource
  * string.
  * @param args additional arguments for localized string.
  * @return HoverEvent instance with your localized string.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun hoverEventFrom(
     player: ServerPlayerEntity,
@@ -202,7 +202,7 @@ fun hoverEventFrom(
  * @param args additional arguments for localized string.
  * @return ITextComponent implements class instance with
  * your localized string.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun textComponentFrom(
     player: ServerPlayerEntity,
@@ -220,13 +220,13 @@ fun textComponentFrom(
 /**
  * Capitalize each word in string.
  * @return capitalized each word string.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun String.capitalizeWords() =
     split(" ").joinToString(" ") { it.capitalize() }
 
 /**
  * Return empty string.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val String.Companion.empty get() = ""

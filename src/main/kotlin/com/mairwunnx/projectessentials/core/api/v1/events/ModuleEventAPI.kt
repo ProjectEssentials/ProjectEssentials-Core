@@ -8,7 +8,7 @@ import org.apache.logging.log4j.MarkerManager
 /**
  * Event API class, contains all methods for interacting
  * with events.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 object ModuleEventAPI {
     private val logger = LogManager.getLogger()
@@ -22,7 +22,7 @@ object ModuleEventAPI {
      * Fire target event type. And send some data.
      * @param eventType event type.
      * @param eventData event data.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun fire(
         eventType: IModuleEventType,
@@ -47,7 +47,7 @@ object ModuleEventAPI {
      * @param action action or method reference what will
      * be called on event firing. Method must return `Unit` or
      * in java it `void`.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     @Suppress("UNCHECKED_CAST")
     fun <T> subscribeOn(
@@ -66,7 +66,7 @@ object ModuleEventAPI {
 
     /**
      * @return all subscribed events.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getAllEvents() = events
 
@@ -74,7 +74,7 @@ object ModuleEventAPI {
      * @param eventType target event type.
      * @return mutable list with references on subscribed methods.
      * @throws EventNotFoundException when event type not found.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getEventsByType(
         eventType: IModuleEventType
@@ -94,7 +94,7 @@ object ModuleEventAPI {
      * Removing all method references for specified event type.
      * @param eventType target event type.
      * @throws EventNotFoundException when event type not found.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun killEventsByType(eventType: IModuleEventType) {
         events.keys.forEach {
@@ -110,7 +110,7 @@ object ModuleEventAPI {
 
     /**
      * Removing all methods references from all event types.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun killAllEvents() = events.clear()
 }

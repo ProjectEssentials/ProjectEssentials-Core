@@ -9,7 +9,7 @@ import net.minecraft.util.text.TranslationTextComponent
 /**
  * This class contains all methods for interacting
  * with player messages.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 object MessagingAPI {
     /**
@@ -22,7 +22,7 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun sendMessage(
         player: ServerPlayerEntity,
@@ -58,7 +58,7 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun sendMessageToAll(
         server: MinecraftServer,
@@ -83,7 +83,7 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun sendMessageToAllInWorld(
         worldId: Int,
@@ -110,7 +110,7 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun sendActionBarMessage(
         player: ServerPlayerEntity,

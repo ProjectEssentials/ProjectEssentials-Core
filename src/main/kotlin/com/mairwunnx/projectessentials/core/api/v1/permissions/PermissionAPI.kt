@@ -16,7 +16,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
  * @param node required permission node.
  * @param opLevel required operator level.
  * @return true if player has permission.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 fun hasPermission(
     player: ServerPlayerEntity,

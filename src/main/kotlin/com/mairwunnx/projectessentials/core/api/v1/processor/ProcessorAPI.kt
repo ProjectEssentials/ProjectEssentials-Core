@@ -10,7 +10,7 @@ import org.apache.logging.log4j.MarkerManager
 
 /**
  * Processor API, for interacting with processors.
- * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 @OptIn(ExperimentalUnsignedTypes::class)
 object ProcessorAPI {
@@ -26,7 +26,7 @@ object ProcessorAPI {
      * NOTE: Call it ONLY in `setup` event.
      * @param processor processor class instance.
      * @throws ProcessorIndexDuplicateException
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun register(processor: IProcessor) {
         ModuleEventAPI.fire(OnProcessorRegister, ProcessorEventData(processor))
@@ -50,7 +50,7 @@ object ProcessorAPI {
 
     /**
      * @return last available loading index for processor.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getAvailableLastIndex(): UInt {
         var lastIndex = 0u
@@ -63,19 +63,19 @@ object ProcessorAPI {
 
     /**
      * @return true if processors already processed.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getIsProcessed() = processed
 
     /**
      * @return true if processors already post processed.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getIsPostProcessed() = postProcessed
 
     /**
      * @return all registered processors.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getAllProcessors() = processors
 
@@ -84,7 +84,7 @@ object ProcessorAPI {
      * @throws ProcessorNotFoundException
      * @return processor by name. If processor with
      * name not exist then throws `ProcessorNotFoundException`.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getProcessorByName(name: String): IProcessor {
         return getAllProcessors().find {
@@ -97,7 +97,7 @@ object ProcessorAPI {
     /**
      * Processing processors, initializing processors.
      * It method calling in `enqueueIMC` event.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     internal fun processProcessors() {
         if (!processed) {
@@ -137,7 +137,7 @@ object ProcessorAPI {
     /**
      * Processing processors, initializing processors.
      * It method calling in `processIMC` event.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     internal fun postProcessProcessors() {
         if (!postProcessed) {
