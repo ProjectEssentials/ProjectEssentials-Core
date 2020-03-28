@@ -19,8 +19,8 @@ object ModuleAPI {
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun getModuleModId(module: IModule): String {
-        if (module.getModuleData().name == "core") {
-            return "project_essentials_core"
+        if (module.getModuleData().name == "essentials") {
+            return "project_essentials"
         }
         if (module.javaClass.isAnnotationPresent(Mod::class.java)) {
             return module.javaClass.getAnnotation(Mod::class.java).value
