@@ -1,6 +1,6 @@
 package com.mairwunnx.projectessentials.core.api.v1.module
 
-import com.mairwunnx.projectessentials.core.extensions.empty
+import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
 
 /**
  * Throws when module with same load index already exist.

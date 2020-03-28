@@ -19,7 +19,7 @@ object ModuleAPI {
      */
     fun getModuleByName(name: String): IModule {
         getAllModules().forEach {
-            if (it.getModuleData().name == name) {
+            if (it.getModule().getModuleData().name == name) {
                 return it
             }
         }
@@ -34,10 +34,10 @@ object ModuleAPI {
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     fun isModuleExist(module: IModule): Boolean {
-        val name = module.getModuleData().name
+        val name = module.getModule().getModuleData().name
 
         ModuleProcessor.getModules().forEach {
-            if (it.getModuleData().name == name) {
+            if (it.getModule().getModuleData().name == name) {
                 return true
             }
         }
@@ -51,16 +51,10 @@ object ModuleAPI {
      */
     fun isModuleExist(module: String): Boolean {
         ModuleProcessor.getModules().forEach {
-            if (it.getModuleData().name == module) {
+            if (it.getModule().getModuleData().name == module) {
                 return true
             }
         }
         return false
     }
-
-    /**
-     * @return allowed domains to indexing module classes.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    fun getAllowedDomains() = ModuleProcessor.getAllowedDomains()
 }

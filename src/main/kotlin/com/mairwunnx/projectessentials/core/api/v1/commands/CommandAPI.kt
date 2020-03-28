@@ -71,12 +71,6 @@ object CommandAPI {
     fun getAllCommands() = CommandProcessor.getCommands()
 
     /**
-     * @return allowed domains to indexing command classes.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    fun getAllowedDomains() = CommandProcessor.getAllowedDomains()
-
-    /**
      * Remove already registered command with
      * specified name.
      * @param command command name to remove without `/`.

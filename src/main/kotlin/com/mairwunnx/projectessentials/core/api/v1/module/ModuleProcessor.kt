@@ -2,79 +2,60 @@ package com.mairwunnx.projectessentials.core.api.v1.module
 
 import com.mairwunnx.projectessentials.core.api.v1.MODULE_PROCESSOR_INDEX
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
-import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleEventData
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
-import com.mairwunnx.projectessentials.core.api.v1.providers.createProvider
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import org.reflections.Reflections
+import kotlin.reflect.KClass
+import kotlin.reflect.full.createInstance
+import kotlin.reflect.full.isSubclassOf
 
 @OptIn(ExperimentalUnsignedTypes::class)
 internal object ModuleProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("MODULE PROCESSOR")
-    private val provider = createProvider("module")
     private var modules = listOf<IModule>()
-    private val interfaceName = IModule::class.java.name
-    private val allowedDomains = mutableListOf(
-        "com.mairwunnx"
-    )
 
     fun getModules() = modules
-    fun getAllowedDomains() = allowedDomains
 
     override val processorLoadIndex = MODULE_PROCESSOR_INDEX
     override val processorName = "module"
 
     override fun initialize() {
         logger.info(marker, "Initializing module processor")
-        logger.info(marker, "Loading allowed package domains")
-        loadDomains()
-    }
-
-    private fun loadDomains() {
-        provider.readLines().forEach {
-            ModuleEventAPI.fire(OnAllowedDomainLoading, DomainEventData(it))
-            logger.info(marker, "Loaded module domain: $it")
-            allowedDomains.add(it)
-        }
     }
 
     override fun process() {
         logger.info(marker, "Finding and processing modules")
 
-        allowedDomains.forEach { domain ->
-            ModuleEventAPI.fire(OnAllowedDomainProcessing, DomainEventData(domain))
+        ProviderAPI.getProvidersByType(ProviderType.MODULE).forEach {
+            if (isModule(it)) {
+                val clazz = it.createInstance() as IModule
 
-            val reflections = Reflections(domain)
-            reflections.getTypesAnnotatedWith(
-                Module::class.java
-            ).forEach { moduleClass ->
-                if (isModule(moduleClass)) {
-                    moduleClass as IModule
+                ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(clazz))
 
-                    ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(moduleClass))
+                processIndexes(
+                    clazz.getModuleData().loadIndex
+                )
 
-                    processIndexes(
-                        moduleClass.getModuleData().loadIndex
+                logger.info(
+                    marker,
+                    "\n\n    *** Module found! ${it.simpleName}".plus(
+                        "\n\n  - Name: ${clazz.getModule().getModuleData().name}"
+                    ).plus(
+                        "\n  - Class: ${it.qualifiedName}"
+                    ).plus(
+                        "\n  - Version: ${clazz.getModule().getModuleData().version}"
+                    ).plus(
+                        "\n  - API Version: ${clazz.getModule().getModuleData().apiVersion}\n\n"
                     )
+                )
+                modules = modules + clazz
 
-                    logger.info(
-                        marker,
-                        "\n    *** Module found! ${moduleClass.name}".plus(
-                            "\n\n  - Name: ${moduleClass.getModuleData().name}"
-                        ).plus(
-                            "\n  - Version: ${moduleClass.getModuleData().version}"
-                        ).plus(
-                            "\n  - API Version: ${moduleClass.getModuleData().apiVersion}"
-                        )
-                    )
-                    modules = modules + moduleClass
-
-                    ModuleEventAPI.fire(OnModuleClassProcessed, ModuleEventData(moduleClass))
-                }
+                ModuleEventAPI.fire(OnModuleClassProcessed, ModuleEventData(clazz))
             }
         }
         sortByLoadIndex()
@@ -82,7 +63,7 @@ internal object ModuleProcessor : IProcessor {
 
     private fun processIndexes(index: UInt) {
         modules.forEach {
-            if (it.getModuleData().loadIndex == index) {
+            if (it.getModule().getModuleData().loadIndex == index) {
                 throw ModuleIndexDuplicateException(
                     "Module with same load index $index already processed."
                 )
@@ -90,19 +71,11 @@ internal object ModuleProcessor : IProcessor {
         }
     }
 
-    private fun isModule(clazz: Class<*>): Boolean {
-        val interfaces = clazz.interfaces
-        interfaces.forEach {
-            if (it.name == interfaceName) {
-                return true
-            }
-        }
-        return false
-    }
+    private fun isModule(kclazz: KClass<*>) = kclazz.isSubclassOf(IModule::class)
 
     private fun sortByLoadIndex() {
         modules = modules.sortedWith(compareBy {
-            it.getModuleData().loadIndex
+            it.getModule().getModuleData().loadIndex
         })
     }
 
@@ -110,7 +83,7 @@ internal object ModuleProcessor : IProcessor {
         getModules().forEach {
             ModuleEventAPI.fire(OnModuleClassPostProcessing, ModuleEventData(it))
             logger.info(marker, "Starting initializing module ${it.getModuleData().name}")
-            it.init()
+            it.getModule().init()
         }
     }
 }

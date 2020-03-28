@@ -8,20 +8,6 @@ import com.mairwunnx.projectessentials.core.api.v1.events.IModuleEventType
  */
 enum class ModuleCoreEventType : IModuleEventType {
     /**
-     * This event type will be fired before
-     * initializing providers.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    OnProvidersInitializing,
-
-    /**
-     * This event type will be fired before
-     * creating providers.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    OnProvidersCreating,
-
-    /**
      * This event type will be fired on
      * processor registering.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -76,20 +62,6 @@ enum class ModuleCoreEventType : IModuleEventType {
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
     OnProcessorAfterPostProcessing,
-
-    /**
-     * This event type will be fired on
-     * allowed domain loading.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    OnAllowedDomainLoading,
-
-    /**
-     * This event type will be fired on
-     * allowed domain processing.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    OnAllowedDomainProcessing,
 
     /**
      * This event type will be fired on

@@ -1,6 +1,6 @@
 package com.mairwunnx.projectessentials.core.api.v1.configuration
 
-import com.mairwunnx.projectessentials.core.extensions.empty
+import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
 
 /**
  * Throws when configuration not found.

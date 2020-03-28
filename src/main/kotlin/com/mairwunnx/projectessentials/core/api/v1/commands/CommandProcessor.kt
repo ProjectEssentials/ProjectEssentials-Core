@@ -1,113 +1,69 @@
 package com.mairwunnx.projectessentials.core.api.v1.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.COMMAND_PROCESSOR_INDEX
-import com.mairwunnx.projectessentials.core.api.v1.configuration.Configuration
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.CommandEventData
-import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
-import com.mairwunnx.projectessentials.core.api.v1.providers.createProvider
+import com.mairwunnx.projectessentials.core.api.v1.processor.PostponedInit
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import org.reflections.Reflections
+import kotlin.reflect.full.findAnnotation
 
 internal object CommandProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("COMMAND PROCESSOR")
-    private val provider = createProvider("command")
     private var commands = listOf<ICommand>()
-    private val interfaceName = ICommand::class.java.name
-    private val allowedDomains = mutableListOf(
-        "com.mairwunnx"
-    )
 
     fun getCommands() = commands
-    fun getAllowedDomains() = allowedDomains
 
     override val processorLoadIndex = COMMAND_PROCESSOR_INDEX
     override val processorName: String = "command"
 
     override fun initialize() {
         logger.info(marker, "Initializing command processor")
-        logger.info(marker, "Loading allowed package domains")
-        loadDomains()
-    }
-
-    private fun loadDomains() {
-        provider.readLines().forEach {
-            ModuleEventAPI.fire(
-                OnAllowedDomainLoading, DomainEventData(it)
-            )
-            logger.info(marker, "Loaded command domain: $it")
-            allowedDomains.add(it)
-        }
     }
 
     override fun process() {
         logger.info(marker, "Finding and processing commands")
 
-        allowedDomains.forEach { domain ->
+        ProviderAPI.getProvidersByType(ProviderType.COMMAND).forEach {
+            val clazz = it.objectInstance as ICommand
+
             ModuleEventAPI.fire(
-                OnAllowedDomainProcessing, DomainEventData(domain)
+                OnCommandClassProcessing, CommandEventData(clazz)
             )
 
-            val reflections = Reflections(domain)
-            reflections.getTypesAnnotatedWith(
-                Configuration::class.java
-            ).forEach { commandClass ->
-                if (isCommand(commandClass)) {
-                    commandClass as ICommand
+            val data = it.findAnnotation<Command>()!!
 
-                    ModuleEventAPI.fire(
-                        OnCommandClassProcessing, CommandEventData(commandClass)
-                    )
+            logger.info(
+                marker,
+                "\n\n    *** Command taken! ${it.simpleName}".plus(
+                    "\n\n  - Command name: ${data.name}"
+                ).plus(
+                    "\n  - Command aliases: ${data.aliases.toString()}"
+                ).plus(
+                    "\n  - Class: ${it.qualifiedName}\n\n"
+                )
+            )
 
-                    val data = commandClass.getAnnotation(Command::class.java)
+            commands = commands + clazz
 
-                    logger.info(
-                        marker,
-                        "\n    *** Command taken! ${commandClass.name}".plus(
-                            "\n      ## Initializing command ##"
-                        ).plus(
-                            "\n  - Command name: ${data.name}"
-                        ).plus(
-                            "\n  - Command aliases: ${data.aliases}"
-                        )
-                    )
-                    commandClass.initialize()
-                    commands = commands + commandClass
-
-                    ModuleEventAPI.fire(
-                        OnCommandClassProcessed, CommandEventData(commandClass)
-                    )
-                }
-            }
+            ModuleEventAPI.fire(
+                OnCommandClassProcessed, CommandEventData(clazz)
+            )
         }
     }
 
-    private fun isCommand(clazz: Class<*>): Boolean {
-        val interfaces = clazz.interfaces
-        interfaces.forEach {
-            if (it.name == interfaceName) {
-                return true
-            }
-        }
-        return false
-    }
-
+    @PostponedInit
     override fun postProcess() {
         getCommands().forEach {
             ModuleEventAPI.fire(
                 OnCommandClassPostProcessing, CommandEventData(it)
             )
-
-            it as Class<*>
-            val data = it.getAnnotation(Command::class.java)
-
-            logger.info(
-                marker, "Starting registering command ${data.name}"
-            )
+            it.initialize()
             it.register(CommandAPI.getDispatcher())
         }
     }

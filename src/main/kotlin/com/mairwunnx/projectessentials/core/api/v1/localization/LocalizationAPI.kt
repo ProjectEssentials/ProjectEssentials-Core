@@ -2,8 +2,8 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.localization
 
-import com.mairwunnx.projectessentials.core.extensions.empty
-import com.mairwunnx.projectessentials.core.localization.fallbackLanguage
+import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
+import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProcessor.fallbackLanguage
 
 /**
  * Localization API class, for interacting with
@@ -13,6 +13,7 @@ import com.mairwunnx.projectessentials.core.localization.fallbackLanguage
 object LocalizationAPI {
     /**
      * Applying localization, without processing. Thread safe.
+     * **Apply only in setup event!**
      * @param localization localization data class instance.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
@@ -47,7 +48,7 @@ object LocalizationAPI {
      * @return fall back localizations language.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
-    fun getFallBackLanguage() = LocalizationProcessor.fallbackLanguage
+    fun getFallBackLanguage() = fallbackLanguage
 
     /**
      * Install new fall back localizations language.
@@ -58,7 +59,7 @@ object LocalizationAPI {
      */
     fun setFallBackLanguage(language: String) {
         if (language.matches(Regex("^[a-z]{2}_[a-z]{2}$"))) {
-            LocalizationProcessor.fallbackLanguage = language
+            fallbackLanguage = language
         } else {
             throw IllegalLanguageCodeException(
                 "Language code format $language incorrect and unsupported."

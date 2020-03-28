@@ -3,12 +3,15 @@ package com.mairwunnx.projectessentials.core.api.v1.localization
 import com.beust.klaxon.JsonReader
 import com.mairwunnx.projectessentials.core.api.v1.INITIAL_FALLBACK_LANGUAGE
 import com.mairwunnx.projectessentials.core.api.v1.LOCALIZATION_PROCESSOR_INDEX
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_FALLBACK_LANG
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.EmptyEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.LocalizationEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
 import com.mairwunnx.projectessentials.core.api.v1.helpers.getResourceAsFile
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
+import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
 import java.io.StringReader
@@ -20,7 +23,9 @@ internal object LocalizationProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("LOCALIZATION PROCESSOR")
 
-//    private lateinit var configuration: IConfiguration<*>
+    private val generalConfiguration by lazy {
+        ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+    }
 
     val localizations = mutableListOf<Localization>()
     var localizationsData: HashMap<String, MutableList<HashMap<String, String>>> =
@@ -37,8 +42,9 @@ internal object LocalizationProcessor : IProcessor {
         )
         logger.info(marker, "Initializing localization processor")
 
-//        configuration = ConfigurationAPI.getConfigurationByName<*>("localization")
-//        fallbackLanguage = configuration.take().fallbackLanguage
+        fallbackLanguage = generalConfiguration.getStringOrDefault(
+            SETTING_LOC_FALLBACK_LANG, "en_us"
+        )
     }
 
     override fun process() {

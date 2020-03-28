@@ -13,12 +13,6 @@ object ConfigurationAPI {
     fun getAllConfigurations() = ConfigurationProcessor.getConfigurations()
 
     /**
-     * @return allowed domains to indexing configuration classes.
-     * @since Mod: 1.14.4-2.0.0, API: 1.0.0
-     */
-    fun getAllowedDomains() = ConfigurationProcessor.getAllowedDomains()
-
-    /**
      * @param name processor name.
      * @throws ConfigurationNotFoundException
      * @return configuration by name. If configuration with

@@ -32,3 +32,16 @@ const val COMMAND_PROCESSOR_INDEX = 3u
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 const val INITIAL_FALLBACK_LANGUAGE = "en_us"
+
+/**
+ * Prefix for localized messages for core module.
+ * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ */
+const val MESSAGE_CORE_PREFIX = "project_essentials_core"
+
+const val SETTING_LOC_ENABLED = "v2-localization-enabled"
+const val SETTING_LOC_FALLBACK_LANG = "v2-localization-fallback-lang"
+const val SETTING_DISABLE_SAFE_ENCHANT = "disable-safely-enchant-level"
+const val SETTING_NATIVE_COMMAND_REPLACE = "enable-native-command-replace"
+const val SETTING_LOCATE_COMMAND_FIND_RADIUS = "locate-command-find-radius"
+const val SETTING_DISABLE_PORTAL_SPAWNING = "disable-portal-spawning"

@@ -3,92 +3,66 @@ package com.mairwunnx.projectessentials.core.api.v1.configuration
 import com.mairwunnx.projectessentials.core.api.v1.CONFIGURATION_PROCESSOR_INDEX
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ConfigurationEventData
-import com.mairwunnx.projectessentials.core.api.v1.events.internal.DomainEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType.*
 import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
-import com.mairwunnx.projectessentials.core.api.v1.providers.createProvider
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import org.reflections.Reflections
+import kotlin.reflect.KClass
+import kotlin.reflect.full.isSubclassOf
 
 @OptIn(ExperimentalUnsignedTypes::class)
 internal object ConfigurationProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("CONFIGURATION PROCESSOR")
-    private val provider = createProvider("configuration")
     private var configurations = listOf<IConfiguration<*>>()
-    private val interfaceName = IConfiguration::class.java.name
-    private val allowedDomains = mutableListOf(
-        "com.mairwunnx"
-    )
 
     fun getConfigurations() = configurations
-    fun getAllowedDomains() = allowedDomains
 
     override val processorLoadIndex = CONFIGURATION_PROCESSOR_INDEX
     override val processorName = "configuration"
 
     override fun initialize() {
         logger.info(marker, "Initializing configuration processor")
-        logger.info(marker, "Loading allowed package domains")
-        loadDomains()
     }
 
-    private fun loadDomains() {
-        provider.readLines().forEach {
-            ModuleEventAPI.fire(OnAllowedDomainLoading, DomainEventData(it))
-            logger.info(marker, "Loaded configuration domain: $it")
-            allowedDomains.add(it)
-        }
-    }
-
+    @OptIn(ExperimentalStdlibApi::class)
     override fun process() {
         logger.info(marker, "Finding and processing configurations")
 
-        allowedDomains.forEach { domain ->
-            ModuleEventAPI.fire(OnAllowedDomainProcessing, DomainEventData(domain))
+        ProviderAPI.getProvidersByType(ProviderType.CONFIGURATION).forEach {
+            if (isConfiguration(it)) {
+                val clazz = it.objectInstance as IConfiguration<*>
 
-            val reflections = Reflections(domain)
-            reflections.getTypesAnnotatedWith(
-                Configuration::class.java
-            ).forEach { configurationClass ->
-                if (isConfiguration(configurationClass)) {
-                    configurationClass as IConfiguration<*>
+                ModuleEventAPI.fire(
+                    OnConfigurationClassProcessing, ConfigurationEventData(clazz)
+                )
 
-                    ModuleEventAPI.fire(
-                        OnConfigurationClassProcessing, ConfigurationEventData(configurationClass)
+                logger.info(
+                    marker,
+                    "\n\n    *** Configuration taken! ${it.simpleName}".plus(
+                        "\n\n  - Name: ${clazz.data().name}"
+                    ).plus(
+                        "\n  - Version: ${clazz.data().version}"
+                    ).plus(
+                        "\n  - Class: ${it.qualifiedName}"
+                    ).plus(
+                        "\n  - Path: ${clazz.path}\n\n"
                     )
+                )
+                configurations = configurations + clazz
 
-                    logger.info(
-                        marker,
-                        "\n    *** Configuration taken! ${configurationClass.name}".plus(
-                            "\n  - Name: ${configurationClass.data().name}"
-                        ).plus(
-                            "\n  - Version: ${configurationClass.data().version}"
-                        ).plus(
-                            "\n  - Path: ${configurationClass.path}"
-                        )
-                    )
-                    configurations = configurations + configurationClass
-
-                    ModuleEventAPI.fire(
-                        OnConfigurationClassProcessed,
-                        ConfigurationEventData(configurationClass)
-                    )
-                }
+                ModuleEventAPI.fire(
+                    OnConfigurationClassProcessed,
+                    ConfigurationEventData(clazz)
+                )
             }
         }
     }
 
-    private fun isConfiguration(clazz: Class<*>): Boolean {
-        val interfaces = clazz.interfaces
-        interfaces.forEach {
-            if (it.name == interfaceName) {
-                return true
-            }
-        }
-        return false
-    }
+    private fun isConfiguration(kclazz: KClass<*>) =
+        kclazz.isSubclassOf(IConfiguration::class)
 
     override fun postProcess() {
         getConfigurations().forEach {

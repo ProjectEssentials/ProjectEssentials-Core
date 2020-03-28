@@ -112,19 +112,18 @@ object ProcessorAPI {
                 )
 
                 try {
-                    ModuleEventAPI.fire(OnProcessorInitializing, ProcessorEventData(it))
-
-                    logger.info(marker, "Initializing processor ${it.processorName}")
-                    it.initialize()
-
-                    ModuleEventAPI.fire(OnProcessorAfterInitializing, ProcessorEventData(it))
-
-                    ModuleEventAPI.fire(OnProcessorProcessing, ProcessorEventData(it))
-
-                    logger.info(marker, "Processing processor ${it.processorName}")
-                    it.process()
-
-                    ModuleEventAPI.fire(OnProcessorAfterProcessing, ProcessorEventData(it))
+                    if (!isPostponedInit(it, "initialize")) {
+                        ModuleEventAPI.fire(OnProcessorInitializing, ProcessorEventData(it))
+                        logger.info(marker, "Initializing processor ${it.processorName}")
+                        it.initialize()
+                        ModuleEventAPI.fire(OnProcessorAfterInitializing, ProcessorEventData(it))
+                    }
+                    if (!isPostponedInit(it, "process")) {
+                        ModuleEventAPI.fire(OnProcessorProcessing, ProcessorEventData(it))
+                        logger.info(marker, "Processing processor ${it.processorName}")
+                        it.process()
+                        ModuleEventAPI.fire(OnProcessorAfterProcessing, ProcessorEventData(it))
+                    }
                 } catch (_: NotImplementedError) {
                     logger.error(
                         marker,
@@ -153,9 +152,11 @@ object ProcessorAPI {
                 )
 
                 try {
-                    ModuleEventAPI.fire(OnProcessorPostProcessing, ProcessorEventData(it))
-                    it.postProcess()
-                    ModuleEventAPI.fire(OnProcessorAfterPostProcessing, ProcessorEventData(it))
+                    if (!isPostponedInit(it, "postProcess")) {
+                        ModuleEventAPI.fire(OnProcessorPostProcessing, ProcessorEventData(it))
+                        it.postProcess()
+                        ModuleEventAPI.fire(OnProcessorAfterPostProcessing, ProcessorEventData(it))
+                    }
                 } catch (_: NotImplementedError) {
                     logger.error(
                         marker,
@@ -164,5 +165,17 @@ object ProcessorAPI {
                 }
             }
         }
+    }
+
+    private fun isPostponedInit(
+        processorClass: IProcessor, methodName: String
+    ): Boolean {
+        val methods = processorClass.javaClass.declaredMethods
+        methods.forEach {
+            if (it.name == methodName) {
+                return it.isAnnotationPresent(PostponedInit::class.java)
+            }
+        }
+        return false
     }
 }

@@ -92,6 +92,14 @@ fun CommandContext<CommandSource>.isPlayerSender() =
     this.source.entity is ServerPlayerEntity
 
 /**
+ * @return player if sender is player, if sender is
+ * entity or server then return null.
+ * @since Mod: 1.14.4-2.0.0, API: 1.0.0
+ */
+fun CommandContext<CommandSource>.getPlayer() =
+    if (this.isPlayerSender()) this.source.asPlayer() else null
+
+/**
  * @return if command source is player then nickname
  * from CommandContext. If command source is server
  * then return `#server`.
