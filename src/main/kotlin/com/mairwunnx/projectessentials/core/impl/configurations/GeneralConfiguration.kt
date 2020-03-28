@@ -34,6 +34,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     override fun save() = try {
         FileOutputStream(path).use { output ->
+            // todo: add comment.
             properties.store(output, null)
         }
     } catch (ex: IOException) {
@@ -51,40 +52,50 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     fun getDoubleOrDefault(key: String, value: Double): Double {
         val property = properties[key]
-        put(key, value)
-        return if (property == null) property.toString().toDouble() else value
+        if (property == null) {
+            put(key, value.toString())
+        }
+        return property?.toString()?.toDouble() ?: value
     }
 
     fun getDouble(key: String) = properties[key].toString().toDouble()
 
     fun getFloatOrDefault(key: String, value: Float): Float {
         val property = properties[key]
-        put(key, value)
-        return if (property == null) property.toString().toFloat() else value
+        if (property == null) {
+            put(key, value.toString())
+        }
+        return property?.toString()?.toFloat() ?: value
     }
 
     fun getFloatInt(key: String) = properties[key].toString().toFloat()
 
     fun getIntOrDefault(key: String, value: Int): Int {
         val property = properties[key]
-        put(key, value)
-        return if (property == null) property.toString().toInt() else value
+        if (property == null) {
+            put(key, value.toString())
+        }
+        return property?.toString()?.toInt() ?: value
     }
 
     fun getInt(key: String) = properties[key].toString().toInt()
 
     fun getBoolOrDefault(key: String, value: Boolean): Boolean {
         val property = properties[key]
-        put(key, value)
-        return if (property == null) property.toString().toBoolean() else value
+        if (property == null) {
+            put(key, value.toString())
+        }
+        return property?.toString()?.toBoolean() ?: value
     }
 
     fun getBool(key: String) = properties[key].toString().toBoolean()
 
     fun getStringOrDefault(key: String, value: String): String {
         val property = properties[key]
-        put(key, value)
-        return if (property == null) property.toString() else value
+        if (property == null) {
+            put(key, value)
+        }
+        return property?.toString() ?: value
     }
 
     fun getString(key: String) = properties[key].toString()
@@ -108,7 +119,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
         properties[key] = value.toString()
     }
 
-    fun put(key: String, value: Any) {
+    fun put(key: String, value: String) {
         properties[key] = value
     }
 }

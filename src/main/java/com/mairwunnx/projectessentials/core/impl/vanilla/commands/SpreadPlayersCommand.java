@@ -57,7 +57,6 @@ public class SpreadPlayersCommand {
     });
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        logger.info("Replacing `/spreadplayers` vanilla command");
         CommandAPI.INSTANCE.removeCommand("spreadplayers");
 
         dispatcher.register(Commands.literal("spreadplayers").then(Commands.argument("center", Vec2Argument.vec2()).then(Commands.argument("spreadDistance", FloatArgumentType.floatArg(0.0F)).then(Commands.argument("maxRange", FloatArgumentType.floatArg(1.0F)).then(Commands.argument("respectTeams", BoolArgumentType.bool()).then(Commands.argument("targets", EntityArgument.entities()).executes((p_198718_0_) -> {

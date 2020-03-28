@@ -17,8 +17,9 @@ object MessagingAPI {
      * or simple message.
      * @param player target player, server player instance.
      * @param l10nString localization string or message.
-     * @param isClientLocalized if true then localization
-     * will provided by client \ client resource pack.
+     * @param safeLocalization if true then localization
+     * will provided by server false if localization
+     * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -26,13 +27,11 @@ object MessagingAPI {
     fun sendMessage(
         player: ServerPlayerEntity,
         l10nString: String,
-        isClientLocalized: Boolean,
+        safeLocalization: Boolean,
         vararg args: String,
         argumentChar: Char = 's'
     ) = player.sendMessage(
-        if (isClientLocalized) {
-            TranslationTextComponent(l10nString, *args)
-        } else {
+        if (safeLocalization) {
             TextComponentUtils.toTextComponent {
                 val msg = LocalizationAPI.getLocalizedString(
                     player.language, l10nString, *args, argumentChar = argumentChar
@@ -44,6 +43,8 @@ object MessagingAPI {
                     return@toTextComponent msg
                 }
             }
+        } else {
+            TranslationTextComponent(l10nString, *args)
         }
     )
 
@@ -52,8 +53,9 @@ object MessagingAPI {
      * string or simple message.
      * @param server minecraft server instance.
      * @param l10nString localization string or message.
-     * @param isClientLocalized if true then localization
-     * will provided by client \ client resource pack.
+     * @param safeLocalization if true then localization
+     * will provided by server false if localization
+     * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -61,12 +63,12 @@ object MessagingAPI {
     fun sendMessageToAll(
         server: MinecraftServer,
         l10nString: String,
-        isClientLocalized: Boolean,
+        safeLocalization: Boolean,
         vararg args: String,
         argumentChar: Char = 's'
     ) = server.playerList.players.forEach {
         sendMessage(
-            it, l10nString, isClientLocalized, *args, argumentChar = argumentChar
+            it, l10nString, safeLocalization, *args, argumentChar = argumentChar
         )
     }
 
@@ -76,8 +78,9 @@ object MessagingAPI {
      * @param worldId target world id.
      * @param server minecraft server instance.
      * @param l10nString localization string or message.
-     * @param isClientLocalized if true then localization
-     * will provided by client \ client resource pack.
+     * @param safeLocalization if true then localization
+     * will provided by server false if localization
+     * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -86,13 +89,13 @@ object MessagingAPI {
         worldId: Int,
         server: MinecraftServer,
         l10nString: String,
-        isClientLocalized: Boolean,
+        safeLocalization: Boolean,
         vararg args: String,
         argumentChar: Char = 's'
     ) = server.playerList.players.forEach {
         if (it.serverWorld.dimension.type.id == worldId) {
             sendMessage(
-                it, l10nString, isClientLocalized, *args, argumentChar = argumentChar
+                it, l10nString, safeLocalization, *args, argumentChar = argumentChar
             )
         }
     }
@@ -102,8 +105,9 @@ object MessagingAPI {
      * string or simple message.
      * @param player target player, server player instance.
      * @param l10nString localization string or message.
-     * @param isClientLocalized if true then localization
-     * will provided by client \ client resource pack.
+     * @param safeLocalization if true then localization
+     * will provided by server false if localization
+     * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -111,13 +115,11 @@ object MessagingAPI {
     fun sendActionBarMessage(
         player: ServerPlayerEntity,
         l10nString: String,
-        isClientLocalized: Boolean,
+        safeLocalization: Boolean,
         vararg args: String,
         argumentChar: Char = 's'
     ) = player.sendStatusMessage(
-        if (isClientLocalized) {
-            TranslationTextComponent(l10nString, *args)
-        } else {
+        if (safeLocalization) {
             TextComponentUtils.toTextComponent {
                 val msg = LocalizationAPI.getLocalizedString(
                     player.language, l10nString, *args, argumentChar = argumentChar
@@ -129,6 +131,8 @@ object MessagingAPI {
                     return@toTextComponent msg
                 }
             }
+        } else {
+            TranslationTextComponent(l10nString, *args)
         }, true
     )
 }

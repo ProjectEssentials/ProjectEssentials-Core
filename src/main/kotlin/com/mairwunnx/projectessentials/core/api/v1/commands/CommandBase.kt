@@ -1,12 +1,14 @@
 package com.mairwunnx.projectessentials.core.api.v1.commands
 
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
+import com.mairwunnx.projectessentials.core.api.v1.extensions.playerName
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
+import org.apache.logging.log4j.LogManager
 
 /**
  * Base abstract class for commands. Has common
@@ -20,6 +22,8 @@ abstract class CommandBase(
      */
     val literal: LiteralArgumentBuilder<CommandSource>
 ) : ICommand {
+    private val logger = LogManager.getLogger()
+
     /**
      * Command data, stores data of `Command`
      * annotation type.
@@ -66,7 +70,12 @@ abstract class CommandBase(
      * @return int. Command execution result.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
-    abstract override fun process(context: CommandContext<CommandSource>): Int
+    override fun process(context: CommandContext<CommandSource>): Int {
+        logger.debug(
+            " :: Executed command ${context.input} by ${context.playerName()}"
+        )
+        return 0
+    }
 
     /**
      * @param clazz from what need take data.

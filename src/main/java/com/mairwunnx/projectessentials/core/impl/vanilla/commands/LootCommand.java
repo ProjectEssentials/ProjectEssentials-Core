@@ -71,7 +71,6 @@ public class LootCommand {
     private static Logger logger = LogManager.getLogger();
 
     public static void register(CommandDispatcher<CommandSource> p_218886_0_) {
-        logger.info("Replacing `/loot` vanilla command");
         CommandAPI.INSTANCE.removeCommand("loot");
 
         p_218886_0_.register(func_218868_a(Commands.literal("loot"), (p_218880_0_, p_218880_1_) -> {

@@ -48,7 +48,6 @@ public class TeleportCommand {
     private static Logger logger = LogManager.getLogger();
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        logger.info("Replacing `/teleport` vanilla command");
         CommandAPI.INSTANCE.removeCommand("teleport");
         CommandAPI.INSTANCE.removeCommand("tp");
 
@@ -69,9 +68,7 @@ public class TeleportCommand {
         })).then(Commands.argument("destination", EntityArgument.entity()).executes((p_200562_0_) -> {
             return teleportToEntity(p_200562_0_.getSource(), Collections.singleton(p_200562_0_.getSource().assertIsEntity()), EntityArgument.getEntity(p_200562_0_, "destination"));
         })));
-        dispatcher.register(Commands.literal("tp").requires((p_200556_0_) -> {
-            return p_200556_0_.hasPermissionLevel(2);
-        }).redirect(literalcommandnode));
+        dispatcher.register(Commands.literal("tp").redirect(literalcommandnode));
     }
 
     private static void checkPermissions(CommandSource source) {

@@ -84,7 +84,6 @@ public class ExecuteCommand {
     private static Logger logger = LogManager.getLogger();
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        logger.info("Replacing `/execute` vanilla command");
         CommandAPI.INSTANCE.removeCommand("execute");
 
         LiteralCommandNode<CommandSource> literalcommandnode = dispatcher.register(Commands.literal("execute"));

@@ -31,7 +31,7 @@ object ProcessorAPI {
     fun register(processor: IProcessor) {
         ModuleEventAPI.fire(OnProcessorRegister, ProcessorEventData(processor))
 
-        logger.info(
+        logger.debug(
             marker,
             "Registering processor ${processor.processorName} with load index ${processor.processorLoadIndex}"
         )
@@ -106,7 +106,7 @@ object ProcessorAPI {
             processors.sortedWith(compareBy {
                 it.processorLoadIndex
             }).forEach {
-                logger.info(
+                logger.debug(
                     marker,
                     "Starting work on processor ${it.processorName}, index: ${it.processorLoadIndex}"
                 )
@@ -114,13 +114,13 @@ object ProcessorAPI {
                 try {
                     if (!isPostponedInit(it, "initialize")) {
                         ModuleEventAPI.fire(OnProcessorInitializing, ProcessorEventData(it))
-                        logger.info(marker, "Initializing processor ${it.processorName}")
+                        logger.debug(marker, "Initializing processor ${it.processorName}")
                         it.initialize()
                         ModuleEventAPI.fire(OnProcessorAfterInitializing, ProcessorEventData(it))
                     }
                     if (!isPostponedInit(it, "process")) {
                         ModuleEventAPI.fire(OnProcessorProcessing, ProcessorEventData(it))
-                        logger.info(marker, "Processing processor ${it.processorName}")
+                        logger.debug(marker, "Processing processor ${it.processorName}")
                         it.process()
                         ModuleEventAPI.fire(OnProcessorAfterProcessing, ProcessorEventData(it))
                     }
@@ -146,7 +146,7 @@ object ProcessorAPI {
             processors.sortedWith(compareBy {
                 it.processorLoadIndex
             }).forEach {
-                logger.info(
+                logger.debug(
                     marker,
                     "Post processing processor ${it.processorName}, index: ${it.processorLoadIndex}"
                 )

@@ -23,9 +23,7 @@ internal object ConfigurationProcessor : IProcessor {
     override val processorLoadIndex = CONFIGURATION_PROCESSOR_INDEX
     override val processorName = "configuration"
 
-    override fun initialize() {
-        logger.info(marker, "Initializing configuration processor")
-    }
+    override fun initialize() = Unit
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun process() {

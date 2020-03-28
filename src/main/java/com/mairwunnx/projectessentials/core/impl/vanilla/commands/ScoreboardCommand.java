@@ -59,7 +59,6 @@ public class ScoreboardCommand {
     });
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        logger.info("Replacing `/scoreboard` vanilla command");
         CommandAPI.INSTANCE.removeCommand("scoreboard");
 
         dispatcher.register(Commands.literal("scoreboard").then(Commands.literal("objectives").then(Commands.literal("list").executes((p_198640_0_) -> {

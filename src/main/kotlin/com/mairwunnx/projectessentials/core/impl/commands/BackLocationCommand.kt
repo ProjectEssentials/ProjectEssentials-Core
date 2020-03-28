@@ -65,6 +65,8 @@ internal object BackLocationCommand : CommandBase(literal("back")) {
         } else {
             ServerMessagingAPI.throwOnlyPlayerCan()
         }
+
+        super.process(context)
         return 0
     }
 }

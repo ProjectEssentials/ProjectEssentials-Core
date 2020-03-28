@@ -21,5 +21,6 @@ enum class BackLocationResponse {
      * If back location expired and not able for teleport.
      * @since Mod: 1.14.4-2.0.0, API: 1.0.0
      */
+    @Suppress("unused")
     EXPIRED // todo: implement it, if community it need.
 }

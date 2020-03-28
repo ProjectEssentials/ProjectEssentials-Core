@@ -9,6 +9,7 @@ package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
@@ -82,6 +83,7 @@ internal object SaveAllCommand : VanillaCommandBase() {
         checkPermissions(source)
         source.sendFeedback(TranslationTextComponent("commands.save.saving"), false)
         val minecraftserver = source.server
+        ConfigurationAPI.saveAll()
         minecraftserver.playerList.saveAllPlayerData()
         val flag = minecraftserver.save(true, flush, true)
         return if (!flag) {

@@ -22,9 +22,7 @@ internal object CommandProcessor : IProcessor {
     override val processorLoadIndex = COMMAND_PROCESSOR_INDEX
     override val processorName: String = "command"
 
-    override fun initialize() {
-        logger.info(marker, "Initializing command processor")
-    }
+    override fun initialize() = Unit
 
     override fun process() {
         logger.info(marker, "Finding and processing commands")
@@ -43,7 +41,7 @@ internal object CommandProcessor : IProcessor {
                 "\n\n    *** Command taken! ${it.simpleName}".plus(
                     "\n\n  - Command name: ${data.name}"
                 ).plus(
-                    "\n  - Command aliases: ${data.aliases.toString()}"
+                    "\n  - Command aliases: ${data.aliases.contentToString()}"
                 ).plus(
                     "\n  - Class: ${it.qualifiedName}\n\n"
                 )

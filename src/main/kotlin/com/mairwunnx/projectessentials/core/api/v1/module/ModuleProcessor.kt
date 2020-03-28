@@ -24,9 +24,7 @@ internal object ModuleProcessor : IProcessor {
     override val processorLoadIndex = MODULE_PROCESSOR_INDEX
     override val processorName = "module"
 
-    override fun initialize() {
-        logger.info(marker, "Initializing module processor")
-    }
+    override fun initialize() = Unit
 
     override fun process() {
         logger.info(marker, "Finding and processing modules")

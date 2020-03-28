@@ -60,7 +60,6 @@ public class TeamCommand {
     private static final SimpleCommandExceptionType COLLISION_NO_CHANGE = new SimpleCommandExceptionType(new TranslationTextComponent("commands.team.option.collisionRule.unchanged"));
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        logger.info("Replacing `/team` vanilla command");
         CommandAPI.INSTANCE.removeCommand("team");
 
         dispatcher.register(Commands.literal("team").then(Commands.literal("list").executes((p_198760_0_) -> {

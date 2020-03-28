@@ -2,8 +2,8 @@
 
 package com.mairwunnx.projectessentials.core.impl
 
-import com.mairwunnx.projectessentials.core.api.v1.SETTING_DISABLE_PORTAL_SPAWNING
-import com.mairwunnx.projectessentials.core.api.v1.SETTING_NATIVE_COMMAND_REPLACE
+import com.mairwunnx.projectessentials.core.api.v1.*
+import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import com.mairwunnx.projectessentials.core.api.v1.module.Module
@@ -11,7 +11,9 @@ import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfigura
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.*
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
+import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.world.BlockEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
@@ -29,7 +31,16 @@ internal class ModuleObject : IModule {
         MinecraftForge.EVENT_BUS.register(this)
     }
 
-    override fun init() = Unit
+    override fun init() = initializeModuleSettings()
+
+    fun initializeModuleSettings() {
+        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
+        generalConfiguration.getStringOrDefault(SETTING_LOC_FALLBACK_LANG, "en_us")
+        generalConfiguration.getBoolOrDefault(SETTING_DISABLE_SAFE_ENCHANT, false)
+        generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_REPLACE, true)
+        generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
+        generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
+    }
 
     override fun getModule() = this
 
@@ -45,6 +56,13 @@ internal class ModuleObject : IModule {
         if (generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)) {
             event.isCanceled = true
             return
+        }
+    }
+
+    @SubscribeEvent
+    fun onPlayerDeath(event: LivingDeathEvent) {
+        if (event.entityLiving is ServerPlayerEntity) {
+            BackLocationAPI.commit(event.entityLiving as ServerPlayerEntity)
         }
     }
 

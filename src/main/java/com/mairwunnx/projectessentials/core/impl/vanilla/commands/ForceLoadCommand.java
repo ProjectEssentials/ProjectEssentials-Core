@@ -50,7 +50,6 @@ public class ForceLoadCommand {
     private static final SimpleCommandExceptionType field_212729_d = new SimpleCommandExceptionType(new TranslationTextComponent("commands.forceload.removed.failure"));
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
-        logger.info("Replacing `/forceload` vanilla command");
         CommandAPI.INSTANCE.removeCommand("forceload");
 
         dispatcher.register(Commands.literal("forceload").then(Commands.literal("add").then(Commands.argument("from", ColumnPosArgument.columnPos()).executes((p_212711_0_) -> {

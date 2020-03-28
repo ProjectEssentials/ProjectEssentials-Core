@@ -18,51 +18,60 @@ import net.minecraftforge.event.CommandEvent
  * Send message to player with localized string
  * or simple message.
  * @param l10nString localization string or message.
+ * @param safeLocalization if true then localization
+ * will provided by server false if localization
+ * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 fun ServerPlayerEntity.sendMessage(
     l10nString: String,
-    isClientLocalized: Boolean,
+    safeLocalization: Boolean,
     vararg args: String,
     argumentChar: Char = 's'
 ) = MessagingAPI.sendMessage(
-    this, l10nString, isClientLocalized, *args, argumentChar = argumentChar
+    this, l10nString, safeLocalization, *args, argumentChar = argumentChar
 )
 
 /**
  * Send message to player action bar with localized
  * string or simple message.
  * @param l10nString localization string or message.
+ * @param safeLocalization if true then localization
+ * will provided by server false if localization
+ * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 fun ServerPlayerEntity.sendActionBarMessage(
     l10nString: String,
-    isClientLocalized: Boolean,
+    safeLocalization: Boolean,
     vararg args: String,
     argumentChar: Char = 's'
 ) = MessagingAPI.sendActionBarMessage(
-    this, l10nString, isClientLocalized, *args, argumentChar = argumentChar
+    this, l10nString, safeLocalization, *args, argumentChar = argumentChar
 )
 
 /**
  * Send message to all player on server with localized
  * string or simple message.
  * @param l10nString localization string or message.
+ * @param safeLocalization if true then localization
+ * will provided by server false if localization
+ * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
  */
 fun MinecraftServer.sendMessageToAll(
     l10nString: String,
-    isClientLocalized: Boolean,
+    safeLocalization: Boolean,
     vararg args: String,
     argumentChar: Char = 's'
 ) = MessagingAPI.sendMessageToAll(
-    this, l10nString, isClientLocalized, *args, argumentChar = argumentChar
+    this, l10nString, safeLocalization, *args, argumentChar = argumentChar
 )
 
 /**
@@ -70,6 +79,9 @@ fun MinecraftServer.sendMessageToAll(
  * with localized string or simple message.
  * @param worldId target world id.
  * @param l10nString localization string or message.
+ * @param safeLocalization if true then localization
+ * will provided by server false if localization
+ * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
  * @since Mod: 1.14.4-2.0.0, API: 1.0.0
@@ -77,11 +89,11 @@ fun MinecraftServer.sendMessageToAll(
 fun MinecraftServer.sendMessageToAllInWorld(
     worldId: Int,
     l10nString: String,
-    isClientLocalized: Boolean,
+    safeLocalization: Boolean,
     vararg args: String,
     argumentChar: Char = 's'
 ) = MessagingAPI.sendMessageToAllInWorld(
-    worldId, this, l10nString, isClientLocalized, *args, argumentChar = argumentChar
+    worldId, this, l10nString, safeLocalization, *args, argumentChar = argumentChar
 )
 
 /**
