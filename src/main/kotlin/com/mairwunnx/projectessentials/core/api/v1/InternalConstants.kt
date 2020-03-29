@@ -39,6 +39,8 @@ const val INITIAL_FALLBACK_LANGUAGE = "en_us"
  */
 const val MESSAGE_CORE_PREFIX = "project_essentials_core"
 
+// todo: remove it and define some api for registering this settings
+// todo: and assigning it settings on mod initializing.
 const val SETTING_LOC_ENABLED = "v2-localization-enabled"
 const val SETTING_LOC_FALLBACK_LANG = "v2-localization-fallback-lang"
 const val SETTING_DISABLE_SAFE_ENCHANT = "disable-safely-enchant-level"
