@@ -1,0 +1,7 @@
+{
+  "native.command.restricted": "§c你 §7没有权限 §c使用这个命令。",
+  "native.command.restricted_hover": "§7为了使用此命令, 需要权限 \"§c%s§7\" 或者op等级大于等于 \"§c%s§7\"。",
+  "project_essentials_core.back.success": "§6回滚到 你的位置...",
+  "project_essentials_core.back.tickets_not_exists": "§c回滚位置的票不存在, 抱歉。",
+  "project_essentials_core.back.restricted": "§c你 §7没有权限 §c回滚到你的位置。"
+}
