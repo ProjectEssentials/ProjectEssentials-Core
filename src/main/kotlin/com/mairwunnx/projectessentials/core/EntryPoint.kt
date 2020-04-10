@@ -78,9 +78,7 @@ internal class EntryPoint {
                 mutableListOf(
                     "/assets/projectessentialscore/lang/en_us.json",
                     "/assets/projectessentialscore/lang/ru_ru.json"
-                ),
-                "core",
-                EntryPoint::class.java
+                ), "core", EntryPoint::class.java
             )
         )
     }

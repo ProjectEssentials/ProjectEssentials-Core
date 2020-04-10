@@ -5,14 +5,20 @@ package com.mairwunnx.projectessentials.core.api.v1.extensions
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI.getLocalizedString
 import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mojang.brigadier.context.CommandContext
+import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandSource
+import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.server.MinecraftServer
+import net.minecraft.util.SoundCategory
+import net.minecraft.util.SoundEvent
 import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.HoverEvent
+import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.event.CommandEvent
+import net.minecraftforge.fml.DistExecutor
 
 /**
  * Send message to player with localized string
@@ -97,11 +103,45 @@ fun MinecraftServer.sendMessageToAllInWorld(
 )
 
 /**
+ * Plays sound to player at player position on both sides.
+ * @param player target player to play sound.
+ * @param sound sound to play.
+ * @param category sound category, default value is [SoundCategory.AMBIENT].
+ * @param volume sound volume, default value is `1.0f`.
+ * @param pitch sound pitch, default value is `1.0f`.
+ */
+fun ServerPlayerEntity.playSound(
+    player: PlayerEntity,
+    sound: SoundEvent,
+    category: SoundCategory = SoundCategory.AMBIENT,
+    volume: Float = 1.0f,
+    pitch: Float = 1.0f
+) {
+    val pos = player.positionVec
+    DistExecutor.runWhenOn(Dist.CLIENT) {
+        Runnable {
+            Minecraft.getInstance().world.playSound(
+                pos.x, pos.y + player.eyeHeight.toDouble(), pos.z,
+                sound, category, volume, pitch, false
+            )
+            player.entity.playSound(sound, volume, pitch)
+        }
+    }
+    DistExecutor.runWhenOn(Dist.DEDICATED_SERVER) {
+        Runnable {
+            player.world.playSound(
+                null, pos.x, pos.y + player.eyeHeight.toDouble(), pos.z,
+                sound, category, volume, pitch
+            )
+        }
+    }
+}
+
+/**
  * @return true if command sender is player.
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
-fun CommandContext<CommandSource>.isPlayerSender() =
-    this.source.entity is ServerPlayerEntity
+fun CommandContext<CommandSource>.isPlayerSender() = this.source.entity is ServerPlayerEntity
 
 /**
  * @return player if sender is player, if sender is
@@ -128,8 +168,7 @@ fun CommandContext<CommandSource>.playerName(): String =
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.commandName
-    get() = this.executedCommand
-        .replace("/", "").split(" ")[0]
+    get() = this.executedCommand.replace("/", "").split(" ")[0]
 
 /**
  * Return fully executed command as string.
@@ -138,8 +177,7 @@ val CommandEvent.commandName
  * then you get **`/heal MairwunNx`** as string.
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
-val CommandEvent.executedCommand: String
-    get() = this.parseResults.reader.string
+val CommandEvent.executedCommand: String get() = this.parseResults.reader.string
 
 /**
  * @return true if source is player.
@@ -153,16 +191,14 @@ fun CommandEvent.isPlayerSender() = this.source.entity is ServerPlayerEntity
  * then return null.
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
-fun CommandEvent.getPlayer() =
-    if (this.isPlayerSender()) this.source.asPlayer() else null
+fun CommandEvent.getPlayer() = if (this.isPlayerSender()) this.source.asPlayer() else null
 
 /**
  * Return command **`source`** from **`CommandEvent`**
  * class instance.
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
-val CommandEvent.source: CommandSource
-    get() = this.parseResults.context.source
+val CommandEvent.source: CommandSource get() = this.parseResults.context.source
 
 /**
  * @param player server player entity instance.
@@ -222,8 +258,7 @@ fun textComponentFrom(
  * @return capitalized each word string.
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
-fun String.capitalizeWords() =
-    split(" ").joinToString(" ") { it.capitalize() }
+fun String.capitalizeWords() = split(" ").joinToString(" ") { it.capitalize() }
 
 /**
  * Return empty string.

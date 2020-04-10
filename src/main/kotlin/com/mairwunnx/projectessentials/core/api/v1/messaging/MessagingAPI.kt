@@ -36,12 +36,7 @@ object MessagingAPI {
                 val msg = LocalizationAPI.getLocalizedString(
                     player.language, l10nString, *args, argumentChar = argumentChar
                 )
-
-                if (msg.isEmpty()) {
-                    return@toTextComponent l10nString
-                } else {
-                    return@toTextComponent msg
-                }
+                if (msg.isEmpty()) return@toTextComponent l10nString else return@toTextComponent msg
             }
         } else {
             TranslationTextComponent(l10nString, *args)
@@ -124,12 +119,7 @@ object MessagingAPI {
                 val msg = LocalizationAPI.getLocalizedString(
                     player.language, l10nString, *args, argumentChar = argumentChar
                 )
-
-                if (msg.isEmpty()) {
-                    return@toTextComponent l10nString
-                } else {
-                    return@toTextComponent msg
-                }
+                if (msg.isEmpty()) return@toTextComponent l10nString else return@toTextComponent msg
             }
         } else {
             TranslationTextComponent(l10nString, *args)

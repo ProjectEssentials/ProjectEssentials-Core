@@ -24,7 +24,7 @@ import kotlin.reflect.full.hasAnnotation
  * }
  * ```
  *
- * BTW! addProvider(...) you must call only in init block of your mod.
+ * BTW! `addProvider(...)` you must call only in init block of your mod.
  * (or if you use java as language then in constructor)
  *
  * ["ClassIndex library"](https://github.com/atteo/classindex)

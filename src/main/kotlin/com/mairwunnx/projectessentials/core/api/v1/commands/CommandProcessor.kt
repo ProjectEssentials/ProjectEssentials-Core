@@ -30,12 +30,9 @@ internal object CommandProcessor : IProcessor {
         ProviderAPI.getProvidersByType(ProviderType.COMMAND).forEach {
             val clazz = it.objectInstance as ICommand
 
-            ModuleEventAPI.fire(
-                OnCommandClassProcessing, CommandEventData(clazz)
-            )
+            ModuleEventAPI.fire(OnCommandClassProcessing, CommandEventData(clazz))
 
             val data = it.findAnnotation<Command>()!!
-
             logger.info(
                 marker,
                 "\n\n    *** Command taken! ${it.simpleName}".plus(
@@ -48,19 +45,14 @@ internal object CommandProcessor : IProcessor {
             )
 
             commands = commands + clazz
-
-            ModuleEventAPI.fire(
-                OnCommandClassProcessed, CommandEventData(clazz)
-            )
+            ModuleEventAPI.fire(OnCommandClassProcessed, CommandEventData(clazz))
         }
     }
 
     @PostponedInit
     override fun postProcess() {
         getCommands().forEach {
-            ModuleEventAPI.fire(
-                OnCommandClassPostProcessing, CommandEventData(it)
-            )
+            ModuleEventAPI.fire(OnCommandClassPostProcessing, CommandEventData(it))
             it.initialize()
             it.register(CommandAPI.getDispatcher())
         }

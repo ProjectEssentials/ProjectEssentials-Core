@@ -33,9 +33,7 @@ internal object ConfigurationProcessor : IProcessor {
             if (isConfiguration(it)) {
                 val clazz = it.objectInstance as IConfiguration<*>
 
-                ModuleEventAPI.fire(
-                    OnConfigurationClassProcessing, ConfigurationEventData(clazz)
-                )
+                ModuleEventAPI.fire(OnConfigurationClassProcessing, ConfigurationEventData(clazz))
 
                 logger.info(
                     marker,
@@ -49,28 +47,19 @@ internal object ConfigurationProcessor : IProcessor {
                         "\n  - Path: ${clazz.path}\n\n"
                     )
                 )
-                configurations = configurations + clazz
 
-                ModuleEventAPI.fire(
-                    OnConfigurationClassProcessed,
-                    ConfigurationEventData(clazz)
-                )
+                configurations = configurations + clazz
+                ModuleEventAPI.fire(OnConfigurationClassProcessed, ConfigurationEventData(clazz))
             }
         }
     }
 
-    private fun isConfiguration(kclazz: KClass<*>) =
-        kclazz.isSubclassOf(IConfiguration::class)
+    private fun isConfiguration(kclazz: KClass<*>) = kclazz.isSubclassOf(IConfiguration::class)
 
     override fun postProcess() {
         getConfigurations().forEach {
-            ModuleEventAPI.fire(
-                OnConfigurationClassPostProcessing, ConfigurationEventData(it)
-            )
-
-            logger.info(
-                marker, "Starting loading configuration ${it.data().name}"
-            )
+            ModuleEventAPI.fire(OnConfigurationClassPostProcessing, ConfigurationEventData(it))
+            logger.info(marker, "Starting loading configuration ${it.data().name}")
             it.load()
         }
     }

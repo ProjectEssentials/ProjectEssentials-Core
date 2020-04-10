@@ -102,8 +102,6 @@ object LocalizationAPI {
         vararg args: String,
         argumentChar: Char = 's'
     ): String {
-        val arg = "%$argumentChar"
-
         var msg = String.empty
         val messagesList = LocalizationProcessor.localizationsData[
                 targetLanguage.toLowerCase()
@@ -115,9 +113,8 @@ object LocalizationAPI {
             }
         }
 
-        val argumentCount = msg.filter { it == '%' }.count()
-        for (i in 0 until argumentCount) {
-            msg = msg.replaceFirst(arg, args[i])
+        for (i in 0 until msg.filter { it == '%' }.count()) {
+            msg = msg.replaceFirst("%$argumentChar", args[i])
         }
         return msg
     }

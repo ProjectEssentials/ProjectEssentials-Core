@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.mairwunnx.projectessentials.core.api.v1.messaging
 
 import org.apache.logging.log4j.LogManager
@@ -17,4 +19,11 @@ object ServerMessagingAPI {
     fun throwOnlyPlayerCan() = logger.warn(
         "> Only player can execute this command"
     )
+
+    /**
+     * Send response message on something to server console.
+     * @param message response message.
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+     */
+    fun response(message: String) = logger.info("> $message")
 }

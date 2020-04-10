@@ -86,7 +86,6 @@ object ModuleEventAPI {
                 }
             }
         }
-
         throw EventNotFoundException()
     }
 

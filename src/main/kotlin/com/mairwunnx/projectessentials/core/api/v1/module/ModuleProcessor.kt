@@ -45,10 +45,7 @@ internal object ModuleProcessor : IProcessor {
                 }
 
                 ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(clazz))
-
-                processIndexes(
-                    clazz.getModuleData().loadIndex
-                )
+                processIndexes(clazz.getModuleData().loadIndex)
 
                 logger.info(
                     marker,
@@ -63,7 +60,6 @@ internal object ModuleProcessor : IProcessor {
                     )
                 )
                 modules = modules + clazz
-
                 ModuleEventAPI.fire(OnModuleClassProcessed, ModuleEventData(clazz))
             }
         }
@@ -71,12 +67,10 @@ internal object ModuleProcessor : IProcessor {
     }
 
     private fun processIndexes(index: UInt) {
-        modules.forEach {
-            if (it.getModule().getModuleData().loadIndex == index) {
-                throw ModuleIndexDuplicateException(
-                    "Module with same load index $index already processed."
-                )
-            }
+        modules.find { it.getModule().getModuleData().loadIndex == index }?.let {
+            throw ModuleIndexDuplicateException(
+                "Module with same load index $index already processed."
+            )
         }
     }
 
@@ -85,13 +79,10 @@ internal object ModuleProcessor : IProcessor {
     private fun getInstanceModId(kclazz: KClass<*>) =
         kclazz.findAnnotation<Mod>()?.value ?: String.empty
 
-    private fun isForgeInstanceProvider(kclazz: KClass<*>) =
-        kclazz.hasAnnotation<Mod>()
+    private fun isForgeInstanceProvider(kclazz: KClass<*>) = kclazz.hasAnnotation<Mod>()
 
-    private fun getForgeProvidedInstance(kclazz: KClass<*>): IModule =
-        ModList.get().getModObjectById<IModule>(
-            getInstanceModId(kclazz)
-        ).get()
+    private fun getForgeProvidedInstance(kclazz: KClass<*>) =
+        ModList.get().getModObjectById<IModule>(getInstanceModId(kclazz)).get()
 
     private fun sortByLoadIndex() {
         modules = modules.sortedWith(compareBy {

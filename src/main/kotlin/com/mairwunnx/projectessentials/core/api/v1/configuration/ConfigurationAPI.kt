@@ -20,16 +20,12 @@ object ConfigurationAPI {
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     @Suppress("UNCHECKED_CAST")
-    fun <T> getConfigurationByName(name: String): T where T : IConfiguration<*> {
-        getAllConfigurations().forEach {
-            if (it.data().name == name) {
-                return it as T
-            }
-        }
-        throw ConfigurationNotFoundException(
+    fun <T> getConfigurationByName(name: String): T where T : IConfiguration<*> =
+        getAllConfigurations().find { it.data().name == name }?.let {
+            return@let it as T
+        } ?: throw ConfigurationNotFoundException(
             "Configuration with name $name not found."
         )
-    }
 
     /**
      * Reloads all initialized and processed configurations.

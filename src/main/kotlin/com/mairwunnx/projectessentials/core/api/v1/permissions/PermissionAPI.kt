@@ -1,15 +1,14 @@
 package com.mairwunnx.projectessentials.core.api.v1.permissions
 
-import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
-import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraftforge.server.permission.PermissionAPI
 
 /**
- * If permissions api module installed
- * then for checking permissions will be used
- * `node` if permissions module not installed
- * then will be used `opLevel` for checking
- * permissions.
+ * Uses installed forge permissions provider for
+ * checking permissions.
+ *
+ * This like extension but it also checks operator level
+ * if permission node not exist.
  *
  * @param player target player for checking
  * permissions.
@@ -22,8 +21,7 @@ fun hasPermission(
     player: ServerPlayerEntity,
     node: String,
     opLevel: Int
-): Boolean = if (ModuleAPI.isModuleExist("permissions")) {
-    PermissionsAPI.hasPermission(player.name.string, node)
-} else {
-    player.hasPermissionLevel(opLevel)
+) = when {
+    PermissionAPI.hasPermission(player, node) -> true
+    else -> player.hasPermissionLevel(opLevel)
 }

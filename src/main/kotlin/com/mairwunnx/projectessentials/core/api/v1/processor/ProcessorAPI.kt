@@ -30,21 +30,16 @@ object ProcessorAPI {
      */
     fun register(processor: IProcessor) {
         ModuleEventAPI.fire(OnProcessorRegister, ProcessorEventData(processor))
-
         logger.debug(
             marker,
             "Registering processor ${processor.processorName} with load index ${processor.processorLoadIndex}"
         )
-
-        getAllProcessors().forEach {
-            if (it.processorLoadIndex == processor.processorLoadIndex) {
-                throw ProcessorIndexDuplicateException(
-                    "Processor with same index ${processor.processorLoadIndex} already exist."
-                )
-            }
+        getAllProcessors().find { it.processorLoadIndex == processor.processorLoadIndex }?.let {
+            throw ProcessorIndexDuplicateException(
+                "Processor with same index ${processor.processorLoadIndex} already exist."
+            )
         }
         processors.add(processor)
-
         ModuleEventAPI.fire(OnProcessorAfterRegister, ProcessorEventData(processor))
     }
 
@@ -52,14 +47,7 @@ object ProcessorAPI {
      * @return last available loading index for processor.
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
-    fun getAvailableLastIndex(): UInt {
-        var lastIndex = 0u
-        processors.forEach {
-            val index = it.processorLoadIndex
-            if (index > lastIndex) lastIndex = index
-        }
-        return lastIndex++
-    }
+    fun getAvailableLastIndex() = processors.map { it.processorLoadIndex }.max()?.plus(1u) ?: 0u
 
     /**
      * @return true if processors already processed.
@@ -86,13 +74,11 @@ object ProcessorAPI {
      * name not exist then throws `ProcessorNotFoundException`.
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
-    fun getProcessorByName(name: String): IProcessor {
-        return getAllProcessors().find {
-            it.processorName.toLowerCase() == name.toLowerCase()
-        } ?: throw ProcessorNotFoundException(
-            "Processor with name $name not found."
-        )
-    }
+    fun getProcessorByName(name: String) = getAllProcessors().find {
+        it.processorName.toLowerCase() == name.toLowerCase()
+    } ?: throw ProcessorNotFoundException(
+        "Processor with name $name not found."
+    )
 
     /**
      * Processing processors, initializing processors.
@@ -169,13 +155,7 @@ object ProcessorAPI {
 
     private fun isPostponedInit(
         processorClass: IProcessor, methodName: String
-    ): Boolean {
-        val methods = processorClass.javaClass.declaredMethods
-        methods.forEach {
-            if (it.name == methodName) {
-                return it.isAnnotationPresent(PostponedInit::class.java)
-            }
-        }
-        return false
-    }
+    ) = processorClass.javaClass.declaredMethods.find {
+        it.name == methodName
+    }?.let { return it.isAnnotationPresent(PostponedInit::class.java) } ?: false
 }

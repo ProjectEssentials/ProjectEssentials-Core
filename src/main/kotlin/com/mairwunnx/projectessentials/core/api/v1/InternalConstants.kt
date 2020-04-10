@@ -1,4 +1,4 @@
-@file:Suppress("EXPERIMENTAL_UNSIGNED_LITERALS")
+@file:Suppress("EXPERIMENTAL_UNSIGNED_LITERALS", "unused")
 
 package com.mairwunnx.projectessentials.core.api.v1
 
@@ -38,6 +38,18 @@ const val INITIAL_FALLBACK_LANGUAGE = "en_us"
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 const val MESSAGE_CORE_PREFIX = "project_essentials_core"
+
+/**
+ * Prefix for localized messages for other modules.
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+const val MESSAGE_MODULE_PREFIX = "project_essentials_"
+
+/**
+ * Prefix for localized messages for main module (`Project Essentials`).
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+const val MESSAGE_MAIN_MODULE_PREFIX = "project_essentials"
 
 // todo: remove it and define some api for registering this settings
 // todo: and assigning it settings on mod initializing.

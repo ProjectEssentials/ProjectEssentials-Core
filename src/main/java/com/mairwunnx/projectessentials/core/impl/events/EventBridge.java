@@ -18,29 +18,25 @@ public class EventBridge {
 
     public static void setup(final FMLCommonSetupEvent event) {
         ModuleEventAPI.INSTANCE.fire(
-            ForgeEventType.SetupEvent,
-            new FMLCommonSetupEventData(event)
+            ForgeEventType.SetupEvent, new FMLCommonSetupEventData(event)
         );
     }
 
     public static void doClientStuff(final FMLClientSetupEvent event) {
         ModuleEventAPI.INSTANCE.fire(
-            ForgeEventType.DoClientStuffEvent,
-            new FMLClientSetupEventData(event)
+            ForgeEventType.DoClientStuffEvent, new FMLClientSetupEventData(event)
         );
     }
 
     public static void enqueueIMC(final InterModEnqueueEvent event) {
         ModuleEventAPI.INSTANCE.fire(
-            ForgeEventType.EnqueueIMCEvent,
-            new InterModEnqueueEventData(event)
+            ForgeEventType.EnqueueIMCEvent, new InterModEnqueueEventData(event)
         );
     }
 
     public static void processIMC(final InterModProcessEvent event) {
         ModuleEventAPI.INSTANCE.fire(
-            ForgeEventType.ProcessIMCEvent,
-            new InterModProcessEventData(event)
+            ForgeEventType.ProcessIMCEvent, new InterModProcessEventData(event)
         );
     }
 }

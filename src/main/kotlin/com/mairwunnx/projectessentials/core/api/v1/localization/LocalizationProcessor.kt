@@ -28,8 +28,7 @@ internal object LocalizationProcessor : IProcessor {
     }
 
     val localizations = mutableListOf<Localization>()
-    var localizationsData: HashMap<String, MutableList<HashMap<String, String>>> =
-        hashMapOf()
+    var localizationsData: HashMap<String, MutableList<HashMap<String, String>>> = hashMapOf()
 
     var fallbackLanguage = INITIAL_FALLBACK_LANGUAGE
 
@@ -37,11 +36,8 @@ internal object LocalizationProcessor : IProcessor {
     override val processorName = "localization"
 
     override fun initialize() {
-        ModuleEventAPI.fire(
-            OnLocalizationInitializing, EmptyEventData()
-        )
+        ModuleEventAPI.fire(OnLocalizationInitializing, EmptyEventData())
         logger.info(marker, "Initializing localization processor")
-
         fallbackLanguage = generalConfiguration.getStringOrDefault(
             SETTING_LOC_FALLBACK_LANG, "en_us"
         )
@@ -54,9 +50,7 @@ internal object LocalizationProcessor : IProcessor {
                     source.lastIndexOf("/")
                 ).drop(1).dropLast(5)
 
-                ModuleEventAPI.fire(
-                    OnLocalizationProcessing, LocalizationEventData(localization)
-                )
+                ModuleEventAPI.fire(OnLocalizationProcessing, LocalizationEventData(localization))
                 logger.debug(
                     marker,
                     "Starting processing localization `$localizationName` by ${localization.sourceName} with ${localization.sourceClass.name}"
@@ -83,9 +77,7 @@ internal object LocalizationProcessor : IProcessor {
                     }
                 }
 
-                ModuleEventAPI.fire(
-                    OnLocalizationProcessed, LocalizationEventData(localization)
-                )
+                ModuleEventAPI.fire(OnLocalizationProcessed, LocalizationEventData(localization))
                 logger.debug(
                     marker,
                     "Processing localization `$localizationName` by ${localization.sourceName} finished with ${ms}ms"

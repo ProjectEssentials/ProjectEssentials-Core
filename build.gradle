@@ -54,14 +54,6 @@ minecraft {
 repositories {
     maven {
         name = package_maven_repo_name
-        url = uri "$package_maven_repo-permissions"
-        credentials {
-            username = package_maven_repo_mail
-            password = packagesToken
-        }
-    }
-    maven {
-        name = package_maven_repo_name
         url = uri "$package_maven_repo-cooldown"
         credentials {
             username = package_maven_repo_mail
@@ -78,7 +70,6 @@ dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     implementation "com.mojang:brigadier:$brigadier_version"
 
-    implementation "com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:$permissions_version"
     implementation "com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:$cooldown_version"
 
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"

@@ -9,6 +9,7 @@ import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.MarkerManager
 
 /**
  * Base abstract class for commands. Has common
@@ -22,6 +23,7 @@ abstract class CommandBase(
      */
     val literal: LiteralArgumentBuilder<CommandSource>
 ) : ICommand {
+    private val marker = MarkerManager.Log4jMarker("COMMAND OUT")
     private val logger = LogManager.getLogger()
 
     /**
@@ -37,9 +39,7 @@ abstract class CommandBase(
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     override fun initialize() {
-        if (data.override) {
-            CommandAPI.removeCommand(data.name)
-        }
+        if (data.override) CommandAPI.removeCommand(data.name)
     }
 
     /**
@@ -55,12 +55,8 @@ abstract class CommandBase(
         val literalNode =
             dispatcher.register(literal.executes(::process))
 
-        data.aliases.forEach {
-            if (it != data.name) {
-                dispatcher.register(
-                    Commands.literal(it).executes(::process).redirect(literalNode)
-                )
-            }
+        data.aliases.filter { it != data.name }.forEach {
+            dispatcher.register(Commands.literal(it).executes(::process).redirect(literalNode))
         }
     }
 
@@ -72,7 +68,7 @@ abstract class CommandBase(
      */
     override fun process(context: CommandContext<CommandSource>): Int {
         logger.debug(
-            " :: Executed command ${context.input} by ${context.playerName()}"
+            marker, " :: Executed command ${context.input} by ${context.playerName()}"
         )
         return 0
     }
@@ -82,6 +78,5 @@ abstract class CommandBase(
      * @return Command annotation data class.
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
-    override fun getData(clazz: Class<*>): Command =
-        clazz.getAnnotation(Command::class.java)
+    override fun getData(clazz: Class<*>): Command = clazz.getAnnotation(Command::class.java)
 }
