@@ -5,13 +5,14 @@ package com.mairwunnx.projectessentials.core.impl
 import com.mairwunnx.projectessentials.core.api.v1.*
 import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
+import com.mairwunnx.projectessentials.core.api.v1.extensions.asPlayerEntity
+import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import com.mairwunnx.projectessentials.core.api.v1.module.Module
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.*
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
-import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.world.BlockEvent
@@ -61,8 +62,8 @@ internal class ModuleObject : IModule {
 
     @SubscribeEvent
     fun onPlayerDeath(event: LivingDeathEvent) {
-        if (event.entityLiving is ServerPlayerEntity) {
-            BackLocationAPI.commit(event.entityLiving as ServerPlayerEntity)
+        if (event.entityLiving.isPlayerEntity) {
+            BackLocationAPI.commit(event.entityLiving.asPlayerEntity)
         }
     }
 

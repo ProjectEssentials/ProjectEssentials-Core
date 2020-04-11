@@ -7,6 +7,7 @@ import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandSource
+import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.server.MinecraftServer
@@ -354,3 +355,17 @@ val PlayerEntity.currentDimensionName get() = this.currentDimension.registryName
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val PlayerEntity.currentDimensionId get() = this.currentDimension.id
+
+/**
+ * Returns true if living entity is player.
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val LivingEntity.isPlayerEntity get() = this is ServerPlayerEntity
+
+/**
+ * Returns [ServerPlayerEntity] instance of player from [LivingEntity].
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val LivingEntity.asPlayerEntity get() = this as ServerPlayerEntity
