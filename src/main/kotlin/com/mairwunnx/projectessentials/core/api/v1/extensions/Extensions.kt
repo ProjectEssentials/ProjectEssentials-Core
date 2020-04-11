@@ -16,9 +16,13 @@ import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.HoverEvent
+import net.minecraft.world.World
+import net.minecraft.world.dimension.DimensionType
 import net.minecraftforge.api.distmarker.Dist
 import net.minecraftforge.event.CommandEvent
 import net.minecraftforge.fml.DistExecutor
+import net.minecraftforge.fml.server.ServerLifecycleHooks
+import java.io.File
 
 /**
  * Send message to player with localized string
@@ -265,3 +269,88 @@ fun String.capitalizeWords() = split(" ").joinToString(" ") { it.capitalize() }
  * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
  */
 val String.Companion.empty get() = ""
+
+/**
+ * Returns world name.
+ *
+ * In case with server:
+ * ```
+ *   - world directory is `world` (like default name),
+ *   then you will get `world` as world name.
+ * ```
+ *
+ * In case with client:
+ * ```
+ *   - world directory is `New World` (like default name),
+ *   then you will get `New World` as world name, but if
+ *   you have duplicate, for example directory `New World (2)`,
+ *   but world name is `New World`, you will get `New World` as
+ *   world name.
+ * ```
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val World.name: String
+    get() {
+        var wName = String.empty
+        DistExecutor.runWhenOn(Dist.CLIENT) {
+            Runnable { wName = ServerLifecycleHooks.getCurrentServer().worldName }
+        }
+        DistExecutor.runWhenOn(Dist.DEDICATED_SERVER) {
+            Runnable { wName = ServerLifecycleHooks.getCurrentServer().folderName }
+        }
+        return wName
+    }
+
+/**
+ *  Returns world directory name, for server this will
+ *  return server world directory name, for client, see [World.name].
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val World.directoryName: String get() = ServerLifecycleHooks.getCurrentServer().folderName
+
+/**
+ * Returns full path as string to world directory.
+ *
+ * For client it `saves/<world name>`
+ *
+ * For server it `./<world name>`
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val World.directoryPath: String
+    get() {
+        var wPath = String.empty
+        DistExecutor.runWhenOn(Dist.CLIENT) {
+            Runnable {
+                val folderName = ServerLifecycleHooks.getCurrentServer().folderName
+                wPath = "saves${File.pathSeparator}${folderName}"
+            }
+        }
+        DistExecutor.runWhenOn(Dist.DEDICATED_SERVER) {
+            Runnable { wPath = ServerLifecycleHooks.getCurrentServer().folderName }
+        }
+        return wPath
+    }
+
+/**
+ * Returns current player dimension type.
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val PlayerEntity.currentDimension: DimensionType get() = this.dimension
+
+/**
+ * Returns current dimension registry name.
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val PlayerEntity.currentDimensionName get() = this.currentDimension.registryName.toString()
+
+/**
+ * Returns current dimension id.
+ *
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+val PlayerEntity.currentDimensionId get() = this.currentDimension.id

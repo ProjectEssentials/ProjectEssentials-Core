@@ -78,9 +78,7 @@ object CommandAPI {
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     fun removeCommand(command: String): Boolean =
-        registeredCommands.children.removeIf {
-            it.name == command
-        }
+        registeredCommands.children.removeIf { it.name == command }
 
     /**
      * @param context command context.
