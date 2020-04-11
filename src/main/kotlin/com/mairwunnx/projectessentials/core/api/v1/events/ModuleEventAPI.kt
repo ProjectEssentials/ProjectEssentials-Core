@@ -28,15 +28,9 @@ object ModuleEventAPI {
         eventType: IModuleEventType,
         eventData: IModuleEventData
     ) {
-        events.keys.forEach {
-            if (it == eventType) {
-                logger.debug("Firing all methods event types of `$it`")
-
-                events[it]?.forEach { method ->
-                    method.invoke(eventData)
-                }
-                return@forEach
-            }
+        events.keys.find { it == eventType }?.let { type ->
+            logger.debug(marker, "Firing all methods event types of `$type`")
+            events[type]?.forEach { it.invoke(eventData) }
         }
     }
 
@@ -78,16 +72,10 @@ object ModuleEventAPI {
      */
     fun getEventsByType(
         eventType: IModuleEventType
-    ): MutableList<(IModuleEventData) -> Unit> {
-        events.keys.forEach {
-            if (it == eventType) {
-                getAllEvents()[it]?.let { methods ->
-                    return methods
-                }
-            }
-        }
-        throw EventNotFoundException()
-    }
+    ): MutableList<(IModuleEventData) -> Unit> =
+        events.keys.find { it == eventType }?.let { type ->
+            getAllEvents()[type]?.let { return it }
+        } ?: throw EventNotFoundException()
 
     /**
      * Removing all method references for specified event type.
@@ -95,17 +83,11 @@ object ModuleEventAPI {
      * @throws EventNotFoundException when event type not found.
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
-    fun killEventsByType(eventType: IModuleEventType) {
-        events.keys.forEach {
-            if (it == eventType) {
-                logger.debug("Removing methods references from event types of `$it`")
-
-                getAllEvents()[it]?.clear()
-                return
-            }
-        }
-        throw EventNotFoundException()
-    }
+    fun killEventsByType(eventType: IModuleEventType) =
+        events.keys.find { it == eventType }?.let {
+            logger.debug(marker, "Removing methods references from event types of `$it`")
+            getAllEvents()[it]?.clear()
+        } ?: throw EventNotFoundException()
 
     /**
      * Removing all methods references from all event types.
