@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0-RC.1+MC-1.14.4] - 2020-04-XX
+
+### Changes
+
+- https://github.com/ProjectEssentials/ProjectEssentials-Core/compare/v1.14.4-1.3.0...MC-1.14.4
+
 ## [1.14.4-1.3.0] - 2020-03-12
 
 ### Added
