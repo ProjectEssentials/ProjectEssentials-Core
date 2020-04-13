@@ -37,7 +37,7 @@ internal object StopCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.stop", 4)) {
+            if (!hasPermission(source.asPlayer(), "native.server.stop", 4)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -49,7 +49,7 @@ internal object StopCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.stop", "4"
+                                "native.server.stop", "4"
                             )
                         )
                     )

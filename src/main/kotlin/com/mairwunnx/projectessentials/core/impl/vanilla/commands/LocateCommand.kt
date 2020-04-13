@@ -37,9 +37,7 @@ internal object LocateCommand : VanillaCommandBase() {
     private val FAILED_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.locate.failed")
     )
-
-    private var aliases =
-        configuration.take().aliases.locate + "locate"
+    private var aliases = configuration.take().aliases.locate + "locate"
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
@@ -114,8 +112,7 @@ internal object LocateCommand : VanillaCommandBase() {
                     }
                 ).then(
                     Commands.argument(
-                        "structure_type",
-                        ResourceLocationArgument.resourceLocation()
+                        "structure_type", ResourceLocationArgument.resourceLocation()
                     ).suggests { _, sb ->
                         ISuggestionProvider.suggest(
                             GameData.getStructureFeatures().keySet().stream().map {
@@ -125,8 +122,7 @@ internal object LocateCommand : VanillaCommandBase() {
                     }.executes { ctx ->
                         locateStructure(
                             ctx.source, ctx.getArgument(
-                                "structure_type",
-                                ResourceLocation::class.java
+                                "structure_type", ResourceLocation::class.java
                             ).toString().replace("minecraft:", "")
                         )
                     }
@@ -163,7 +159,6 @@ internal object LocateCommand : VanillaCommandBase() {
     @Throws(CommandSyntaxException::class)
     private fun locateStructure(source: CommandSource, structureName: String): Int {
         checkPermissions(source)
-
         val blockpos = BlockPos(source.pos)
         val blockpos1 = source.world.findNearestStructure(
             structureName,
@@ -174,20 +169,11 @@ internal object LocateCommand : VanillaCommandBase() {
         return if (blockpos1 == null) {
             throw FAILED_EXCEPTION.create()
         } else {
-            val i = MathHelper.floor(
-                getDistance(blockpos.x, blockpos.z, blockpos1.x, blockpos1.z)
-            )
+            val i = MathHelper.floor(getDistance(blockpos.x, blockpos.z, blockpos1.x, blockpos1.z))
             val itextcomponent = TextComponentUtils.wrapInSquareBrackets(
-                TranslationTextComponent(
-                    "chat.coordinates",
-                    blockpos1.x,
-                    "~",
-                    blockpos1.z
-                )
+                TranslationTextComponent("chat.coordinates", blockpos1.x, "~", blockpos1.z)
             ).applyTextStyle { p_211746_1_ ->
-                p_211746_1_.setColor(
-                    TextFormatting.GREEN
-                ).setClickEvent(
+                p_211746_1_.setColor(TextFormatting.GREEN).setClickEvent(
                     ClickEvent(
                         ClickEvent.Action.SUGGEST_COMMAND,
                         "/tp @s " + blockpos1.x + " ~ " + blockpos1.z
@@ -199,10 +185,7 @@ internal object LocateCommand : VanillaCommandBase() {
             }
             source.sendFeedback(
                 TranslationTextComponent(
-                    "commands.locate.success",
-                    structureName,
-                    itextcomponent,
-                    i
+                    "commands.locate.success", structureName, itextcomponent, i
                 ), false
             )
             i

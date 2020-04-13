@@ -67,7 +67,7 @@ internal object SaveOffCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.saveoff", 4)) {
+            if (!hasPermission(source.asPlayer(), "native.save.off", 4)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -79,7 +79,7 @@ internal object SaveOffCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.saveoff", "4"
+                                "native.save.off", "4"
                             )
                         )
                     )

@@ -88,7 +88,7 @@ internal object StopSoundCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.stopsound", 2)) {
+            if (!hasPermission(source.asPlayer(), "native.sound.stop", 2)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -100,7 +100,7 @@ internal object StopSoundCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.stopsound", "2"
+                                "native.sound.stop", "2"
                             )
                         )
                     )

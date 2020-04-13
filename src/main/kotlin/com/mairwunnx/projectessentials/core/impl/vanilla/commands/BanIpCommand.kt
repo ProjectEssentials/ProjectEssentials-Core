@@ -101,7 +101,7 @@ internal object BanIpCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.banip", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.moderation.banip", 3)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -113,7 +113,7 @@ internal object BanIpCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.banip", "3"
+                                "native.moderation.banip", "3"
                             )
                         )
                     )

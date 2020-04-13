@@ -72,7 +72,7 @@ internal object BanListCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.banlist", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.moderation.banlist", 3)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -84,7 +84,7 @@ internal object BanListCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.banlist", "3"
+                                "native.moderation.banlist", "3"
                             )
                         )
                     )

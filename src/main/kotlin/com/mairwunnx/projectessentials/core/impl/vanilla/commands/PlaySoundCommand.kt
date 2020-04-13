@@ -60,7 +60,7 @@ internal object PlaySoundCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.playsound", 2)) {
+            if (!hasPermission(source.asPlayer(), "native.sound.play", 2)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -72,7 +72,7 @@ internal object PlaySoundCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.playsound", "2"
+                                "native.sound.play", "2"
                             )
                         )
                     )

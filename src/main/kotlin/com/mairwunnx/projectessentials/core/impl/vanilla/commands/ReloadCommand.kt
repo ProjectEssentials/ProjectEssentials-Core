@@ -31,7 +31,7 @@ internal object ReloadCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.reload", 2)) {
+            if (!hasPermission(source.asPlayer(), "native.server.reload", 2)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -43,7 +43,7 @@ internal object ReloadCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.reload", "2"
+                                "native.server.reload", "2"
                             )
                         )
                     )

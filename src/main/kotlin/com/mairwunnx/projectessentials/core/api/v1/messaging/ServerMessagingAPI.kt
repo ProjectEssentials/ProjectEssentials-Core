@@ -14,11 +14,11 @@ object ServerMessagingAPI {
     /**
      * Throw in console warning message with reason:
      * only player can execute command.
+     *
+     * todo: add localization to this message.
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
-    fun throwOnlyPlayerCan() = logger.warn(
-        "> Only player can execute this command"
-    )
+    fun throwOnlyPlayerCan() = logger.warn("> Only player can execute this command")
 
     /**
      * Send response message on something to server console.

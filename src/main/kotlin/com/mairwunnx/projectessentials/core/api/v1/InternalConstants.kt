@@ -51,11 +51,10 @@ const val MESSAGE_MODULE_PREFIX = "project_essentials_"
  */
 const val MESSAGE_MAIN_MODULE_PREFIX = "project_essentials"
 
-// todo: remove it and define some api for registering this settings
-// todo: and assigning it settings on mod initializing.
 const val SETTING_LOC_ENABLED = "v2-localization-enabled"
 const val SETTING_LOC_FALLBACK_LANG = "v2-localization-fallback-lang"
 const val SETTING_DISABLE_SAFE_ENCHANT = "disable-safely-enchant-level"
 const val SETTING_NATIVE_COMMAND_REPLACE = "enable-native-command-replace"
 const val SETTING_LOCATE_COMMAND_FIND_RADIUS = "locate-command-find-radius"
 const val SETTING_DISABLE_PORTAL_SPAWNING = "disable-portal-spawning"
+const val SETTING_WEATHER_COMMAND_DEFAULT_DURATION = "weather-command-default-duration"

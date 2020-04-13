@@ -9,6 +9,8 @@ import com.mairwunnx.projectessentials.core.api.v1.extensions.asPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import com.mairwunnx.projectessentials.core.api.v1.module.Module
+import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
+import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.*
 import com.mojang.brigadier.CommandDispatcher
@@ -41,6 +43,10 @@ internal class ModuleObject : IModule {
         generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_REPLACE, true)
         generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
         generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
+        generalConfiguration.getIntOrDefault(SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000)
+
+        ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_REPLACE)
+        ConfigureEssentialsCommandAPI.required(SETTING_LOC_FALLBACK_LANG)
     }
 
     override fun getModule() = this
@@ -63,7 +69,12 @@ internal class ModuleObject : IModule {
     @SubscribeEvent
     fun onPlayerDeath(event: LivingDeathEvent) {
         if (event.entityLiving.isPlayerEntity) {
-            BackLocationAPI.commit(event.entityLiving.asPlayerEntity)
+            with(event.entityLiving.asPlayerEntity) {
+                if (
+                    hasPermission(this, "teleport.back.ondeath", 3) ||
+                    hasPermission(this, "ess.back.ondeath", 3)
+                ) BackLocationAPI.commit(this)
+            }
         }
     }
 

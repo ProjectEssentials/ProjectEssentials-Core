@@ -13,7 +13,7 @@ import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
-import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
+//import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import com.mojang.authlib.GameProfile
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -65,7 +65,7 @@ internal object DeOpCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.deop", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.stuff.operator.remove", 3)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -77,7 +77,7 @@ internal object DeOpCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.deop", "3"
+                                "native.stuff.operator.remove", "3"
                             )
                         )
                     )
@@ -114,9 +114,9 @@ internal object DeOpCommand : VanillaCommandBase() {
 
         players.forEach {
             if (ModuleAPI.isModuleExist("permissions")) {
-                if (PermissionsAPI.hasPermission(it.name, "*")) {
-                    PermissionsAPI.removeUserPermission(it.name, "*")
-                }
+//                if (PermissionsAPI.hasPermission(it.name, "*")) {
+//                    PermissionsAPI.removeUserPermission(it.name, "*")
+//                }
             }
 
             if (i == 0) {

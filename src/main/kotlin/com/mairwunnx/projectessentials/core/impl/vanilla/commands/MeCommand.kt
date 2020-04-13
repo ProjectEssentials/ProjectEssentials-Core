@@ -57,7 +57,7 @@ internal object MeCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.me", 0)) {
+            if (!hasPermission(source.asPlayer(), "native.messaging.me", 0)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -69,7 +69,7 @@ internal object MeCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.me", "0"
+                                "native.messaging.me", "0"
                             )
                         )
                     )

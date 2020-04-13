@@ -37,8 +37,7 @@ internal object ParticleCommand : VanillaCommandBase() {
         TranslationTextComponent("commands.particle.failed")
     )
 
-    private var aliases =
-        configuration.take().aliases.particle + "particle"
+    private var aliases = configuration.take().aliases.particle + "particle"
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
@@ -120,19 +119,23 @@ internal object ParticleCommand : VanillaCommandBase() {
                                                 spawnParticle(
                                                     p_198566_0_.source,
                                                     ParticleArgument.getParticle(
-                                                        p_198566_0_, "name"
+                                                        p_198566_0_,
+                                                        "name"
                                                     ),
                                                     Vec3Argument.getVec3(p_198566_0_, "pos"),
                                                     Vec3Argument.getVec3(p_198566_0_, "delta"),
                                                     FloatArgumentType.getFloat(
-                                                        p_198566_0_, "speed"
+                                                        p_198566_0_,
+                                                        "speed"
                                                     ),
                                                     IntegerArgumentType.getInteger(
-                                                        p_198566_0_, "count"
+                                                        p_198566_0_,
+                                                        "count"
                                                     ),
                                                     true,
                                                     EntityArgument.getPlayers(
-                                                        p_198566_0_, "viewers"
+                                                        p_198566_0_,
+                                                        "viewers"
                                                     )
                                                 )
                                             }
@@ -154,26 +157,27 @@ internal object ParticleCommand : VanillaCommandBase() {
                                         }.then(
                                             Commands.argument(
                                                 "viewers", EntityArgument.players()
-                                            ).executes { p_198567_0_: CommandContext<CommandSource> ->
-                                                spawnParticle(
-                                                    p_198567_0_.source,
-                                                    ParticleArgument.getParticle(
-                                                        p_198567_0_, "name"
-                                                    ),
-                                                    Vec3Argument.getVec3(p_198567_0_, "pos"),
-                                                    Vec3Argument.getVec3(p_198567_0_, "delta"),
-                                                    FloatArgumentType.getFloat(
-                                                        p_198567_0_, "speed"
-                                                    ),
-                                                    IntegerArgumentType.getInteger(
-                                                        p_198567_0_, "count"
-                                                    ),
-                                                    false,
-                                                    EntityArgument.getPlayers(
-                                                        p_198567_0_, "viewers"
+                                            )
+                                                .executes { p_198567_0_: CommandContext<CommandSource> ->
+                                                    spawnParticle(
+                                                        p_198567_0_.source,
+                                                        ParticleArgument.getParticle(
+                                                            p_198567_0_, "name"
+                                                        ),
+                                                        Vec3Argument.getVec3(p_198567_0_, "pos"),
+                                                        Vec3Argument.getVec3(p_198567_0_, "delta"),
+                                                        FloatArgumentType.getFloat(
+                                                            p_198567_0_, "speed"
+                                                        ),
+                                                        IntegerArgumentType.getInteger(
+                                                            p_198567_0_, "count"
+                                                        ),
+                                                        false,
+                                                        EntityArgument.getPlayers(
+                                                            p_198567_0_, "viewers"
+                                                        )
                                                     )
-                                                )
-                                            }
+                                                }
                                         )
                                     )
                                 )

@@ -56,6 +56,8 @@ internal object BackLocationCommand : CommandBase(literal("back")) {
                         generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
                     )
                 }
+
+                super.process(context)
             } else {
                 player.sendMessage(
                     "$MESSAGE_CORE_PREFIX.back.restricted",
@@ -65,8 +67,6 @@ internal object BackLocationCommand : CommandBase(literal("back")) {
         } else {
             ServerMessagingAPI.throwOnlyPlayerCan()
         }
-
-        super.process(context)
         return 0
     }
 }

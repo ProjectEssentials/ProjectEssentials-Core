@@ -48,7 +48,7 @@ internal object SayCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.say", 1)) {
+            if (!hasPermission(source.asPlayer(), "native.messaging.say", 1)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -60,7 +60,7 @@ internal object SayCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.say", "1"
+                                "native.messaging.say", "1"
                             )
                         )
                     )

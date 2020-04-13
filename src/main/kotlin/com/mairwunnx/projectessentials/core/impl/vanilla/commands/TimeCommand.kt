@@ -6,10 +6,12 @@
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
+import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
+import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -22,69 +24,84 @@ import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.world.server.ServerWorld
 
+enum class TimeActionType { Add, Set, Query }
+
 internal object TimeCommand : VanillaCommandBase() {
+    private var noonAliases = configuration.take().aliases.noon + "noon"
+    private var sunsetAliases = configuration.take().aliases.sunset + "sunset"
+    private var sunriseAliases = configuration.take().aliases.sunrise + "sunrise"
+
+    private fun tryAssignAliases() {
+        if (!ModuleAPI.isModuleExist("cooldown")) return
+        CommandsAliases.aliases["noon"] = (noonAliases + "time").toMutableList()
+        CommandsAliases.aliases["sunset"] = (sunsetAliases + "time").toMutableList()
+        CommandsAliases.aliases["sunrise"] = (sunriseAliases + "time").toMutableList()
+        CommandsAliases.aliases["time"] =
+            (noonAliases + sunsetAliases + sunriseAliases + "day" + "night" + "midnight").toMutableList()
+    }
+
+    fun registerShortAliases(dispatcher: CommandDispatcher<CommandSource>) {
+        dispatcher.register(Commands.literal("day").executes { setTime(it.source, 1000) })
+        noonAliases.forEach { alias ->
+            dispatcher.register(Commands.literal(alias).executes { setTime(it.source, 6000) })
+        }
+        sunsetAliases.forEach { alias ->
+            dispatcher.register(Commands.literal(alias).executes { setTime(it.source, 12000) })
+        }
+        dispatcher.register(Commands.literal("night").executes { setTime(it.source, 13000) })
+        dispatcher.register(Commands.literal("midnight").executes { setTime(it.source, 18000) })
+        sunriseAliases.forEach { alias ->
+            dispatcher.register(Commands.literal(alias).executes { setTime(it.source, 23000) })
+        }
+    }
+
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        registerShortAliases(dispatcher)
         CommandAPI.removeCommand("time")
+        tryAssignAliases()
 
         dispatcher.register(
             Commands.literal("time").then(
                 Commands.literal("set").then(
-                    Commands.literal("day").executes { p_198832_0_ ->
-                        setTime(p_198832_0_.source, 1000)
-                    }
+                    Commands.literal("day").executes { setTime(it.source, 1000) }
                 ).then(
-                    Commands.literal("noon").executes { p_198825_0_ ->
-                        setTime(p_198825_0_.source, 6000)
-                    }
+                    Commands.literal("noon").executes { setTime(it.source, 6000) }
                 ).then(
-                    Commands.literal("night").executes { p_198822_0_ ->
-                        setTime(p_198822_0_.source, 13000)
-                    }
+                    Commands.literal("sunset").executes { setTime(it.source, 12000) }
                 ).then(
-                    Commands.literal("midnight").executes { p_200563_0_ ->
-                        setTime(p_200563_0_.source, 18000)
-                    }
+                    Commands.literal("night").executes { setTime(it.source, 13000) }
+                ).then(
+                    Commands.literal("midnight").executes { setTime(it.source, 18000) }
+                ).then(
+                    Commands.literal("sunrise").executes { setTime(it.source, 23000) }
                 ).then(
                     Commands.argument(
                         "time", TimeArgument.func_218091_a()
-                    ).executes { p_200564_0_ ->
-                        setTime(
-                            p_200564_0_.source,
-                            IntegerArgumentType.getInteger(p_200564_0_, "time")
-                        )
+                    ).executes {
+                        setTime(it.source, IntegerArgumentType.getInteger(it, "time"))
                     }
                 )
             ).then(
                 Commands.literal("add").then(
                     Commands.argument(
                         "time", TimeArgument.func_218091_a()
-                    ).executes { p_198830_0_ ->
-                        addTime(
-                            p_198830_0_.source,
-                            IntegerArgumentType.getInteger(p_198830_0_, "time")
-                        )
-                    }
+                    ).executes { addTime(it.source, IntegerArgumentType.getInteger(it, "time")) }
                 )
             ).then(
                 Commands.literal("query").then(
-                    Commands.literal("daytime").executes { p_198827_0_ ->
+                    Commands.literal("daytime").executes {
+                        sendQueryResults(it.source, getDayTime(it.source.world))
+                    }
+                ).then(
+                    Commands.literal("gametime").executes {
                         sendQueryResults(
-                            p_198827_0_.source,
-                            getDayTime(p_198827_0_.source.world)
+                            it.source, (it.source.world.gameTime % 2147483647L).toInt()
                         )
                     }
                 ).then(
-                    Commands.literal("gametime").executes { p_198821_0_ ->
+                    Commands.literal("day").executes {
                         sendQueryResults(
-                            p_198821_0_.source,
-                            (p_198821_0_.source.world.gameTime % 2147483647L).toInt()
-                        )
-                    }
-                ).then(
-                    Commands.literal("day").executes { p_198831_0_ ->
-                        sendQueryResults(
-                            p_198831_0_.source,
-                            (p_198831_0_.source.world.dayTime / 24000L % 2147483647L).toInt()
+                            it.source, (it.source.world.dayTime / 24000L % 2147483647L).toInt()
                         )
                     }
                 )
@@ -92,9 +109,15 @@ internal object TimeCommand : VanillaCommandBase() {
         )
     }
 
-    private fun checkPermissions(source: CommandSource) {
+    private fun checkPermissions(source: CommandSource, actionType: TimeActionType) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.time", 2)) {
+            val node = if (actionType == TimeActionType.Add || actionType == TimeActionType.Set) {
+                "native.time.change.${actionType.name.toLowerCase()}"
+            } else {
+                "native.time.query"
+            }
+
+            if (!hasPermission(source.asPlayer(), node, 2)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -106,7 +129,7 @@ internal object TimeCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.time", "2"
+                                node, "2"
                             )
                         )
                     )
@@ -120,46 +143,31 @@ internal object TimeCommand : VanillaCommandBase() {
     /**
      * Returns the day time (time wrapped within a day)
      */
-    private fun getDayTime(worldIn: ServerWorld): Int {
-        return (worldIn.dayTime % 24000L).toInt()
-    }
+    private fun getDayTime(worldIn: ServerWorld) = (worldIn.dayTime % 24000L).toInt()
 
     private fun sendQueryResults(source: CommandSource, time: Int): Int {
-        checkPermissions(source)
-
+        checkPermissions(source, TimeActionType.Query)
         source.sendFeedback(
-            TranslationTextComponent(
-                "commands.time.query", time
-            ), false
+            TranslationTextComponent("commands.time.query", time), false
         )
         return time
     }
 
     fun setTime(source: CommandSource, time: Int): Int {
-        checkPermissions(source)
-
-        for (serverworld in source.server.worlds) {
-            serverworld.dayTime = time.toLong()
-        }
+        checkPermissions(source, TimeActionType.Set)
+        source.server.worlds.forEach { it.dayTime = time.toLong() }
         source.sendFeedback(
-            TranslationTextComponent(
-                "commands.time.set", time
-            ), true
+            TranslationTextComponent("commands.time.set", time), true
         )
         return getDayTime(source.world)
     }
 
     fun addTime(source: CommandSource, amount: Int): Int {
-        checkPermissions(source)
-
-        for (serverworld in source.server.worlds) {
-            serverworld.dayTime = serverworld.dayTime + amount.toLong()
-        }
+        checkPermissions(source, TimeActionType.Add)
+        source.server.worlds.forEach { it.dayTime = it.dayTime + amount.toLong() }
         val i = getDayTime(source.world)
         source.sendFeedback(
-            TranslationTextComponent(
-                "commands.time.set", i
-            ), true
+            TranslationTextComponent("commands.time.set", i), true
         )
         return i
     }

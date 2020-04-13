@@ -26,9 +26,7 @@ import net.minecraft.util.text.TranslationTextComponent
 import java.util.function.Function
 
 internal object ListCommand : VanillaCommandBase() {
-
-    private var aliases =
-        configuration.take().aliases.list + "list"
+    private var aliases = configuration.take().aliases.list + "list"
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
@@ -42,14 +40,10 @@ internal object ListCommand : VanillaCommandBase() {
         aliases.forEach { command ->
             dispatcher.register(
                 Commands.literal(command).executes { p_198523_0_ ->
-                    listNames(
-                        p_198523_0_.source
-                    )
+                    listNames(p_198523_0_.source)
                 }.then(
                     Commands.literal("uuids").executes { p_208202_0_ ->
-                        listUUIDs(
-                            p_208202_0_.source
-                        )
+                        listUUIDs(p_208202_0_.source)
                     }
                 )
             )
@@ -84,20 +78,12 @@ internal object ListCommand : VanillaCommandBase() {
 
     private fun listNames(source: CommandSource): Int {
         checkPermissions(source)
-
-        return listPlayers(
-            source,
-            Function { obj: ServerPlayerEntity -> obj.displayName }
-        )
+        return listPlayers(source, Function { obj: ServerPlayerEntity -> obj.displayName })
     }
 
     private fun listUUIDs(source: CommandSource): Int {
         checkPermissions(source)
-
-        return listPlayers(
-            source,
-            Function { obj: ServerPlayerEntity -> obj.displayNameAndUUID }
-        )
+        return listPlayers(source, Function { obj: ServerPlayerEntity -> obj.displayNameAndUUID })
     }
 
     private fun listPlayers(
@@ -105,7 +91,6 @@ internal object ListCommand : VanillaCommandBase() {
         nameExtractor: Function<ServerPlayerEntity, ITextComponent>
     ): Int {
         checkPermissions(source)
-
         val playerlist = source.server.playerList
         val list = playerlist.players
         val itextcomponent = TextComponentUtils.makeList(list, nameExtractor)

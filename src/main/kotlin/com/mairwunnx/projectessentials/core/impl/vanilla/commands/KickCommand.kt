@@ -65,7 +65,7 @@ internal object KickCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.kick", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.moderation.kick", 3)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -77,7 +77,7 @@ internal object KickCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.kick", "3"
+                                "native.moderation.kick", "3"
                             )
                         )
                     )

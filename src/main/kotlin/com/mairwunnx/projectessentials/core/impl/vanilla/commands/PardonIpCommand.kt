@@ -68,7 +68,7 @@ internal object PardonIpCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.pardonip", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.moderation.pardonip", 3)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -80,7 +80,7 @@ internal object PardonIpCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.pardonip", "3"
+                                "native.moderation.pardonip", "3"
                             )
                         )
                     )

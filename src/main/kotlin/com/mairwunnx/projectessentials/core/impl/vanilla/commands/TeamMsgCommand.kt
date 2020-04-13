@@ -54,7 +54,7 @@ internal object TeamMsgCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.teammsg", 0)) {
+            if (!hasPermission(source.asPlayer(), "native.messaging.teammsg", 0)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -66,7 +66,7 @@ internal object TeamMsgCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.teammsg", "0"
+                                "native.messaging.teammsg", "0"
                             )
                         )
                     )

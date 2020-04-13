@@ -33,8 +33,9 @@ object GeneralConfiguration : IConfiguration<Properties> {
     }
 
     override fun save() = try {
+        logger.info("Saving configuration `${data().name}`")
         FileOutputStream(path).use { output ->
-            // todo: add comment.
+            // todo: add comment. (with documentation)
             properties.store(output, null)
         }
     } catch (ex: IOException) {
@@ -115,11 +116,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
             .split(",")
     }
 
-    fun putList(key: String, value: List<String>) {
-        properties[key] = value.toString()
-    }
+    fun putList(key: String, value: List<String>) = properties.set(key, value.toString())
 
-    fun put(key: String, value: String) {
-        properties[key] = value
-    }
+    fun put(key: String, value: String) = properties.set(key, value)
 }

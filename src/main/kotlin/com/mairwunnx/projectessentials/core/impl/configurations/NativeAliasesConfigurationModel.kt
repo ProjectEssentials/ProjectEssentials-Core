@@ -47,6 +47,12 @@ data class NativeAliasesConfigurationModel(
         val spawnpoint: List<String> = listOf("respawnhere"),
         val summon: List<String> = listOf("spawnmob"),
         val tellraw: List<String> = listOf("tr"),
-        val worldborder: List<String> = listOf("wb")
+        val worldborder: List<String> = listOf("wb"),
+        val sun: List<String> = listOf("esun", "weatherclear", "clearsky", "sky", "esky"),
+        val rain: List<String> = listOf("erain"),
+        val thunder: List<String> = listOf("estorm", "storm", "ethunder", "goodweather"),
+        val noon: List<String> = listOf("midday", "noonday"),
+        val sunset: List<String> = listOf("dusk", "sundown", "evening"),
+        val sunrise: List<String> = listOf("dawn", "morning", "morn")
     )
 }

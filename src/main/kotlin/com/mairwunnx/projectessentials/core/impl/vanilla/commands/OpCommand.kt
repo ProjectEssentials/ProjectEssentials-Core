@@ -63,7 +63,7 @@ internal object OpCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.op", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.stuff.operator.add", 3)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -75,7 +75,7 @@ internal object OpCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.op", "3"
+                                "native.stuff.operator.add", "3"
                             )
                         )
                     )

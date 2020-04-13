@@ -6,10 +6,13 @@
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
+import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_WEATHER_COMMAND_DEFAULT_DURATION
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
+import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -20,18 +23,147 @@ import net.minecraft.command.Commands
 import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
 
+/**
+ * Weather type uses for [WeatherType] enum elements.
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+interface IWeatherType {
+    /**
+     * Weather type name for permissions checking.
+     */
+    val type: String
+}
+
+/**
+ * Weather type enum class, contains all weather types for
+ * other essentials modules.
+ * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ */
+enum class WeatherType : IWeatherType {
+    /**
+     * Sunny in-game weather.
+     */
+    Sunny {
+        override val type = "clear"
+    },
+
+    /**
+     * Rainy in-game weather.
+     */
+    Rainy {
+        override val type = "rain"
+    },
+
+    /**
+     * Thunder in-game weather.
+     */
+    Thunder {
+        override val type = "thunder"
+    }
+}
+
 internal object WeatherCommand : VanillaCommandBase() {
+    private var sunAliases = configuration.take().aliases.sun + "sun"
+    private var rainAliases = configuration.take().aliases.rain + "rain"
+    private var thunderAliases = configuration.take().aliases.thunder + "thunder"
+
+    private val durationArgument = Commands.argument(
+        "duration", IntegerArgumentType.integer(0, 1000000)
+    )
+
+    private fun tryAssignAliases() {
+        if (!ModuleAPI.isModuleExist("cooldown")) return
+        CommandsAliases.aliases["sun"] = (sunAliases + "weather").toMutableList()
+        CommandsAliases.aliases["rain"] = (rainAliases + "weather").toMutableList()
+        CommandsAliases.aliases["thunder"] = (thunderAliases + "weather").toMutableList()
+        CommandsAliases.aliases["weather"] =
+            (sunAliases + rainAliases + thunderAliases).toMutableList()
+    }
+
+    private fun registerSun(dispatcher: CommandDispatcher<CommandSource>) {
+        sunAliases.forEach {
+            dispatcher.register(
+                Commands.literal(it).executes { p_198861_0_ ->
+                    setClear(
+                        p_198861_0_.source,
+                        generalConfiguration.getIntOrDefault(
+                            SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+                        )
+                    )
+                }.then(
+                    durationArgument.executes { p_198864_0_ ->
+                        setClear(
+                            p_198864_0_.source,
+                            IntegerArgumentType.getInteger(p_198864_0_, "duration") * 20
+                        )
+                    }
+                )
+            )
+        }
+    }
+
+    private fun registerRain(dispatcher: CommandDispatcher<CommandSource>) {
+        rainAliases.forEach {
+            dispatcher.register(
+                Commands.literal(it).executes { p_198860_0_ ->
+                    setRain(
+                        p_198860_0_.source,
+                        generalConfiguration.getIntOrDefault(
+                            SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+                        )
+                    )
+                }.then(
+                    durationArgument.executes { p_198866_0_ ->
+                        setRain(
+                            p_198866_0_.source,
+                            IntegerArgumentType.getInteger(p_198866_0_, "duration") * 20
+                        )
+                    }
+                )
+            )
+        }
+    }
+
+    private fun registerThunder(dispatcher: CommandDispatcher<CommandSource>) {
+        thunderAliases.forEach {
+            dispatcher.register(
+                Commands.literal(it).executes { p_198859_0_ ->
+                    setThunder(
+                        p_198859_0_.source,
+                        generalConfiguration.getIntOrDefault(
+                            SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+                        )
+                    )
+                }.then(
+                    durationArgument.executes { p_198867_0_ ->
+                        setThunder(
+                            p_198867_0_.source,
+                            IntegerArgumentType.getInteger(p_198867_0_, "duration") * 20
+                        )
+                    }
+                )
+            )
+        }
+    }
+
     fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        registerSun(dispatcher)
+        registerRain(dispatcher)
+        registerThunder(dispatcher)
+        tryAssignAliases()
         CommandAPI.removeCommand("weather")
 
         dispatcher.register(
             Commands.literal("weather").then(
                 Commands.literal("clear").executes { p_198861_0_ ->
-                    setClear(p_198861_0_.source, 6000)
+                    setClear(
+                        p_198861_0_.source,
+                        generalConfiguration.getIntOrDefault(
+                            SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+                        )
+                    )
                 }.then(
-                    Commands.argument(
-                        "duration", IntegerArgumentType.integer(0, 1000000)
-                    ).executes { p_198864_0_ ->
+                    durationArgument.executes { p_198864_0_ ->
                         setClear(
                             p_198864_0_.source,
                             IntegerArgumentType.getInteger(p_198864_0_, "duration") * 20
@@ -40,11 +172,14 @@ internal object WeatherCommand : VanillaCommandBase() {
                 )
             ).then(
                 Commands.literal("rain").executes { p_198860_0_ ->
-                    setRain(p_198860_0_.source, 6000)
+                    setRain(
+                        p_198860_0_.source,
+                        generalConfiguration.getIntOrDefault(
+                            SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+                        )
+                    )
                 }.then(
-                    Commands.argument(
-                        "duration", IntegerArgumentType.integer(0, 1000000)
-                    ).executes { p_198866_0_ ->
+                    durationArgument.executes { p_198866_0_ ->
                         setRain(
                             p_198866_0_.source,
                             IntegerArgumentType.getInteger(p_198866_0_, "duration") * 20
@@ -53,11 +188,14 @@ internal object WeatherCommand : VanillaCommandBase() {
                 )
             ).then(
                 Commands.literal("thunder").executes { p_198859_0_ ->
-                    setThunder(p_198859_0_.source, 6000)
+                    setThunder(
+                        p_198859_0_.source,
+                        generalConfiguration.getIntOrDefault(
+                            SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+                        )
+                    )
                 }.then(
-                    Commands.argument(
-                        "duration", IntegerArgumentType.integer(0, 1000000)
-                    ).executes { p_198867_0_ ->
+                    durationArgument.executes { p_198867_0_ ->
                         setThunder(
                             p_198867_0_.source,
                             IntegerArgumentType.getInteger(p_198867_0_, "duration") * 20
@@ -68,9 +206,15 @@ internal object WeatherCommand : VanillaCommandBase() {
         )
     }
 
-    private fun checkPermissions(source: CommandSource) {
+    private fun checkPermissions(source: CommandSource, weatherType: WeatherType, timed: Boolean) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.weather", 2)) {
+            if (
+                !hasPermission(
+                    source.asPlayer(),
+                    if (timed) "native.weather.${weatherType.type}.timed" else "native.weather.${weatherType.type}",
+                    if (timed) 3 else 2
+                )
+            ) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -82,7 +226,8 @@ internal object WeatherCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.weather", "2"
+                                if (timed) "native.weather.${weatherType.type}.timed" else "native.weather.${weatherType.type}",
+                                if (timed) "3" else "2"
                             )
                         )
                     )
@@ -94,7 +239,13 @@ internal object WeatherCommand : VanillaCommandBase() {
     }
 
     private fun setClear(source: CommandSource, time: Int): Int {
-        checkPermissions(source)
+        checkPermissions(
+            source,
+            WeatherType.Sunny,
+            time != generalConfiguration.getIntOrDefault(
+                SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+            )
+        )
         source.world.worldInfo.clearWeatherTime = time
         source.world.worldInfo.rainTime = 0
         source.world.worldInfo.thunderTime = 0
@@ -109,7 +260,13 @@ internal object WeatherCommand : VanillaCommandBase() {
     }
 
     private fun setRain(source: CommandSource, time: Int): Int {
-        checkPermissions(source)
+        checkPermissions(
+            source,
+            WeatherType.Rainy,
+            time != generalConfiguration.getIntOrDefault(
+                SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+            )
+        )
         source.world.worldInfo.clearWeatherTime = 0
         source.world.worldInfo.rainTime = time
         source.world.worldInfo.thunderTime = time
@@ -124,7 +281,13 @@ internal object WeatherCommand : VanillaCommandBase() {
     }
 
     private fun setThunder(source: CommandSource, time: Int): Int {
-        checkPermissions(source)
+        checkPermissions(
+            source,
+            WeatherType.Thunder,
+            time != generalConfiguration.getIntOrDefault(
+                SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000
+            )
+        )
         source.world.worldInfo.clearWeatherTime = 0
         source.world.worldInfo.rainTime = time
         source.world.worldInfo.thunderTime = time

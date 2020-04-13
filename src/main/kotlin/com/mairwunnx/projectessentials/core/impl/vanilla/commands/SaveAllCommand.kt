@@ -55,7 +55,7 @@ internal object SaveAllCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.saveall", 4)) {
+            if (!hasPermission(source.asPlayer(), "native.save.all", 4)) {
                 throw CommandException(
                     textComponentFrom(
                         source.asPlayer(),
@@ -67,7 +67,7 @@ internal object SaveAllCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.saveall", "4"
+                                "native.save.all", "4"
                             )
                         )
                     )

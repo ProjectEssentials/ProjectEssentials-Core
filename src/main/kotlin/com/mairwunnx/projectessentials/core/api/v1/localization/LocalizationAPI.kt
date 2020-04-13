@@ -34,8 +34,7 @@ object LocalizationAPI {
      */
     fun remove(localization: Localization): Boolean =
         LocalizationProcessor.localizations.removeIf {
-            it.sourceName == localization.sourceName &&
-                    it.sources == localization.sources
+            it.sourceName == localization.sourceName && it.sources == localization.sources
         }
 
     /**

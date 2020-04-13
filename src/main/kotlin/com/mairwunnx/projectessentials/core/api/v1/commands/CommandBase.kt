@@ -21,7 +21,8 @@ abstract class CommandBase(
      * Command literal for working with command.
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
-    val literal: LiteralArgumentBuilder<CommandSource>
+    var literal: LiteralArgumentBuilder<CommandSource>,
+    val actionNeed: Boolean = true
 ) : ICommand {
     private val marker = MarkerManager.Log4jMarker("COMMAND OUT")
     private val logger = LogManager.getLogger()
@@ -52,11 +53,16 @@ abstract class CommandBase(
             CommandsAliases.aliases[data.name] = data.aliases.toMutableList()
         }
 
-        val literalNode =
-            dispatcher.register(literal.executes(::process))
-
-        data.aliases.filter { it != data.name }.forEach {
-            dispatcher.register(Commands.literal(it).executes(::process).redirect(literalNode))
+        if (actionNeed) {
+            val literalNode = dispatcher.register(literal.executes(::process))
+            data.aliases.filter { it != data.name }.forEach {
+                dispatcher.register(Commands.literal(it).executes(::process).redirect(literalNode))
+            }
+        } else {
+            val literalNode = dispatcher.register(literal)
+            data.aliases.filter { it != data.name }.forEach {
+                dispatcher.register(Commands.literal(it).redirect(literalNode))
+            }
         }
     }
 

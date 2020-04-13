@@ -66,7 +66,7 @@ internal object PardonCommand : VanillaCommandBase() {
 
     private fun checkPermissions(source: CommandSource) {
         try {
-            if (!hasPermission(source.asPlayer(), "native.pardon", 3)) {
+            if (!hasPermission(source.asPlayer(), "native.moderation.pardon", 3)) {
 
                 throw CommandException(
                     textComponentFrom(
@@ -79,7 +79,7 @@ internal object PardonCommand : VanillaCommandBase() {
                                 source.asPlayer(),
                                 generalConfiguration.getBool(SETTING_LOC_ENABLED),
                                 "native.command.restricted_hover",
-                                "native.pardon", "3"
+                                "native.moderation.pardon", "3"
                             )
                         )
                     )
