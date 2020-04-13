@@ -22,6 +22,11 @@ abstract class CommandBase(
      * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
      */
     var literal: LiteralArgumentBuilder<CommandSource>,
+    /**
+     * If value true then action for command will added
+     * automatically with reference on method [process].
+     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+     */
     val actionNeed: Boolean = true
 ) : ICommand {
     private val marker = MarkerManager.Log4jMarker("COMMAND OUT")
