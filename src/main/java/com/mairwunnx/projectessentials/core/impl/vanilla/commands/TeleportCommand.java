@@ -20,8 +20,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.server.TicketType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -44,8 +42,6 @@ public class TeleportCommand {
         }
         return generalConfiguration;
     }
-
-    private static Logger logger = LogManager.getLogger();
 
     public static void register(CommandDispatcher<CommandSource> dispatcher) {
         CommandAPI.INSTANCE.removeCommand("teleport");
