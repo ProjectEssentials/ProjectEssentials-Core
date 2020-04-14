@@ -5,6 +5,6 @@ import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 
 /**
  * Domain event data, stores domain name (package path).
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 class ModuleEventData(val module: IModule) : IModuleEventData

@@ -4,19 +4,19 @@ import net.minecraftforge.fml.common.Mod
 
 /**
  * Class for interacting with other modules.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 @Suppress("unused")
 object ModuleAPI {
     /**
      * @return all installed and checked modules.
-     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun getAllModules() = ModuleProcessor.getModules()
 
     /**
      * @return module mod id what declared in `@Mod` annotation.
-     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun getModuleModId(module: IModule): String {
         if (module.getModuleData().name == "essentials") {
@@ -31,7 +31,7 @@ object ModuleAPI {
     /**
      * @return module by provided name.
      * @throws ModuleNotFoundException when module not found.
-     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun getModuleByName(name: String) =
         getAllModules().find { it.getModule().getModuleData().name == name }?.let {
@@ -43,7 +43,7 @@ object ModuleAPI {
     /**
      * @param module module class instance.
      * @return true if module existing or installed.
-     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun isModuleExist(module: IModule) = ModuleProcessor.getModules().find {
         it.getModule().getModuleData().name == module.getModule().getModuleData().name
@@ -52,7 +52,7 @@ object ModuleAPI {
     /**
      * @param module module name what provided in Module annotation.
      * @return true if module existing or installed.
-     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun isModuleExist(module: String) = ModuleProcessor.getModules().find {
         it.getModule().getModuleData().name == module

@@ -34,7 +34,7 @@ import java.io.File
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun ServerPlayerEntity.sendMessage(
     l10nString: String,
@@ -54,7 +54,7 @@ fun ServerPlayerEntity.sendMessage(
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun ServerPlayerEntity.sendActionBarMessage(
     l10nString: String,
@@ -74,7 +74,7 @@ fun ServerPlayerEntity.sendActionBarMessage(
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun MinecraftServer.sendMessageToAll(
     l10nString: String,
@@ -95,7 +95,7 @@ fun MinecraftServer.sendMessageToAll(
  * will provided by client resource pack.
  * @param args localization string arguments.
  * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun MinecraftServer.sendMessageToAllInWorld(
     worldId: Int,
@@ -144,14 +144,14 @@ fun ServerPlayerEntity.playSound(
 
 /**
  * @return true if command sender is player.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandContext<CommandSource>.isPlayerSender() = this.source.entity is ServerPlayerEntity
 
 /**
  * @return player if sender is player, if sender is
  * entity or server then return null.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandContext<CommandSource>.getPlayer() =
     if (this.isPlayerSender()) this.source.asPlayer() else null
@@ -160,7 +160,7 @@ fun CommandContext<CommandSource>.getPlayer() =
  * @return if command source is player then nickname
  * from CommandContext. If command source is server
  * then return `#server`.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandContext<CommandSource>.playerName(): String =
     if (this.isPlayerSender()) this.source.asPlayer().name.string else "#server"
@@ -170,7 +170,7 @@ fun CommandContext<CommandSource>.playerName(): String =
  *
  * Example: player execute command **`/heal MairwunNx`**,
  * then you get **`heal`** as string.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.commandName
     get() = this.executedCommand.replace("/", "").split(" ")[0]
@@ -180,13 +180,13 @@ val CommandEvent.commandName
  *
  * Example: player execute command **`/heal MairwunNx`**,
  * then you get **`/heal MairwunNx`** as string.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.executedCommand: String get() = this.parseResults.reader.string
 
 /**
  * @return true if source is player.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandEvent.isPlayerSender() = this.source.entity is ServerPlayerEntity
 
@@ -194,14 +194,14 @@ fun CommandEvent.isPlayerSender() = this.source.entity is ServerPlayerEntity
  * Return **`ServerPlayerEntity?`** class instance from
  * **`CommandEvent`** class instance. If source is server
  * then return null.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun CommandEvent.getPlayer() = if (this.isPlayerSender()) this.source.asPlayer() else null
 
 /**
  * Return command **`source`** from **`CommandEvent`**
  * class instance.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val CommandEvent.source: CommandSource get() = this.parseResults.context.source
 
@@ -213,7 +213,7 @@ val CommandEvent.source: CommandSource get() = this.parseResults.context.source
  * string.
  * @param args additional arguments for localized string.
  * @return HoverEvent instance with your localized string.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun hoverEventFrom(
     player: ServerPlayerEntity,
@@ -243,7 +243,7 @@ fun hoverEventFrom(
  * @param args additional arguments for localized string.
  * @return ITextComponent implements class instance with
  * your localized string.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun textComponentFrom(
     player: ServerPlayerEntity,
@@ -261,13 +261,13 @@ fun textComponentFrom(
 /**
  * Capitalize each word in string.
  * @return capitalized each word string.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 fun String.capitalizeWords() = split(" ").joinToString(" ") { it.capitalize() }
 
 /**
  * Return empty string.
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val String.Companion.empty get() = ""
 
@@ -289,7 +289,7 @@ val String.Companion.empty get() = ""
  *   world name.
  * ```
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val World.name: String
     get() {
@@ -307,7 +307,7 @@ val World.name: String
  *  Returns world directory name, for server this will
  *  return server world directory name, for client, see [World.name].
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val World.directoryName: String get() = ServerLifecycleHooks.getCurrentServer().folderName
 
@@ -318,7 +318,7 @@ val World.directoryName: String get() = ServerLifecycleHooks.getCurrentServer().
  *
  * For server it `./<world name>`
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val World.directoryPath: String
     get() {
@@ -338,34 +338,34 @@ val World.directoryPath: String
 /**
  * Returns current player dimension type.
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val PlayerEntity.currentDimension: DimensionType get() = this.dimension
 
 /**
  * Returns current dimension registry name.
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val PlayerEntity.currentDimensionName get() = this.currentDimension.registryName.toString()
 
 /**
  * Returns current dimension id.
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val PlayerEntity.currentDimensionId get() = this.currentDimension.id
 
 /**
  * Returns true if living entity is player.
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val LivingEntity.isPlayerEntity get() = this is ServerPlayerEntity
 
 /**
  * Returns [ServerPlayerEntity] instance of player from [LivingEntity].
  *
- * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 val LivingEntity.asPlayerEntity get() = this as ServerPlayerEntity
