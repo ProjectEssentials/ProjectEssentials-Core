@@ -23,7 +23,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent
 
 @OptIn(ExperimentalUnsignedTypes::class)
-@Module("core", "2.0.0-RC.1+MC-1.14.4", 0u, "1.0.0")
+@Module("core", "2.0.0-SNAPSHOT.1+MC-1.14.4", 0u, "1.0.0")
 internal class ModuleObject : IModule {
     private var moduleDataCached: Module? = null
     private val generalConfiguration by lazy {

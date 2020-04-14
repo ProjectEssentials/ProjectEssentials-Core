@@ -25,7 +25,7 @@ import org.apache.logging.log4j.LogManager
  * only [requiredServerRestart] list with setting names
  * what after change requires server restart.
  *
- * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 @Suppress("unused")
 object ConfigureEssentialsCommandAPI {
@@ -37,7 +37,7 @@ object ConfigureEssentialsCommandAPI {
      *
      * @param setting setting name.
      * @return true if setting added.
-     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun required(setting: String) = requiredServerRestart.add(setting)
 
@@ -45,14 +45,14 @@ object ConfigureEssentialsCommandAPI {
      * @param setting setting name.
      * @return true if [setting] is requires server restart
      * after value change.
-     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun isRequired(setting: String) = requiredServerRestart.contains(setting)
 
     /**
      * @return list with settings what requires server restart
      * after value changing.
-     * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
     fun getRequired() = requiredServerRestart.toList()
 }

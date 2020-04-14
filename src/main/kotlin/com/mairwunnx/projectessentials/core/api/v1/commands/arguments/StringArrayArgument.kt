@@ -13,7 +13,7 @@ import java.util.concurrent.CompletableFuture
  * String argument type class, for commands.
  *
  * @param array array with accepted values for command.
- * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
 class StringArrayArgument(private val array: List<String>) : ArgumentType<String> {
     override fun parse(reader: StringReader): String {
@@ -36,7 +36,7 @@ class StringArrayArgument(private val array: List<String>) : ArgumentType<String
          *
          * @param array array with accepted value for command.
          * @return new instance of [StringArrayArgument] for command.
-         * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+         * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
          */
         @JvmStatic
         fun with(array: List<String>) = StringArrayArgument(array)
@@ -46,7 +46,7 @@ class StringArrayArgument(private val array: List<String>) : ArgumentType<String
          * @param name argument name what contains your argument value.
          * @throws IllegalArgumentException when argument not exist in command context.
          * @return selected value by player in command.
-         * @since Mod: 2.0.0-RC.1+MC-1.14.4, API: 1.0.0
+         * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
          */
         @JvmStatic
         fun getValue(
