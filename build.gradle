@@ -18,9 +18,7 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 
-String packagesToken = new String(
-    package_public_token.decodeBase64()
-)
+String packagesToken = new String(package_public_token.decodeBase64())
 
 version = module_version
 group = "com.mairwunnx.$module_id"
@@ -81,6 +79,13 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+task dokkaJar(type: Jar) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    description = 'Assembles Kotlin docs with Dokka'
+    classifier = 'javadoc'
+    from tasks.dokka as Object
+}
+
 task modJar(type: Jar) {
     with tasks.jar
     from configurations.internal.collect { it.isDirectory() ? it : zipTree(it) }
@@ -132,13 +137,6 @@ sourceCompatibility = targetCompatibility =
 
 compileKotlin.kotlinOptions.jvmTarget =
     compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
-
-task dokkaJar(type: Jar) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    description = 'Assembles Kotlin docs with Dokka'
-    classifier = 'javadoc'
-    from tasks.dokka as Object
-}
 
 publishing {
     repositories {

@@ -5,29 +5,29 @@ import net.minecraft.world.server.ServerWorld
 
 /**
  * Back location data for BackLocationAPI.
- * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
  */
 data class BackLocationData(
     /**
      * Server player entity class instance.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val player: ServerPlayerEntity,
     /**
      * Player world at the time of teleportation.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val world: ServerWorld = player.serverWorld,
     /**
      * Player position at the time of teleportation.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val position: Position = Position(
         player.posX, player.posY, player.posZ
     ),
     /**
      * Player camera head at the time of teleportation.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val rotation: Rotation = Rotation(
         player.rotationYaw, player.rotationPitch

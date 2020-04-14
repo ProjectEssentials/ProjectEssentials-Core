@@ -16,26 +16,26 @@ import com.github.matfax.klassindex.IndexAnnotated
  * @param override override already registered command.
  * If value true then already registered command by
  * other mod will be replaced.
- * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
  */
 @IndexAnnotated
 @Target(AnnotationTarget.CLASS)
 annotation class Command(
     /**
      * Command name without `/`.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val name: String,
     /**
      * Command aliases as array.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val aliases: Array<String> = [],
     /**
      * Override already command. If value
      * true then already registered command by
      * other mod will be replaced.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1_MC-1.14.4, API: 1.0.0
      */
     val override: Boolean = false
 )

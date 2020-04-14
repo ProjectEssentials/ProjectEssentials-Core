@@ -1,0 +1,3 @@
+Sorry for the "_" in the version as an indication of metadata in the version, I had problems with the traditional "+" in the version for indicating metadata.
+
+A similar problem exists in the SemVer repository and such a solution was proposed. https://github.com/semver/semver/issues/306
