@@ -34,21 +34,6 @@ configurations {
 minecraft {
     accessTransformer = file 'src/main/resources/META-INF/accesstransformer.cfg'
     mappings channel: forge_mappings_channel_type, version: forge_mappings_channel_version
-
-    runs {
-        client {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-            mods { ProjectEssentialsCore { source sourceSets.main } }
-            workingDirectory project.file(dev_run_client_path as Object)
-        }
-        server {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-            mods { ProjectEssentialsCore { source sourceSets.main } }
-            workingDirectory project.file(dev_run_server_path as Object)
-        }
-    }
 }
 
 repositories {
@@ -128,7 +113,7 @@ jar {
         ])
     }
 
-    baseName = module_name + '-API'
+    baseName = module_name + '-NoRT'
 }
 
 reobf {
