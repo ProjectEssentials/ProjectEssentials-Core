@@ -18,12 +18,10 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 
-String packagesToken = new String(
-    package_public_token.decodeBase64()
-)
+String packagesToken = new String(package_public_token.decodeBase64())
 
 version = module_version
-group = "com.mairwunnx.$module_id"
+group = "com.projectessentials.core"
 archivesBaseName = module_name
 
 configurations {
