@@ -43,38 +43,37 @@ object ProviderAPI {
      * @param kclazz provider class.
      * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
+    @Synchronized
     @OptIn(ExperimentalStdlibApi::class)
-    fun addProvider(kclazz: KClass<*>) {
-        when {
-            kclazz.hasAnnotation<Configuration>() -> {
+    fun addProvider(kclazz: KClass<*>) = when {
+        kclazz.hasAnnotation<Configuration>() -> {
+            addProvider(ProviderType.CONFIGURATION, kclazz).run {
                 logger.info(
                     marker,
                     "Provider class founded: Type: `Configuration`, Class: `${kclazz.simpleName}`"
                 )
-                addProvider(ProviderType.CONFIGURATION, kclazz)
-                return
             }
-            kclazz.hasAnnotation<Module>() -> {
+        }
+        kclazz.hasAnnotation<Module>() -> {
+            addProvider(ProviderType.MODULE, kclazz).run {
                 logger.info(
                     marker,
                     "Provider class founded: Type: `Module`, Class: `${kclazz.simpleName}`"
                 )
-                addProvider(ProviderType.MODULE, kclazz)
-                return
             }
-            kclazz.hasAnnotation<Command>() -> {
+        }
+        kclazz.hasAnnotation<Command>() -> {
+            addProvider(ProviderType.COMMAND, kclazz).run {
                 logger.info(
                     marker,
                     "Provider class founded: Type: `Command`, Class: `${kclazz.simpleName}`"
                 )
-                addProvider(ProviderType.COMMAND, kclazz)
-                return
             }
-            else -> logger.warn(
-                marker,
-                "Incorrect provider class found! (skipped to load): Class: `${kclazz.simpleName}`"
-            )
         }
+        else -> logger.warn(
+            marker,
+            "Incorrect provider class found! (skipped to load): Class: `${kclazz.simpleName}`"
+        )
     }
 
     /**

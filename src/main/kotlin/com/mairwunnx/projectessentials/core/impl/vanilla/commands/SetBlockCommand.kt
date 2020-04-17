@@ -24,10 +24,8 @@ import net.minecraft.command.arguments.BlockStateInput
 import net.minecraft.inventory.IClearable
 import net.minecraft.util.CachedBlockInfo
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.MutableBoundingBox
 import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.world.server.ServerWorld
 import java.util.function.Predicate
 
 internal object SetBlockCommand : VanillaCommandBase() {
@@ -156,15 +154,6 @@ internal object SetBlockCommand : VanillaCommandBase() {
                 1
             }
         }
-    }
-
-    interface IFilter {
-        fun filter(
-            p_filter_1_: MutableBoundingBox?,
-            p_filter_2_: BlockPos?,
-            p_filter_3_: BlockStateInput?,
-            p_filter_4_: ServerWorld?
-        ): BlockStateInput?
     }
 
     enum class Mode {

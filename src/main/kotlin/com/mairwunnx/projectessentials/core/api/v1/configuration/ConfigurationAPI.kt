@@ -35,9 +35,7 @@ object ConfigurationAPI {
      */
     fun reloadAll(saveBeforeLoad: Boolean = true) {
         getAllConfigurations().forEach {
-            if (saveBeforeLoad) {
-                it.save()
-            }
+            if (saveBeforeLoad) it.save()
             it.load()
         }
     }
@@ -53,9 +51,7 @@ object ConfigurationAPI {
         configuration: IConfiguration<*>,
         saveBeforeLoad: Boolean = true
     ) {
-        if (saveBeforeLoad) {
-            configuration.save()
-        }
+        if (saveBeforeLoad) configuration.save()
         configuration.load()
     }
 
@@ -63,9 +59,7 @@ object ConfigurationAPI {
      * Saves all initialized and processed configurations.
      * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
-    fun saveAll() = getAllConfigurations().forEach {
-        it.save()
-    }
+    fun saveAll() = getAllConfigurations().forEach { it.save() }
 
     /**
      * Saves specified configuration.

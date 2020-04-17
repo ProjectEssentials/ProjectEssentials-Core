@@ -2,7 +2,6 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.configuration
 
-import com.github.matfax.klassindex.IndexAnnotated
 
 /**
  * Mandatory annotation for configuration classes. Targets
@@ -11,7 +10,6 @@ import com.github.matfax.klassindex.IndexAnnotated
  */
 @Target(AnnotationTarget.CLASS)
 @OptIn(ExperimentalUnsignedTypes::class)
-@IndexAnnotated
 @MustBeDocumented
 annotation class Configuration(
     /**

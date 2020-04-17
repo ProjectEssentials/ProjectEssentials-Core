@@ -85,9 +85,7 @@ internal object ModuleProcessor : IProcessor {
         ModList.get().getModObjectById<IModule>(getInstanceModId(kclazz)).get()
 
     private fun sortByLoadIndex() {
-        modules = modules.sortedWith(compareBy {
-            it.getModule().getModuleData().loadIndex
-        })
+        modules = modules.sortedWith(compareBy { it.getModule().getModuleData().loadIndex })
     }
 
     override fun postProcess() {

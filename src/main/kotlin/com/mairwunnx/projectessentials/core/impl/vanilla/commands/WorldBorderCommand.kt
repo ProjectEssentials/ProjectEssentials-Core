@@ -332,43 +332,48 @@ internal object WorldBorderCommand : VanillaCommandBase() {
 
         val worldborder = source.world.worldBorder
         val d0 = worldborder.diameter
-        return if (d0 == newSize) {
-            throw SIZE_NO_CHANGE.create()
-        } else if (newSize < 1.0) {
-            throw SIZE_TOO_SMALL.create()
-        } else if (newSize > 6.0E7) {
-            throw SIZE_TOO_BIG.create()
-        } else {
-            if (time > 0L) {
-                worldborder.setTransition(d0, newSize, time)
-                if (newSize > d0) {
-                    source.sendFeedback(
-                        TranslationTextComponent(
-                            "commands.worldborder.set.grow", String.format(
-                                Locale.ROOT, "%.1f", newSize
-                            ), (time / 1000L).toString()
-                        ), true
-                    )
+        return when {
+            d0 == newSize -> {
+                throw SIZE_NO_CHANGE.create()
+            }
+            newSize < 1.0 -> {
+                throw SIZE_TOO_SMALL.create()
+            }
+            newSize > 6.0E7 -> {
+                throw SIZE_TOO_BIG.create()
+            }
+            else -> {
+                if (time > 0L) {
+                    worldborder.setTransition(d0, newSize, time)
+                    if (newSize > d0) {
+                        source.sendFeedback(
+                            TranslationTextComponent(
+                                "commands.worldborder.set.grow", String.format(
+                                    Locale.ROOT, "%.1f", newSize
+                                ), (time / 1000L).toString()
+                            ), true
+                        )
+                    } else {
+                        source.sendFeedback(
+                            TranslationTextComponent(
+                                "commands.worldborder.set.shrink", String.format(
+                                    Locale.ROOT, "%.1f", newSize
+                                ), (time / 1000L).toString()
+                            ), true
+                        )
+                    }
                 } else {
+                    worldborder.setTransition(newSize)
                     source.sendFeedback(
                         TranslationTextComponent(
-                            "commands.worldborder.set.shrink", String.format(
+                            "commands.worldborder.set.immediate", String.format(
                                 Locale.ROOT, "%.1f", newSize
-                            ), (time / 1000L).toString()
+                            )
                         ), true
                     )
                 }
-            } else {
-                worldborder.setTransition(newSize)
-                source.sendFeedback(
-                    TranslationTextComponent(
-                        "commands.worldborder.set.immediate", String.format(
-                            Locale.ROOT, "%.1f", newSize
-                        )
-                    ), true
-                )
+                (newSize - d0).toInt()
             }
-            (newSize - d0).toInt()
         }
     }
 }

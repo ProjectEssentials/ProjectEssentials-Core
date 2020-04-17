@@ -29,6 +29,10 @@ object CommandAPI {
      * @param dispatcher command dispatcher.
      * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
      */
+    /*
+        This is a crutch to replace vanilla commands,
+         and to gain access to the dispatcher root.
+     */
     @Suppress("UNCHECKED_CAST")
     internal fun assignDispatcherRoot(
         dispatcher: CommandDispatcher<CommandSource>

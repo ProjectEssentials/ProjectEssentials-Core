@@ -1,6 +1,5 @@
 package com.mairwunnx.projectessentials.core.api.v1.commands
 
-import com.github.matfax.klassindex.IndexAnnotated
 
 /**
  * Mandatory annotation for all commands.
@@ -18,7 +17,7 @@ import com.github.matfax.klassindex.IndexAnnotated
  * other mod will be replaced.
  * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
  */
-@IndexAnnotated
+
 @Target(AnnotationTarget.CLASS)
 annotation class Command(
     /**

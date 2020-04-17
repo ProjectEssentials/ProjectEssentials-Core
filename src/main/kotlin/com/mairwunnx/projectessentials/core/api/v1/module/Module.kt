@@ -2,7 +2,6 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.module
 
-import com.github.matfax.klassindex.IndexAnnotated
 
 /**
  * Mandatory annotation for all modules. Targets
@@ -11,7 +10,7 @@ import com.github.matfax.klassindex.IndexAnnotated
  */
 @Target(AnnotationTarget.CLASS)
 @OptIn(ExperimentalUnsignedTypes::class)
-@IndexAnnotated
+
 @MustBeDocumented
 annotation class Module(
     /**

@@ -6,6 +6,7 @@
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
+//import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
@@ -13,7 +14,6 @@ import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
-//import com.mairwunnx.projectessentials.permissions.permissions.PermissionsAPI
 import com.mojang.authlib.GameProfile
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -113,11 +113,16 @@ internal object DeOpCommand : VanillaCommandBase() {
         }
 
         players.forEach {
-            if (ModuleAPI.isModuleExist("permissions")) {
-//                if (PermissionsAPI.hasPermission(it.name, "*")) {
-//                    PermissionsAPI.removeUserPermission(it.name, "*")
+            // todo: add support to remove `*` permission when we deop player.
+            //  if this feature will not implemented until 2.2>.X version, just make
+            //  pull request and remove this commented code and this `to-do`. thanks.
+//            if (generalConfiguration.getBool(SETTING_DEOP_COMMAND_REMOVE_OP_PERM)) {
+//                if (ModuleAPI.isModuleExist("permissions")) {
+////                if (PermissionsAPI.hasPermission(it.name, "*")) {
+////                    PermissionsAPI.removeUserPermission(it.name, "*")
+////                }
 //                }
-            }
+//            }
 
             if (i == 0) {
                 source.sendFeedback(

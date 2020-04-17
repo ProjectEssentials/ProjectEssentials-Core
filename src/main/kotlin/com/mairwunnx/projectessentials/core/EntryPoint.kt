@@ -1,10 +1,7 @@
 package com.mairwunnx.projectessentials.core
 
-import com.github.matfax.klassindex.KlassIndex
-import com.mairwunnx.projectessentials.core.api.v1.commands.Command
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandProcessor
-import com.mairwunnx.projectessentials.core.api.v1.configuration.Configuration
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationProcessor
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI.subscribeOn
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.FMLCommonSetupEventData
@@ -14,10 +11,14 @@ import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModProcessE
 import com.mairwunnx.projectessentials.core.api.v1.localization.Localization
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProcessor
-import com.mairwunnx.projectessentials.core.api.v1.module.Module
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleProcessor
 import com.mairwunnx.projectessentials.core.api.v1.processor.ProcessorAPI
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.impl.ModuleCoreObject
+import com.mairwunnx.projectessentials.core.impl.commands.BackLocationCommand
+import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommand
+import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
+import com.mairwunnx.projectessentials.core.impl.configurations.NativeAliasesConfiguration
 import com.mairwunnx.projectessentials.core.impl.events.EventBridge
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -26,29 +27,41 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import org.apache.logging.log4j.LogManager
 
 @Suppress("unused")
-@Mod(value = "project_essentials_core")
+@Mod("project_essentials_core")
 internal class EntryPoint {
     private val logger = LogManager.getLogger()
 
+    /*
+        Sorry for hardcoded classes in this list.
+        I tried getting this classes with library https://github.com/matfax/klassindex
+        but it incorrectly works with multi-module projects,
+        for example if core will using klassindex library, then
+        other modules will incorrectly finding annotated classes,
+        because same class path of generated object with class references.
+
+        If you know how resolve it, please, open issue or pull request
+        and we can discuss it.
+     */
+    private val providers = listOf(
+        GeneralConfiguration::class,
+        NativeAliasesConfiguration::class,
+        ModuleCoreObject::class,
+        BackLocationCommand::class,
+        ConfigureEssentialsCommand::class
+    )
+
+    private val processors = listOf(
+        ConfigurationProcessor,
+        ModuleProcessor,
+        LocalizationProcessor,
+        CommandProcessor
+    )
+
     init {
-        initializeProviders()
         EventBridge.initialize()
+        providers.forEach { ProviderAPI.addProvider(it) }
         subscribeEvents()
         EVENT_BUS.register(this)
-    }
-
-    private fun initializeProviders() {
-        KlassIndex.getAnnotated(Configuration::class).forEach {
-            ProviderAPI.addProvider(it)
-        }
-
-        KlassIndex.getAnnotated(Module::class).forEach {
-            ProviderAPI.addProvider(it)
-        }
-
-        KlassIndex.getAnnotated(Command::class).forEach {
-            ProviderAPI.addProvider(it)
-        }
     }
 
     private fun subscribeEvents() {
@@ -56,7 +69,7 @@ internal class EntryPoint {
             ForgeEventType.SetupEvent
         ) {
             applyLocalization()
-            registerProcessors()
+            processors.forEach { ProcessorAPI.register(it) }
         }
 
         subscribeOn<InterModEnqueueEventData>(
@@ -81,13 +94,6 @@ internal class EntryPoint {
                 ), "core", EntryPoint::class.java
             )
         )
-    }
-
-    private fun registerProcessors() {
-        ProcessorAPI.register(ConfigurationProcessor)
-        ProcessorAPI.register(ModuleProcessor)
-        ProcessorAPI.register(LocalizationProcessor)
-        ProcessorAPI.register(CommandProcessor)
     }
 
     @SubscribeEvent

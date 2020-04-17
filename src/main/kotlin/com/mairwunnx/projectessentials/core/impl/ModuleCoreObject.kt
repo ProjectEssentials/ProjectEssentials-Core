@@ -23,7 +23,7 @@ import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent
 
 @OptIn(ExperimentalUnsignedTypes::class)
-@Module("core", "2.0.0-SNAPSHOT.1+MC-1.14.4", 0u, "1.0.0")
+@Module("core", "2.0.0-SNAPSHOT.2+MC-1.14.4", 0u, "1.0.0")
 internal class ModuleCoreObject : IModule {
     private var moduleDataCached: Module? = null
     private val generalConfiguration by lazy {
@@ -44,6 +44,7 @@ internal class ModuleCoreObject : IModule {
         generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
         generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
         generalConfiguration.getIntOrDefault(SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000)
+        generalConfiguration.getBoolOrDefault(SETTING_DEOP_COMMAND_REMOVE_OP_PERM, true)
 
         ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_REPLACE)
         ConfigureEssentialsCommandAPI.required(SETTING_LOC_FALLBACK_LANG)
