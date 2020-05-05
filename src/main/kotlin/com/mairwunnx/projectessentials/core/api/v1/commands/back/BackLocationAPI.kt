@@ -9,7 +9,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 /**
  * Back location provider for other teleport commands,
  * for creating ability to rollback location.
- * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
  */
 object BackLocationAPI {
     private val commits = hashMapOf<String, BackLocationData>()
@@ -17,7 +17,7 @@ object BackLocationAPI {
     /**
      * Commits back ticket with player data in hashmap.
      * @param player server player entity instance.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun commit(player: ServerPlayerEntity) {
         if (exist(player)) revoke(player)
@@ -28,7 +28,7 @@ object BackLocationAPI {
      * @param player server player entity instance.
      * @return `BackLocationData` data class instance
      * (nullable), check before using.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun take(player: ServerPlayerEntity) = commits[player.name.string]
 
@@ -37,7 +37,7 @@ object BackLocationAPI {
      * @param player server player entity instance.
      * @return response as BackLocationResponse enum
      * element.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun revoke(player: ServerPlayerEntity) =
         if (exist(player)) {
@@ -50,7 +50,7 @@ object BackLocationAPI {
     /**
      * @param player server player entity instance.
      * @return `true` if player back ticket exist, `false` otherwise.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun exist(player: ServerPlayerEntity) = commits.containsKey(player.name.string)
 }

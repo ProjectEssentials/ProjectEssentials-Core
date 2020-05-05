@@ -15,7 +15,7 @@ import net.minecraft.entity.player.ServerPlayerEntity
 
 /**
  * Class for interacting with command api.
- * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
  */
 object CommandAPI {
     private lateinit var registeredCommands: RootCommandNode<CommandSource>
@@ -27,7 +27,7 @@ object CommandAPI {
      * for removing command. Must be called before
      * any processor initializing.
      * @param dispatcher command dispatcher.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     /*
         This is a crutch to replace vanilla commands,
@@ -45,7 +45,7 @@ object CommandAPI {
     /**
      * Assign dispatcher for command registering.
      * @param dispatcher command dispatcher.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun assignDispatcher(
         dispatcher: CommandDispatcher<CommandSource>
@@ -58,19 +58,19 @@ object CommandAPI {
 
     /**
      * @return server command dispatcher.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getDispatcher() = dispatcher
 
     /**
      * @return true if dispatcher assigned.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun isAssignedDispatcher() = dispatcherAssigned
 
     /**
      * @return all installed and checked commands.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getAllCommands() = CommandProcessor.getCommands()
 
@@ -79,7 +79,7 @@ object CommandAPI {
      * specified name.
      * @param command command name to remove without `/`.
      * @return true if command removed, false otherwise.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun removeCommand(command: String): Boolean =
         registeredCommands.children.removeIf { it.name == command }
@@ -88,7 +88,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if string exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getStringExisting(
         context: CommandContext<CommandSource>,
@@ -104,7 +104,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return string from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getString(
         context: CommandContext<CommandSource>,
@@ -115,7 +115,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if int exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getIntExisting(
         context: CommandContext<CommandSource>,
@@ -131,7 +131,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return int from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getInt(
         context: CommandContext<CommandSource>,
@@ -142,7 +142,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if bool exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getBoolExisting(
         context: CommandContext<CommandSource>,
@@ -158,7 +158,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return bool from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getBool(
         context: CommandContext<CommandSource>,
@@ -169,7 +169,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if entity exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getEntityExisting(
         context: CommandContext<CommandSource>,
@@ -185,7 +185,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return entity from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getEntity(
         context: CommandContext<CommandSource>,
@@ -196,7 +196,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if entities exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getEntitiesExisting(
         context: CommandContext<CommandSource>,
@@ -212,7 +212,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return entities from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getEntities(
         context: CommandContext<CommandSource>,
@@ -223,7 +223,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if player exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getPlayerExisting(
         context: CommandContext<CommandSource>,
@@ -239,7 +239,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return player from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getPlayer(
         context: CommandContext<CommandSource>,
@@ -250,7 +250,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return true if players exist.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getPlayersExisting(
         context: CommandContext<CommandSource>,
@@ -266,7 +266,7 @@ object CommandAPI {
      * @param context command context.
      * @param argumentName argument name.
      * @return players from command.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getPlayers(
         context: CommandContext<CommandSource>,

@@ -72,7 +72,7 @@ internal class ModuleCoreObject : IModule {
         if (event.entityLiving.isPlayerEntity) {
             with(event.entityLiving.asPlayerEntity) {
                 if (
-                    hasPermission(this, "teleport.back.ondeath", 3) ||
+                    hasPermission(this, "ess.teleport.back.ondeath", 3) ||
                     hasPermission(this, "ess.back.ondeath", 3)
                 ) BackLocationAPI.commit(this)
             }

@@ -6,7 +6,7 @@ package com.mairwunnx.projectessentials.core.api.v1.module
 /**
  * Mandatory annotation for all modules. Targets
  * on classes.
- * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
  */
 @Target(AnnotationTarget.CLASS)
 @OptIn(ExperimentalUnsignedTypes::class)
@@ -16,7 +16,7 @@ annotation class Module(
     /**
      * Module name, for example `Project Essentials` or
      * `Project Essentials Auth`.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     val name: String,
     /**
@@ -24,7 +24,7 @@ annotation class Module(
      * `1.15.2-1.606.31.91`.
      *
      * **Must starts with minecraft version.**
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     val version: String,
     /**
@@ -35,7 +35,7 @@ annotation class Module(
      *
      *  > 0 - first to load. 100 - last to load.
      *
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     val loadIndex: UInt,
     /**
@@ -46,7 +46,7 @@ annotation class Module(
      *
      * By default value is "not provided", and if API not provided,
      * then leave this empty.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     val apiVersion: String = "not provided"
 )

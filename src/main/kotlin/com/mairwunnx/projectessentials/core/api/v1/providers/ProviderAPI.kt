@@ -29,7 +29,7 @@ import kotlin.reflect.full.hasAnnotation
  *
  * ["ClassIndex library"](https://github.com/atteo/classindex)
  *
- * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+ * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
  */
 object ProviderAPI {
     private val logger = LogManager.getLogger()
@@ -41,7 +41,7 @@ object ProviderAPI {
      *
      * **Call only in module initialize block or constructor!!**
      * @param kclazz provider class.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     @Synchronized
     @OptIn(ExperimentalStdlibApi::class)
@@ -82,7 +82,7 @@ object ProviderAPI {
      * **Call only in module initialize block or constructor!!**
      * @param type provider type.
      * @param kclazz provider class.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun addProvider(type: ProviderType, kclazz: KClass<*>) {
         providers[type]?.add(kclazz) ?: providers.put(type, mutableListOf(kclazz))
@@ -90,14 +90,14 @@ object ProviderAPI {
 
     /**
      * @return all added providers.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getAllProviders() = providers
 
     /**
      * @param type provider type to return.
      * @return all specified for type providers.
-     * @since Mod: 2.0.0-SNAPSHOT.1+MC-1.14.4, API: 1.0.0
+     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun getProvidersByType(type: ProviderType) = getAllProviders()[type] ?: mutableListOf()
 }

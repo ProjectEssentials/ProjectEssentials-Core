@@ -31,7 +31,7 @@ internal object BackLocationCommand : CommandBase(literal("back")) {
             val player = context.getPlayer()!!
 
             if (
-                hasPermission(player, "teleport.back", 2) ||
+                hasPermission(player, "ess.teleport.back", 2) ||
                 hasPermission(player, "ess.back", 2)
             ) {
                 val data = BackLocationAPI.take(player)
