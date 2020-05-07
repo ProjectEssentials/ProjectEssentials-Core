@@ -26,4 +26,11 @@ object ServerMessagingAPI {
      * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun response(message: String) = logger.info("> $message")
+
+    /**
+     * Send response message on something to server console.
+     * @param message response message.
+     * @since Mod: 2.0.0-SNAPSHOT.2, API: 1.1.0
+     */
+    fun response(message: () -> String) = logger.info("> ${message()}")
 }
