@@ -1,6 +1,9 @@
 package com.mairwunnx.projectessentials.core.api.v1.messaging
 
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
+import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.text.TextComponentUtils
@@ -12,6 +15,10 @@ import net.minecraft.util.text.TranslationTextComponent
  * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
  */
 object MessagingAPI {
+    private val generalConfiguration by lazy {
+        ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+    }
+
     /**
      * Send message to player with localized string
      * or simple message.
@@ -27,7 +34,7 @@ object MessagingAPI {
     fun sendMessage(
         player: ServerPlayerEntity,
         l10nString: String,
-        safeLocalization: Boolean,
+        safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
         argumentChar: Char = 's'
     ) = player.sendMessage(
@@ -58,7 +65,7 @@ object MessagingAPI {
     fun sendMessageToAll(
         server: MinecraftServer,
         l10nString: String,
-        safeLocalization: Boolean,
+        safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
         argumentChar: Char = 's'
     ) = server.playerList.players.forEach {
@@ -84,7 +91,7 @@ object MessagingAPI {
         worldId: Int,
         server: MinecraftServer,
         l10nString: String,
-        safeLocalization: Boolean,
+        safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
         argumentChar: Char = 's'
     ) = server.playerList.players.forEach {
@@ -110,7 +117,7 @@ object MessagingAPI {
     fun sendActionBarMessage(
         player: ServerPlayerEntity,
         l10nString: String,
-        safeLocalization: Boolean,
+        safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
         argumentChar: Char = 's'
     ) = player.sendStatusMessage(
