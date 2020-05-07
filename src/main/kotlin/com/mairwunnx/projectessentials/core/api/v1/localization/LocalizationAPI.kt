@@ -32,7 +32,7 @@ object LocalizationAPI {
      * @return true if any elements were removed.
      * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
-    fun remove(localization: Localization): Boolean =
+    fun remove(localization: Localization) =
         LocalizationProcessor.localizations.removeIf {
             it.sourceName == localization.sourceName && it.sources == localization.sources
         }
@@ -56,7 +56,7 @@ object LocalizationAPI {
      * code is illegal.
      * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
-    fun setFallBackLanguage(language: String) {
+    fun setFallBackLanguage(language: String) =
         if (language.matches(Regex("^[a-z]{2}_[a-z]{2}$"))) {
             fallbackLanguage = language
         } else {
@@ -64,7 +64,6 @@ object LocalizationAPI {
                 "Language code format $language incorrect and unsupported."
             )
         }
-    }
 
     /**
      * @param name target localization name.
