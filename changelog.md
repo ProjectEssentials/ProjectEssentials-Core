@@ -6,13 +6,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-### *[2.0.0-RC.1+MC-1.14.4] - 2020-04-XX*
+### [2.0.0-RC.1] - 2020-05-09
 
-Relative https://github.com/orgs/ProjectEssentials/projects/3
+*Note: it is not full list with changes!* 
+
+### Added
+- Short aliases for basic commands, weather, gamemode, etc.
+- Ability to configure some settings in game with command `/configure-essentials <> <>`.
+- Permissions for back command after death.
 
 ### Changes
+- Fully rewritten core module code, and module system.
+- API breaking changes (not documented changes).
+- Version number format now fully relative to semver.
+- Updated kotlin runtime to the latest version.
+- Now as updater file uses `updatev2.json`.
+- Almost all permissions nodes was renamed.
+- Permissions system was changed, and now no one module dependents on permissions module.
 
-- https://github.com/ProjectEssentials/ProjectEssentials-Core/compare/v1.14.4-1.3.0...MC-1.14.4
+### Removed
+- Redundant logger information spamming in common logger. Now it redirected to debug logger.
+
+### Fixed
+- Back command incorrect behavior was fixed after death.
+- Safe localization random bugs probably fixed.
 
 ## [1.14.4-1.3.0] - 2020-03-12
 
