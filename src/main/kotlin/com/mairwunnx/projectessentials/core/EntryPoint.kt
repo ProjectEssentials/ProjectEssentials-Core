@@ -24,6 +24,7 @@ import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfigura
 import com.mairwunnx.projectessentials.core.impl.configurations.NativeAliasesConfiguration
 import com.mairwunnx.projectessentials.core.impl.events.EventBridge
 import net.minecraft.entity.player.ServerPlayerEntity
+import net.minecraft.util.text.event.ClickEvent
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -107,7 +108,25 @@ internal class EntryPoint {
     fun onServerStarting(event: FMLServerStartingEvent) {
         dudeFuckedOff = File(
             projectConfigDirectory + File.separator + "fuck-off-dude.txt"
-        ).exists()
+        ).exists().also {
+            if (!it) {
+                logger.warn(
+                    """
+
+Notification from Project Essentials
+
+Project Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
+Project Essentials **is not a commercial project** and all its modules distributed free and not have any restrictions.
+
+I will be very happy with your support, below is a link to the donation documentation and how to disable this annoying alert.
+For support project you can also put an star on the Project Essentials repository.
+
+[ -> Support the project https://git.io/JfZ1V ]
+
+                    """
+                )
+            }
+        }
         CommandAPI.assignDispatcherRoot(event.commandDispatcher)
         CommandAPI.assignDispatcher(event.commandDispatcher)
         ProcessorAPI.getProcessorByName("command").postProcess()
@@ -122,14 +141,15 @@ internal class EntryPoint {
                 hasPermission(player, "ess.notification.support", 4) -> MessagingAPI.sendMessage(
                     player,
                     """
-                    §6Notification from §7Project Essentials
-                    
-                    §fProject Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
-                    Project Essentials §c§ois not a commercial project §fand all its modules distributed free of charge and not subject to any restrictions.
-                    
-                    §7[ §c-> §support the project §6§nhttps://git.io/JfZ1V §7]
-                    """.trimIndent(),
-                    false
+§6Notification from §7Project Essentials
+
+§fProject Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
+Project Essentials §c§ois not a commercial project §fand all its modules distributed free and not have any restrictions.
+
+§7[ §c-> §7Support the project §6§nhttps://git.io/JfZ1V§7 ]
+                    """.trim(),
+                    false,
+                    clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, "https://git.io/JfZ1V")
                 )
             }
         }
