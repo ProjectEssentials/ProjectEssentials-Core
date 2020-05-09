@@ -8,6 +8,8 @@ import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
+import net.minecraft.util.text.event.ClickEvent
+import net.minecraft.util.text.event.HoverEvent
 
 /**
  * This class contains all methods for interacting
@@ -29,6 +31,8 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
+     * @param clickEvent click event for message.
+     * @param hoverEvent hover event for message.
      * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun sendMessage(
@@ -36,7 +40,9 @@ object MessagingAPI {
         l10nString: String,
         safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
-        argumentChar: Char = 's'
+        argumentChar: Char = 's',
+        clickEvent: ClickEvent? = null,
+        hoverEvent: HoverEvent? = null
     ) = player.sendMessage(
         if (safeLocalization) {
             TextComponentUtils.toTextComponent {
@@ -44,9 +50,15 @@ object MessagingAPI {
                     player.language, l10nString, *args, argumentChar = argumentChar
                 )
                 if (msg.isEmpty()) return@toTextComponent l10nString else return@toTextComponent msg
+            }.apply {
+                clickEvent?.let { style.clickEvent = it }
+                hoverEvent?.let { style.hoverEvent = it }
             }
         } else {
-            TranslationTextComponent(l10nString, *args)
+            TranslationTextComponent(l10nString, *args).apply {
+                clickEvent?.let { style.clickEvent = it }
+                hoverEvent?.let { style.hoverEvent = it }
+            }
         }
     )
 
@@ -60,6 +72,8 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
+     * @param clickEvent click event for message.
+     * @param hoverEvent hover event for message.
      * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun sendMessageToAll(
@@ -67,10 +81,18 @@ object MessagingAPI {
         l10nString: String,
         safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
-        argumentChar: Char = 's'
+        argumentChar: Char = 's',
+        clickEvent: ClickEvent? = null,
+        hoverEvent: HoverEvent? = null
     ) = server.playerList.players.forEach {
         sendMessage(
-            it, l10nString, safeLocalization, *args, argumentChar = argumentChar
+            player = it,
+            l10nString = l10nString,
+            safeLocalization = safeLocalization,
+            args = *args,
+            argumentChar = argumentChar,
+            clickEvent = clickEvent,
+            hoverEvent = hoverEvent
         )
     }
 
@@ -85,6 +107,8 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
+     * @param clickEvent click event for message.
+     * @param hoverEvent hover event for message.
      * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
      */
     fun sendMessageToAllInWorld(
@@ -93,11 +117,19 @@ object MessagingAPI {
         l10nString: String,
         safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
         vararg args: String,
-        argumentChar: Char = 's'
+        argumentChar: Char = 's',
+        clickEvent: ClickEvent? = null,
+        hoverEvent: HoverEvent? = null
     ) = server.playerList.players.forEach {
         if (it.serverWorld.dimension.type.id == worldId) {
             sendMessage(
-                it, l10nString, safeLocalization, *args, argumentChar = argumentChar
+                player = it,
+                l10nString = l10nString,
+                safeLocalization = safeLocalization,
+                args = *args,
+                argumentChar = argumentChar,
+                clickEvent = clickEvent,
+                hoverEvent = hoverEvent
             )
         }
     }
