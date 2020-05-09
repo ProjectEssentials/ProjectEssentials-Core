@@ -1,7 +1,6 @@
 package com.mairwunnx.projectessentials.core.impl.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.MESSAGE_CORE_PREFIX
-import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.Command
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandBase
@@ -10,7 +9,7 @@ import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAP
 import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerSender
 import com.mairwunnx.projectessentials.core.api.v1.extensions.playerName
-import com.mairwunnx.projectessentials.core.api.v1.extensions.sendMessage
+import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.messaging.ServerMessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI.requiredServerRestart
@@ -90,28 +89,28 @@ internal object ConfigureEssentialsCommand : CommandBase(
                     LogManager.getLogger().info(
                         "Setting name `$setting` value changed by ${context.playerName()} from `$oldValue` to $value, but restart required for applying changes."
                     )
-                    context.getPlayer()!!.sendMessage(
+                    MessagingAPI.sendMessage(
+                        context.getPlayer()!!,
                         "$MESSAGE_CORE_PREFIX.configure.successfully_required_restart",
-                        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false),
-                        setting, oldValue, value
+                        args = *arrayOf(setting, oldValue, value)
                     )
                 } else {
                     LogManager.getLogger().info(
                         "Setting name `$setting` value changed by ${context.playerName()} from `$oldValue` to $value"
                     )
-                    context.getPlayer()!!.sendMessage(
+                    MessagingAPI.sendMessage(
+                        context.getPlayer()!!,
                         "$MESSAGE_CORE_PREFIX.configure.successfully",
-                        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false),
-                        setting, oldValue, value
+                        args = *arrayOf(setting, oldValue, value)
                     )
                 }
                 generalConfiguration.put(setting, value)
                 super.process(context)
             } else {
-                context.getPlayer()!!.sendMessage(
+                MessagingAPI.sendMessage(
+                    context.getPlayer()!!,
                     "$MESSAGE_CORE_PREFIX.configure.restricted",
-                    generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false),
-                    setting
+                    args = *arrayOf(setting)
                 )
             }
         } else {

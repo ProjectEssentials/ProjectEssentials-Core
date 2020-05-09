@@ -1,27 +1,20 @@
 package com.mairwunnx.projectessentials.core.impl.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.MESSAGE_CORE_PREFIX
-import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.Command
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandBase
 import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerSender
-import com.mairwunnx.projectessentials.core.api.v1.extensions.sendMessage
+import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.messaging.ServerMessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
-import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 
 @Command("back")
 internal object BackLocationCommand : CommandBase(literal("back")) {
-    private val generalConfiguration by lazy {
-        ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
-    }
-
     init {
         data = getData(this.javaClass)
     }
@@ -45,24 +38,13 @@ internal object BackLocationCommand : CommandBase(literal("back")) {
                     )
 
                     BackLocationAPI.revoke(player)
-
-                    player.sendMessage(
-                        "$MESSAGE_CORE_PREFIX.back.success",
-                        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
-                    )
+                    MessagingAPI.sendMessage(player, "$MESSAGE_CORE_PREFIX.back.success")
                 } else {
-                    player.sendMessage(
-                        "$MESSAGE_CORE_PREFIX.back.tickets_not_exists",
-                        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
-                    )
+                    MessagingAPI.sendMessage(player, "$MESSAGE_CORE_PREFIX.back.tickets_not_exists")
                 }
-
                 super.process(context)
             } else {
-                player.sendMessage(
-                    "$MESSAGE_CORE_PREFIX.back.restricted",
-                    generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
-                )
+                MessagingAPI.sendMessage(player, "$MESSAGE_CORE_PREFIX.back.restricted")
             }
         } else {
             ServerMessagingAPI.throwOnlyPlayerCan()
