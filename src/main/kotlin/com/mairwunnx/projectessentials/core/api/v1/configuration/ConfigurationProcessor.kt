@@ -27,7 +27,7 @@ internal object ConfigurationProcessor : IProcessor {
 
     @OptIn(ExperimentalStdlibApi::class)
     override fun process() {
-        logger.info(marker, "Finding and processing configurations")
+        logger.debug(marker, "Finding and processing configurations")
 
         ProviderAPI.getProvidersByType(ProviderType.CONFIGURATION).forEach {
             if (isConfiguration(it)) {
@@ -35,7 +35,7 @@ internal object ConfigurationProcessor : IProcessor {
 
                 ModuleEventAPI.fire(OnConfigurationClassProcessing, ConfigurationEventData(clazz))
 
-                logger.info(
+                logger.debug(
                     marker,
                     "\n\n    *** Configuration taken! ${it.simpleName}".plus(
                         "\n\n  - Name: ${clazz.data().name}"

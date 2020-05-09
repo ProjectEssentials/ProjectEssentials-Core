@@ -37,7 +37,7 @@ internal object LocalizationProcessor : IProcessor {
 
     override fun initialize() {
         ModuleEventAPI.fire(OnLocalizationInitializing, EmptyEventData())
-        logger.info(marker, "Initializing localization processor")
+        logger.debug(marker, "Initializing localization processor")
         fallbackLanguage = generalConfiguration.getStringOrDefault(
             SETTING_LOC_FALLBACK_LANG, "en_us"
         )

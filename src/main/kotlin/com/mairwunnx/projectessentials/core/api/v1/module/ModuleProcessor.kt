@@ -32,7 +32,7 @@ internal object ModuleProcessor : IProcessor {
     override fun initialize() = Unit
 
     override fun process() {
-        logger.info(marker, "Finding and processing modules")
+        logger.debug(marker, "Finding and processing modules")
 
         ProviderAPI.getProvidersByType(ProviderType.MODULE).forEach {
             if (isModule(it)) {
@@ -47,7 +47,7 @@ internal object ModuleProcessor : IProcessor {
                 ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(clazz))
                 processIndexes(clazz.getModuleData().loadIndex)
 
-                logger.info(
+                logger.debug(
                     marker,
                     "\n\n    *** Module found! ${it.simpleName}".plus(
                         "\n\n  - Name: ${clazz.getModule().getModuleData().name}"

@@ -25,7 +25,7 @@ internal object CommandProcessor : IProcessor {
     override fun initialize() = Unit
 
     override fun process() {
-        logger.info(marker, "Finding and processing commands")
+        logger.debug(marker, "Finding and processing commands")
 
         ProviderAPI.getProvidersByType(ProviderType.COMMAND).forEach {
             val clazz = it.objectInstance as ICommand
@@ -33,7 +33,7 @@ internal object CommandProcessor : IProcessor {
             ModuleEventAPI.fire(OnCommandClassProcessing, CommandEventData(clazz))
 
             val data = it.findAnnotation<Command>()!!
-            logger.info(
+            logger.debug(
                 marker,
                 "\n\n    *** Command taken! ${it.simpleName}".plus(
                     "\n\n  - Command name: ${data.name}"

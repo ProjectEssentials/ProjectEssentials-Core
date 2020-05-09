@@ -48,7 +48,7 @@ object ProviderAPI {
     fun addProvider(kclazz: KClass<*>) = when {
         kclazz.hasAnnotation<Configuration>() -> {
             addProvider(ProviderType.CONFIGURATION, kclazz).run {
-                logger.info(
+                logger.debug(
                     marker,
                     "Provider class founded: Type: `Configuration`, Class: `${kclazz.simpleName}`"
                 )
@@ -56,7 +56,7 @@ object ProviderAPI {
         }
         kclazz.hasAnnotation<Module>() -> {
             addProvider(ProviderType.MODULE, kclazz).run {
-                logger.info(
+                logger.debug(
                     marker,
                     "Provider class founded: Type: `Module`, Class: `${kclazz.simpleName}`"
                 )
@@ -64,7 +64,7 @@ object ProviderAPI {
         }
         kclazz.hasAnnotation<Command>() -> {
             addProvider(ProviderType.COMMAND, kclazz).run {
-                logger.info(
+                logger.debug(
                     marker,
                     "Provider class founded: Type: `Command`, Class: `${kclazz.simpleName}`"
                 )
