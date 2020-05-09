@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.mairwunnx.projectessentials.core.api.v1.messaging
 
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED

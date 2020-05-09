@@ -2,15 +2,16 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.extensions
 
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI.getLocalizedString
-import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
+import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.client.Minecraft
 import net.minecraft.command.CommandSource
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.server.MinecraftServer
 import net.minecraft.util.SoundCategory
 import net.minecraft.util.SoundEvent
 import net.minecraft.util.text.ITextComponent
@@ -25,87 +26,9 @@ import net.minecraftforge.fml.DistExecutor
 import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.io.File
 
-/**
- * Send message to player with localized string
- * or simple message.
- * @param l10nString localization string or message.
- * @param safeLocalization if true then localization
- * will provided by server false if localization
- * will provided by client resource pack.
- * @param args localization string arguments.
- * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
- */
-fun ServerPlayerEntity.sendMessage(
-    l10nString: String,
-    safeLocalization: Boolean,
-    vararg args: String,
-    argumentChar: Char = 's'
-) = MessagingAPI.sendMessage(
-    this, l10nString, safeLocalization, *args, argumentChar = argumentChar
-)
-
-/**
- * Send message to player action bar with localized
- * string or simple message.
- * @param l10nString localization string or message.
- * @param safeLocalization if true then localization
- * will provided by server false if localization
- * will provided by client resource pack.
- * @param args localization string arguments.
- * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
- */
-fun ServerPlayerEntity.sendActionBarMessage(
-    l10nString: String,
-    safeLocalization: Boolean,
-    vararg args: String,
-    argumentChar: Char = 's'
-) = MessagingAPI.sendActionBarMessage(
-    this, l10nString, safeLocalization, *args, argumentChar = argumentChar
-)
-
-/**
- * Send message to all player on server with localized
- * string or simple message.
- * @param l10nString localization string or message.
- * @param safeLocalization if true then localization
- * will provided by server false if localization
- * will provided by client resource pack.
- * @param args localization string arguments.
- * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
- */
-fun MinecraftServer.sendMessageToAll(
-    l10nString: String,
-    safeLocalization: Boolean,
-    vararg args: String,
-    argumentChar: Char = 's'
-) = MessagingAPI.sendMessageToAll(
-    this, l10nString, safeLocalization, *args, argumentChar = argumentChar
-)
-
-/**
- * Send message to all player in specified world id
- * with localized string or simple message.
- * @param worldId target world id.
- * @param l10nString localization string or message.
- * @param safeLocalization if true then localization
- * will provided by server false if localization
- * will provided by client resource pack.
- * @param args localization string arguments.
- * @param argumentChar localization argument char.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
- */
-fun MinecraftServer.sendMessageToAllInWorld(
-    worldId: Int,
-    l10nString: String,
-    safeLocalization: Boolean,
-    vararg args: String,
-    argumentChar: Char = 's'
-) = MessagingAPI.sendMessageToAllInWorld(
-    worldId, this, l10nString, safeLocalization, *args, argumentChar = argumentChar
-)
+private val generalConfiguration by lazy {
+    ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+}
 
 /**
  * Plays sound to player at player position on both sides.
@@ -217,7 +140,7 @@ val CommandEvent.source: CommandSource get() = this.parseResults.context.source
  */
 fun hoverEventFrom(
     player: ServerPlayerEntity,
-    safeLocalization: Boolean,
+    safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
     l10n: String,
     vararg args: String
 ) = if (safeLocalization) {
@@ -247,7 +170,7 @@ fun hoverEventFrom(
  */
 fun textComponentFrom(
     player: ServerPlayerEntity,
-    safeLocalization: Boolean,
+    safeLocalization: Boolean = generalConfiguration.getBool(SETTING_LOC_ENABLED),
     l10n: String,
     vararg args: String
 ): ITextComponent = TextComponentUtils.toTextComponent {
