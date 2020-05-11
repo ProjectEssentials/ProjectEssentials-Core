@@ -13,3 +13,4 @@ Base module for all Project Essentials modules, API for creating modules of Proj
 - `hujle` for testing this mod and almost all modules in production
 - [JetBrains](https://www.jetbrains.com/) for product licenses
 - Inspired by: [EssentialsX](https://github.com/EssentialsX)
+- [KuroNoSeiHai](https://github.com/KuroNoSeiHai) for Chinese simplified translation
