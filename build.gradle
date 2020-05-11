@@ -80,13 +80,13 @@ task modJar(type: Jar) {
 
     manifest {
         attributes([
-            "Specification-Title"     : module_name,
-            "Specification-Vendor"    : module_version,
-            "Specification-Version"   : module_vendor,
-            "Implementation-Title"    : module_name,
-            "Implementation-Version"  : module_version,
-            "Implementation-Vendor"   : module_vendor,
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : module_name,
+                "Specification-Vendor"    : module_version,
+                "Specification-Version"   : module_vendor,
+                "Implementation-Title"    : module_name,
+                "Implementation-Version"  : module_version,
+                "Implementation-Vendor"   : module_vendor,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 
@@ -96,13 +96,13 @@ task modJar(type: Jar) {
 jar {
     manifest {
         attributes([
-            "Specification-Title"     : module_name,
-            "Specification-Vendor"    : module_vendor,
-            "Specification-Version"   : module_version,
-            "Implementation-Title"    : module_name,
-            "Implementation-Version"  : module_version,
-            "Implementation-Vendor"   : module_vendor,
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : module_name,
+                "Specification-Vendor"    : module_vendor,
+                "Specification-Version"   : module_version,
+                "Implementation-Title"    : module_name,
+                "Implementation-Version"  : module_version,
+                "Implementation-Vendor"   : module_vendor,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 
@@ -120,11 +120,11 @@ project.tasks['jar'].dependsOn project.tasks['dokka']
 project.tasks['modJar'].dependsOn project.tasks['jar']
 
 sourceCompatibility = targetCompatibility =
-    compileJava.sourceCompatibility =
-        compileJava.targetCompatibility = project_jvm_version_target
+        compileJava.sourceCompatibility =
+                compileJava.targetCompatibility = project_jvm_version_target
 
 compileKotlin.kotlinOptions.jvmTarget =
-    compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
+        compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
 
 publishing {
     repositories {
