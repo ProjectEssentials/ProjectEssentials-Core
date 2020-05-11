@@ -68,6 +68,12 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+task dokkaJar(type: Jar) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    classifier = 'javadoc'
+    from tasks.dokka as Object
+}
+
 task modJar(type: Jar) {
     with tasks.jar
     from configurations.internal.collect { it.isDirectory() ? it : zipTree(it) }
@@ -119,12 +125,6 @@ sourceCompatibility = targetCompatibility =
 
 compileKotlin.kotlinOptions.jvmTarget =
     compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
-
-task dokkaJar(type: Jar) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    classifier = 'javadoc'
-    from tasks.dokka as Object
-}
 
 publishing {
     repositories {
