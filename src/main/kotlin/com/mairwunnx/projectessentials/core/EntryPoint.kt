@@ -84,7 +84,8 @@ internal class EntryPoint {
             Localization(
                 mutableListOf(
                     "/assets/projectessentialscore/lang/en_us.json",
-                    "/assets/projectessentialscore/lang/ru_ru.json"
+                    "/assets/projectessentialscore/lang/ru_ru.json",
+                    "/assets/projectessentialscore/lang/zh_cn.json"
                 ), "core", EntryPoint::class.java
             )
         )
