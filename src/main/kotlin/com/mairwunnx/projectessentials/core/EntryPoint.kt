@@ -2,6 +2,7 @@ package com.mairwunnx.projectessentials.core
 
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandProcessor
+import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationProcessor
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI.subscribeOn
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.FMLCommonSetupEventData
@@ -130,6 +131,11 @@ For support project you can also put an star on the Project Essentials repositor
         CommandAPI.assignDispatcherRoot(event.commandDispatcher)
         CommandAPI.assignDispatcher(event.commandDispatcher)
         ProcessorAPI.getProcessorByName("command").postProcess()
+    }
+
+    @SubscribeEvent
+    fun onPlayerLeave(event: PlayerEvent.PlayerLoggedOutEvent) {
+        BackLocationAPI.revoke(event.player as ServerPlayerEntity)
     }
 
     @SubscribeEvent
