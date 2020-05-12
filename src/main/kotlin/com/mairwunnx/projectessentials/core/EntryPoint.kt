@@ -1,21 +1,16 @@
 package com.mairwunnx.projectessentials.core
 
-import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandProcessor
-import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationProcessor
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI.subscribeOn
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.FMLCommonSetupEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.ForgeEventType
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModEnqueueEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModProcessEventData
-import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirectory
 import com.mairwunnx.projectessentials.core.api.v1.localization.Localization
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProcessor
-import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleProcessor
-import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.api.v1.processor.ProcessorAPI
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
 import com.mairwunnx.projectessentials.core.impl.ModuleObject
@@ -24,22 +19,12 @@ import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCom
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mairwunnx.projectessentials.core.impl.configurations.NativeAliasesConfiguration
 import com.mairwunnx.projectessentials.core.impl.events.EventBridge
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.text.event.ClickEvent
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
-import net.minecraftforge.event.entity.player.PlayerEvent
-import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.common.Mod
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent
-import org.apache.logging.log4j.LogManager
-import java.io.File
 
 @Suppress("unused")
 @Mod("project_essentials_core")
 internal class EntryPoint {
-    private val logger = LogManager.getLogger()
-    private var dudeFuckedOff = true
-
     /*
         Sorry for hardcoded classes in this list.
         I tried getting this classes with library https://github.com/matfax/klassindex
@@ -103,61 +88,5 @@ internal class EntryPoint {
                 ), "core", EntryPoint::class.java
             )
         )
-    }
-
-    @SubscribeEvent
-    fun onServerStarting(event: FMLServerStartingEvent) {
-        dudeFuckedOff = File(
-            projectConfigDirectory + File.separator + "fuck-off-dude.txt"
-        ).exists().also {
-            if (!it) {
-                logger.warn(
-                    """
-
-Notification from Project Essentials
-
-Project Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
-Project Essentials **is not a commercial project** and all its modules distributed free and not have any restrictions.
-
-I will be very happy with your support, below is a link to the donation documentation and how to disable this annoying alert.
-For support project you can also put an star on the Project Essentials repository.
-
-[ -> Support the project https://git.io/JfZ1V ]
-
-                    """
-                )
-            }
-        }
-        CommandAPI.assignDispatcherRoot(event.commandDispatcher)
-        CommandAPI.assignDispatcher(event.commandDispatcher)
-        ProcessorAPI.getProcessorByName("command").postProcess()
-    }
-
-    @SubscribeEvent
-    fun onPlayerLeave(event: PlayerEvent.PlayerLoggedOutEvent) {
-        BackLocationAPI.revoke(event.player as ServerPlayerEntity)
-    }
-
-    @SubscribeEvent
-    fun onPlayerJoin(event: PlayerEvent.PlayerLoggedInEvent) {
-        if (!dudeFuckedOff) {
-            val player = event.player as ServerPlayerEntity
-
-            when {
-                hasPermission(player, "ess.notification.support", 4) -> MessagingAPI.sendMessage(
-                    player,
-                    """
-§6Notification from §7Project Essentials
-
-§fProject Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
-Project Essentials §c§ois not a commercial project §fand all its modules distributed free and not have any restrictions.
-
-§7[ §c-> §7Support the project §6§nhttps://git.io/JfZ1V§7 ]
-                    """.trim(),
-                    false,
-                    clickEvent = ClickEvent(ClickEvent.Action.OPEN_URL, "https://git.io/JfZ1V")
-                )
-            }
-        }
     }
 }
