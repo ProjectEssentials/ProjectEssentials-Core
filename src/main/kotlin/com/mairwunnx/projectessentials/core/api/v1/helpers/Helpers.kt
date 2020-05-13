@@ -11,7 +11,7 @@ import java.io.IOException
  * @param resourcePath path to resource file.
  * @return resource file as file. Return null
  * if file not exist or if was throw `IOException`.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 fun getResourceAsFile(
     classLoader: ClassLoader, resourcePath: String
@@ -42,7 +42,7 @@ fun getResourceAsFile(
 
 /**
  * @return absolutely path to minecraft client or server root dir.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 fun getRootDirectory(): String = File(".").absolutePath
 
@@ -50,7 +50,7 @@ fun getRootDirectory(): String = File(".").absolutePath
  * Common json instance with default configuration
  * for Project Essentials modules, if module using
  * json configuration, then you need use this property.
- * @since 1.14.4-1.0.3.2 / Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 1.14.4-1.0.3.2 / 2.0.0-SNAPSHOT.1.
  */
 @OptIn(kotlinx.serialization.UnstableDefault::class)
 val jsonInstance = Json(
@@ -68,12 +68,12 @@ val jsonInstance = Json(
 
 /**
  * Minecraft config folder absolutely path.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 val configDirectory = getRootDirectory() + File.separator + "config"
 
 /**
  * Project Essentials mod config folder.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 val projectConfigDirectory = configDirectory + File.separator + "ProjectEssentials"

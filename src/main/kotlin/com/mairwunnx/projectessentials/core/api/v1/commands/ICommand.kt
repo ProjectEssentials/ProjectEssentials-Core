@@ -6,19 +6,19 @@ import net.minecraft.command.CommandSource
 
 /**
  * Base interface for all command classes.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 interface ICommand {
     /**
      * Initialize command, assign data and other.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun initialize()
 
     /**
      * Register command.
      * @param dispatcher command dispatcher.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun register(dispatcher: CommandDispatcher<CommandSource>)
 
@@ -26,14 +26,14 @@ interface ICommand {
      * Process command, i.e execute command.
      * @param context command context.
      * @return int. Command execution result.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun process(context: CommandContext<CommandSource>): Int
 
     /**
      * @param clazz from what need take data.
      * @return Command annotation data class.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun getData(clazz: Class<*>): Command
 }

@@ -16,7 +16,7 @@ import net.minecraft.util.text.event.HoverEvent
 /**
  * This class contains all methods for interacting
  * with player messages.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 object MessagingAPI {
     private val generalConfiguration by lazy {
@@ -35,7 +35,7 @@ object MessagingAPI {
      * @param argumentChar localization argument char.
      * @param clickEvent click event for message.
      * @param hoverEvent hover event for message.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun sendMessage(
         player: ServerPlayerEntity,
@@ -76,7 +76,7 @@ object MessagingAPI {
      * @param argumentChar localization argument char.
      * @param clickEvent click event for message.
      * @param hoverEvent hover event for message.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun sendMessageToAll(
         server: MinecraftServer,
@@ -111,7 +111,7 @@ object MessagingAPI {
      * @param argumentChar localization argument char.
      * @param clickEvent click event for message.
      * @param hoverEvent hover event for message.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun sendMessageToAllInWorld(
         worldId: Int,
@@ -146,7 +146,7 @@ object MessagingAPI {
      * will provided by client resource pack.
      * @param args localization string arguments.
      * @param argumentChar localization argument char.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun sendActionBarMessage(
         player: ServerPlayerEntity,

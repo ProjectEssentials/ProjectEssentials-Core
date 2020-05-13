@@ -2,7 +2,7 @@ package com.mairwunnx.projectessentials.core.api.v1.processor
 
 /**
  * Interface for all module processors.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 @OptIn(ExperimentalUnsignedTypes::class)
 interface IProcessor {
@@ -14,7 +14,7 @@ interface IProcessor {
      *
      *  > 0 - first to load. 100 - last to load.
      *
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     val processorLoadIndex: UInt
 
@@ -26,19 +26,19 @@ interface IProcessor {
 
     /**
      * Initialize the processor.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun initialize()
 
     /**
      * Processing something needed.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun process()
 
     /**
      * Post processing something after processing needed.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun postProcess()
 }

@@ -15,26 +15,26 @@ package com.mairwunnx.projectessentials.core.api.v1.commands
  * @param override override already registered command.
  * If value true then already registered command by
  * other mod will be replaced.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 
 @Target(AnnotationTarget.CLASS)
 annotation class Command(
     /**
      * Command name without `/`.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     val name: String,
     /**
      * Command aliases as array.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     val aliases: Array<String> = [],
     /**
      * Override already command. If value
      * true then already registered command by
      * other mod will be replaced.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     val override: Boolean = false
 )

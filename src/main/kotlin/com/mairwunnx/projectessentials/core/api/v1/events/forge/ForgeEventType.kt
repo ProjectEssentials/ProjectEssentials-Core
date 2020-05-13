@@ -4,30 +4,30 @@ import com.mairwunnx.projectessentials.core.api.v1.events.IModuleEventType
 
 /**
  * Some event types of forge, EventAPI.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 enum class ForgeEventType : IModuleEventType {
     /**
      * `setup` method for modloading.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     SetupEvent,
 
     /**
      * `enqueueIMC` method for modloading.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     EnqueueIMCEvent,
 
     /**
      * `processIMC` method for modloading.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     ProcessIMCEvent,
 
     /**
      * `doClientStuff` method for modloading.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     DoClientStuffEvent
 }

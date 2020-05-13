@@ -1,7 +1,21 @@
 package com.mairwunnx.projectessentials.core.api.v1.permissions
 
+import com.mairwunnx.projectessentials.core.api.v1.permissions.strategy.DefaultPermissionResolutionStrategy
+import com.mairwunnx.projectessentials.core.api.v1.permissions.strategy.IPermissionResolutionStrategy
 import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraftforge.server.permission.PermissionAPI
+
+/**
+ * Permission resolution strategy.
+ *
+ * By default uses default resolution strategy
+ * [DefaultPermissionResolutionStrategy] class.
+ *
+ * You can change resolution strategy at any time.
+ *
+ * @since 2.0.0-RC.2.
+ */
+var permissionResolutionStrategy: IPermissionResolutionStrategy =
+    DefaultPermissionResolutionStrategy()
 
 /**
  * Uses installed forge permissions provider for
@@ -15,13 +29,8 @@ import net.minecraftforge.server.permission.PermissionAPI
  * @param node required permission node.
  * @param opLevel required operator level.
  * @return true if player has permission.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 fun hasPermission(
-    player: ServerPlayerEntity,
-    node: String,
-    opLevel: Int
-) = when {
-    PermissionAPI.hasPermission(player, node) -> true
-    else -> player.hasPermissionLevel(opLevel)
-}
+    player: ServerPlayerEntity, node: String, opLevel: Int
+) = permissionResolutionStrategy.hasPermission(player, node, opLevel)

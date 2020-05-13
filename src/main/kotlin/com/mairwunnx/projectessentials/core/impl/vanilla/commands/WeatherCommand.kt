@@ -25,7 +25,7 @@ import net.minecraft.util.text.TranslationTextComponent
 
 /**
  * Weather type uses for [WeatherType] enum elements.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 interface IWeatherType {
     /**
@@ -37,7 +37,7 @@ interface IWeatherType {
 /**
  * Weather type enum class, contains all weather types for
  * other essentials modules.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 enum class WeatherType : IWeatherType {
     /**

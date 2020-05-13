@@ -8,14 +8,14 @@ import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProc
 /**
  * Localization API class, for interacting with
  * localization.
- * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+ * @since 2.0.0-SNAPSHOT.1.
  */
 object LocalizationAPI {
     /**
      * Applying localization, without processing. Thread safe.
      * **Apply only in setup event!**
      * @param localization localization data class instance.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun apply(localization: Localization) {
         synchronized(this) {
@@ -30,7 +30,7 @@ object LocalizationAPI {
      * @param localization localization data class with specified
      * name and sources.
      * @return true if any elements were removed.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun remove(localization: Localization) =
         LocalizationProcessor.localizations.removeIf {
@@ -39,13 +39,13 @@ object LocalizationAPI {
 
     /**
      * Removing all localizations.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun removeAll() = LocalizationProcessor.localizations.clear()
 
     /**
      * @return fall back localizations language.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun getFallBackLanguage() = fallbackLanguage
 
@@ -54,7 +54,7 @@ object LocalizationAPI {
      * @param language language string in format `xx_xx`.
      * @throws IllegalLanguageCodeException when language
      * code is illegal.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun setFallBackLanguage(language: String) =
         if (language.matches(Regex("^[a-z]{2}_[a-z]{2}$"))) {
@@ -70,7 +70,7 @@ object LocalizationAPI {
      * @return Localization data by specified name.
      * @throws LocalizationNotFoundException when localization
      * not found.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun getByName(name: String) =
         LocalizationProcessor.localizations.find {
@@ -81,7 +81,7 @@ object LocalizationAPI {
 
     /**
      * @return all localizations as mutable list.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun getAll() = LocalizationProcessor.localizations
 
@@ -92,7 +92,7 @@ object LocalizationAPI {
      * @param argumentChar argument char for processing arguments.
      * @return localized string, if localization string
      * not found, then return empty string.
-     * @since Mod: 2.0.0-SNAPSHOT.1, API: 1.0.0
+     * @since 2.0.0-SNAPSHOT.1.
      */
     fun getLocalizedString(
         targetLanguage: String,
