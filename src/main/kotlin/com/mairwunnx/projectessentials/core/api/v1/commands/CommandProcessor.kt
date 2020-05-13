@@ -10,7 +10,6 @@ import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import kotlin.reflect.full.findAnnotation
 
 internal object CommandProcessor : IProcessor {
     private val logger = LogManager.getLogger()
@@ -28,20 +27,20 @@ internal object CommandProcessor : IProcessor {
         logger.debug(marker, "Finding and processing commands")
 
         ProviderAPI.getProvidersByType(ProviderType.COMMAND).forEach {
-            val clazz = it.objectInstance as ICommand
+            val clazz = it.getDeclaredField("INSTANCE").get(null) as ICommand
 
             ModuleEventAPI.fire(OnCommandClassProcessing, CommandEventData(clazz))
 
-            val data = it.findAnnotation<Command>()!!
             logger.debug(
                 marker,
-                "\n\n    *** Command taken! ${it.simpleName}".plus(
-                    "\n\n  - Command name: ${data.name}"
-                ).plus(
-                    "\n  - Command aliases: ${data.aliases.contentToString()}"
-                ).plus(
-                    "\n  - Class: ${it.qualifiedName}\n\n"
-                )
+                """
+
+    ### Command taken! ${clazz.javaClass.simpleName}
+        - Name: ${clazz.name}
+        - Class: ${clazz.javaClass.canonicalName}
+        - Aliases: ${clazz.aliases}
+
+                """
             )
 
             commands = commands + clazz

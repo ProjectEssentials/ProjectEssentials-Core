@@ -1,12 +1,10 @@
 package com.mairwunnx.projectessentials.core.api.v1.providers
 
-import com.mairwunnx.projectessentials.core.api.v1.commands.Command
-import com.mairwunnx.projectessentials.core.api.v1.configuration.Configuration
-import com.mairwunnx.projectessentials.core.api.v1.module.Module
+import com.mairwunnx.projectessentials.core.api.v1.commands.ICommand
+import com.mairwunnx.projectessentials.core.api.v1.configuration.IConfiguration
+import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import kotlin.reflect.KClass
-import kotlin.reflect.full.hasAnnotation
 
 /**
  * Provider API class. If you build new module
@@ -34,45 +32,44 @@ import kotlin.reflect.full.hasAnnotation
 object ProviderAPI {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("PROVIDER")
-    private val providers = mutableMapOf<ProviderType, MutableList<KClass<*>>>()
+    private val providers = mutableMapOf<ProviderType, MutableList<Class<*>>>()
 
     /**
      * Adds target provider. (provider type will determine automatically)
      *
      * **Call only in module initialize block or constructor!!**
-     * @param kclazz provider class.
+     * @param clazz provider class.
      * @since 2.0.0-SNAPSHOT.1.
      */
     @Synchronized
-    @OptIn(ExperimentalStdlibApi::class)
-    fun addProvider(kclazz: KClass<*>) = when {
-        kclazz.hasAnnotation<Configuration>() -> {
-            addProvider(ProviderType.CONFIGURATION, kclazz).run {
+    fun addProvider(clazz: Class<*>) = when (clazz) {
+        is IConfiguration<*> -> {
+            addProvider(ProviderType.CONFIGURATION, clazz).run {
                 logger.debug(
                     marker,
-                    "Provider class founded: Type: `Configuration`, Class: `${kclazz.simpleName}`"
+                    "Provider class founded: Type: `Configuration`, Class: `${clazz.simpleName}`"
                 )
             }
         }
-        kclazz.hasAnnotation<Module>() -> {
-            addProvider(ProviderType.MODULE, kclazz).run {
+        is IModule -> {
+            addProvider(ProviderType.MODULE, clazz).run {
                 logger.debug(
                     marker,
-                    "Provider class founded: Type: `Module`, Class: `${kclazz.simpleName}`"
+                    "Provider class founded: Type: `Module`, Class: `${clazz.simpleName}`"
                 )
             }
         }
-        kclazz.hasAnnotation<Command>() -> {
-            addProvider(ProviderType.COMMAND, kclazz).run {
+        is ICommand -> {
+            addProvider(ProviderType.COMMAND, clazz).run {
                 logger.debug(
                     marker,
-                    "Provider class founded: Type: `Command`, Class: `${kclazz.simpleName}`"
+                    "Provider class founded: Type: `Command`, Class: `${clazz.simpleName}`"
                 )
             }
         }
         else -> logger.warn(
             marker,
-            "Incorrect provider class found! (skipped to load): Class: `${kclazz.simpleName}`"
+            "Incorrect provider class found! (skipped to load): Class: `${clazz.simpleName}`"
         )
     }
 
@@ -81,11 +78,11 @@ object ProviderAPI {
      *
      * **Call only in module initialize block or constructor!!**
      * @param type provider type.
-     * @param kclazz provider class.
+     * @param clazz provider class.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun addProvider(type: ProviderType, kclazz: KClass<*>) {
-        providers[type]?.add(kclazz) ?: providers.put(type, mutableListOf(kclazz))
+    fun addProvider(type: ProviderType, clazz: Class<*>) {
+        providers[type]?.add(clazz) ?: providers.put(type, mutableListOf(clazz))
     }
 
     /**

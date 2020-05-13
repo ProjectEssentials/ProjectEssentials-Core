@@ -1,7 +1,6 @@
 package com.mairwunnx.projectessentials.core.impl.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.MESSAGE_CORE_PREFIX
-import com.mairwunnx.projectessentials.core.api.v1.commands.Command
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandBase
 import com.mairwunnx.projectessentials.core.api.v1.commands.arguments.StringArrayArgument
@@ -56,7 +55,6 @@ object ConfigureEssentialsCommandAPI {
     fun getRequired() = requiredServerRestart.toList()
 }
 
-@Command("configure-essentials")
 internal object ConfigureEssentialsCommand : CommandBase(
     takeConfigureEssentialsLiteral(), false
 ) {
@@ -64,9 +62,7 @@ internal object ConfigureEssentialsCommand : CommandBase(
         ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
     }
 
-    init {
-        data = getData(this.javaClass)
-    }
+    override val name = "configure-essentials"
 
     /*
         This is a correction of the problem in order to get the list

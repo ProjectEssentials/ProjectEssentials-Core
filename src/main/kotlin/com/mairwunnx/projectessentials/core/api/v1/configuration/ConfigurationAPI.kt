@@ -21,7 +21,7 @@ object ConfigurationAPI {
      */
     @Suppress("UNCHECKED_CAST")
     fun <T> getConfigurationByName(name: String): T where T : IConfiguration<*> =
-        getAllConfigurations().find { it.data().name == name }?.let {
+        getAllConfigurations().find { it.name == name }?.let {
             return@let it as T
         } ?: throw ConfigurationNotFoundException(
             "Configuration with name $name not found."

@@ -8,9 +8,9 @@ package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
 import com.google.common.collect.Iterables
 import com.google.common.collect.Lists
-import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
@@ -30,7 +30,7 @@ internal object BanListCommand : VanillaCommandBase() {
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
-        CommandsAliases.aliases["banlist"] = aliases.toMutableList()
+        CommandAliases.aliases["banlist"] = aliases.toMutableList()
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

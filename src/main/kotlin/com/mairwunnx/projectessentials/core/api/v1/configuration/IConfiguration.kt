@@ -8,7 +8,6 @@ package com.mairwunnx.projectessentials.core.api.v1.configuration
  *
  * @since 2.0.0-SNAPSHOT.1.
  */
-@Suppress("unused")
 interface IConfiguration<T> {
     /**
      * Configuration instance (must initialized in
@@ -22,6 +21,19 @@ interface IConfiguration<T> {
      * @since 2.0.0-SNAPSHOT.1.
      */
     val path: String
+
+    /**
+     * Configuration name, for working with it later.
+     * @since 2.0.0-RC.2.
+     */
+    val name: String
+
+    /**
+     * Configuration version, for compatibility checking. By
+     * default value is 0.
+     * @since 2.0.0-RC.2.
+     */
+    val version: Int
 
     /**
      * Load configuration from local storage or memory.
@@ -41,10 +53,4 @@ interface IConfiguration<T> {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun take(): T
-
-    /**
-     * @return configuration meta data as Configuration annotation class.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun data(): Configuration
 }

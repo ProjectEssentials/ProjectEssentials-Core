@@ -6,25 +6,25 @@ package com.mairwunnx.projectessentials.core.api.v1
  * Configuration processor loading index order.
  * @since 2.0.0-SNAPSHOT.1.
  */
-const val CONFIGURATION_PROCESSOR_INDEX = 0u
+const val CONFIGURATION_PROCESSOR_INDEX = 0
 
 /**
  * Module processor loading index order.
  * @since 2.0.0-SNAPSHOT.1.
  */
-const val MODULE_PROCESSOR_INDEX = 1u
+const val MODULE_PROCESSOR_INDEX = 1
 
 /**
  * Localization processor loading index order.
  * @since 2.0.0-SNAPSHOT.1.
  */
-const val LOCALIZATION_PROCESSOR_INDEX = 2u
+const val LOCALIZATION_PROCESSOR_INDEX = 2
 
 /**
  * Command processor loading index order.
  * @since 2.0.0-SNAPSHOT.1.
  */
-const val COMMAND_PROCESSOR_INDEX = 3u
+const val COMMAND_PROCESSOR_INDEX = 3
 
 /**
  * Initial fall back language, uses before
@@ -44,12 +44,6 @@ const val MESSAGE_CORE_PREFIX = "project_essentials_core"
  * @since 2.0.0-SNAPSHOT.1.
  */
 const val MESSAGE_MODULE_PREFIX = "project_essentials_"
-
-/**
- * Prefix for localized messages for main module (`Project Essentials`).
- * @since 2.0.0-SNAPSHOT.1.
- */
-const val MESSAGE_MAIN_MODULE_PREFIX = "project_essentials"
 
 const val SETTING_LOC_ENABLED = "v2-localization-enabled"
 const val SETTING_LOC_FALLBACK_LANG = "v2-localization-fallback-lang"

@@ -9,10 +9,7 @@ import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import kotlin.reflect.KClass
-import kotlin.reflect.full.isSubclassOf
 
-@OptIn(ExperimentalUnsignedTypes::class)
 internal object ConfigurationProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("CONFIGURATION PROCESSOR")
@@ -25,41 +22,39 @@ internal object ConfigurationProcessor : IProcessor {
 
     override fun initialize() = Unit
 
-    @OptIn(ExperimentalStdlibApi::class)
     override fun process() {
         logger.debug(marker, "Finding and processing configurations")
 
         ProviderAPI.getProvidersByType(ProviderType.CONFIGURATION).forEach {
             if (isConfiguration(it)) {
-                val clazz = it.objectInstance as IConfiguration<*>
+                val clazz = it.getDeclaredField("INSTANCE").get(null) as IConfiguration<*>
 
                 ModuleEventAPI.fire(OnConfigurationClassProcessing, ConfigurationEventData(clazz))
 
                 logger.debug(
                     marker,
-                    "\n\n    *** Configuration taken! ${it.simpleName}".plus(
-                        "\n\n  - Name: ${clazz.data().name}"
-                    ).plus(
-                        "\n  - Version: ${clazz.data().version}"
-                    ).plus(
-                        "\n  - Class: ${it.qualifiedName}"
-                    ).plus(
-                        "\n  - Path: ${clazz.path}\n\n"
-                    )
-                )
+                    """
 
+    ### Configuration taken! ${it.simpleName}
+        - Name: ${clazz.name}
+        - Version: ${clazz.version}
+        - Class: ${it.canonicalName}
+        - Path: ${clazz.path}
+
+                    """
+                )
                 configurations = configurations + clazz
                 ModuleEventAPI.fire(OnConfigurationClassProcessed, ConfigurationEventData(clazz))
             }
         }
     }
 
-    private fun isConfiguration(kclazz: KClass<*>) = kclazz.isSubclassOf(IConfiguration::class)
+    private fun isConfiguration(clazz: Class<*>) = clazz is IConfiguration<*>
 
     override fun postProcess() {
         getConfigurations().forEach {
             ModuleEventAPI.fire(OnConfigurationClassPostProcessing, ConfigurationEventData(it))
-            logger.info(marker, "Starting loading configuration ${it.data().name}")
+            logger.info(marker, "Starting loading configuration ${it.name}")
             it.load()
         }
     }

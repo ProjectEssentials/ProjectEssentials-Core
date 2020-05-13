@@ -1,6 +1,6 @@
 package com.mairwunnx.projectessentials.core.api.v1.commands
 
-import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
+
 import com.mairwunnx.projectessentials.core.api.v1.extensions.playerName
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mojang.brigadier.CommandDispatcher
@@ -32,12 +32,9 @@ abstract class CommandBase(
     private val marker = MarkerManager.Log4jMarker("COMMAND OUT")
     private val logger = LogManager.getLogger()
 
-    /**
-     * Command data, stores data of `Command`
-     * annotation type.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    lateinit var data: Command
+    abstract override val name: String
+    override val aliases: List<String> = emptyList()
+    override val override: Boolean = false
 
     /**
      * Initializing command. For this case, just
@@ -45,7 +42,7 @@ abstract class CommandBase(
      * @since 2.0.0-SNAPSHOT.1.
      */
     override fun initialize() {
-        if (data.override) CommandAPI.removeCommand(data.name)
+        if (override) CommandAPI.removeCommand(name)
     }
 
     /**
@@ -55,17 +52,17 @@ abstract class CommandBase(
      */
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
         if (ModuleAPI.isModuleExist("cooldown")) {
-            CommandsAliases.aliases[data.name] = data.aliases.toMutableList()
+            CommandAliases.aliases[name] = aliases.toMutableList()
         }
 
         if (actionNeed) {
             val literalNode = dispatcher.register(literal.executes(::process))
-            data.aliases.filter { it != data.name }.forEach {
+            aliases.filter { it != name }.forEach {
                 dispatcher.register(Commands.literal(it).executes(::process).redirect(literalNode))
             }
         } else {
             val literalNode = dispatcher.register(literal)
-            data.aliases.filter { it != data.name }.forEach {
+            aliases.filter { it != name }.forEach {
                 dispatcher.register(Commands.literal(it).redirect(literalNode))
             }
         }
@@ -83,11 +80,4 @@ abstract class CommandBase(
         )
         return 0
     }
-
-    /**
-     * @param clazz from what need take data.
-     * @return Command annotation data class.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    override fun getData(clazz: Class<*>): Command = clazz.getAnnotation(Command::class.java)
 }

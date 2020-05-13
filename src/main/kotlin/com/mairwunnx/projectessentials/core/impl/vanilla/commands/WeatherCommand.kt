@@ -6,10 +6,11 @@
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
-import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
+
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_WEATHER_COMMAND_DEFAULT_DURATION
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
@@ -73,10 +74,10 @@ internal object WeatherCommand : VanillaCommandBase() {
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
-        CommandsAliases.aliases["sun"] = (sunAliases + "weather").toMutableList()
-        CommandsAliases.aliases["rain"] = (rainAliases + "weather").toMutableList()
-        CommandsAliases.aliases["thunder"] = (thunderAliases + "weather").toMutableList()
-        CommandsAliases.aliases["weather"] =
+        CommandAliases.aliases["sun"] = (sunAliases + "weather").toMutableList()
+        CommandAliases.aliases["rain"] = (rainAliases + "weather").toMutableList()
+        CommandAliases.aliases["thunder"] = (thunderAliases + "weather").toMutableList()
+        CommandAliases.aliases["weather"] =
             (sunAliases + rainAliases + thunderAliases).toMutableList()
     }
 

@@ -10,6 +10,26 @@ import net.minecraft.command.CommandSource
  */
 interface ICommand {
     /**
+     * Command name without `/`.
+     * @since 2.0.0-RC.2.
+     */
+    val name: String
+
+    /**
+     * Command aliases as array.
+     * @since 2.0.0-RC.2.
+     */
+    val aliases: List<String>
+
+    /**
+     * Override already command. If value
+     * true then already registered command by
+     * other mod will be replaced.
+     * @since 2.0.0-RC.2.
+     */
+    val override: Boolean
+
+    /**
      * Initialize command, assign data and other.
      * @since 2.0.0-SNAPSHOT.1.
      */
@@ -29,11 +49,4 @@ interface ICommand {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun process(context: CommandContext<CommandSource>): Int
-
-    /**
-     * @param clazz from what need take data.
-     * @return Command annotation data class.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun getData(clazz: Class<*>): Command
 }

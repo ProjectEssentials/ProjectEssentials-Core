@@ -6,12 +6,12 @@ import com.mairwunnx.projectessentials.core.api.v1.*
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.extensions.asPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirectory
 import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
-import com.mairwunnx.projectessentials.core.api.v1.module.Module
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.api.v1.processor.ProcessorAPI
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI
@@ -31,15 +31,16 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent
 import org.apache.logging.log4j.LogManager
 import java.io.File
 
-@OptIn(ExperimentalUnsignedTypes::class)
-@Module("core", "2.0.0-RC.1+MC-1.14.4", 0u, "1.1.0")
 internal class ModuleObject : IModule {
-    private var dudeFuckedOff = true
-    private val logger = LogManager.getLogger()
-    private var moduleDataCached: Module? = null
+    override val name = this::class.java.`package`.implementationTitle.split("\\s+").last()
+    override val version = this::class.java.`package`.implementationVersion!!
+    override val loadIndex = 0
+
     private val generalConfiguration by lazy {
-        ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+        getConfigurationByName<GeneralConfiguration>("general")
     }
+
+    private var dudeFuckedOff = true
 
     init {
         MinecraftForge.EVENT_BUS.register(this)
@@ -47,32 +48,9 @@ internal class ModuleObject : IModule {
 
     override fun init() = initializeModuleSettings()
 
-    fun initializeModuleSettings() {
-        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
-        generalConfiguration.getStringOrDefault(SETTING_LOC_FALLBACK_LANG, "en_us")
-        generalConfiguration.getBoolOrDefault(SETTING_DISABLE_SAFE_ENCHANT, false)
-        generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_REPLACE, true)
-        generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
-        generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
-        generalConfiguration.getIntOrDefault(SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000)
-        generalConfiguration.getBoolOrDefault(SETTING_DEOP_COMMAND_REMOVE_OP_PERM, true)
-
-        ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_REPLACE)
-        ConfigureEssentialsCommandAPI.required(SETTING_LOC_FALLBACK_LANG)
-    }
-
-    override fun getModule() = this
-
-    override fun getModuleData(): Module {
-        if (moduleDataCached == null) {
-            moduleDataCached = this.javaClass.getAnnotation(Module::class.java)
-        }
-        return moduleDataCached!!
-    }
-
     @SubscribeEvent
     fun onPortalSpawning(event: BlockEvent.PortalSpawnEvent) {
-        if (generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)) {
+        if (generalConfiguration.getBool(SETTING_DISABLE_PORTAL_SPAWNING)) {
             event.isCanceled = true
             return
         }
@@ -98,37 +76,14 @@ internal class ModuleObject : IModule {
 
     @SubscribeEvent
     fun onServerStarting(event: FMLServerStartingEvent) {
-        when {
-            generalConfiguration.getBoolOrDefault(
-                SETTING_NATIVE_COMMAND_REPLACE, true
-            ) -> registerNativeCommands(
-                event.commandDispatcher,
-                event.server.isDedicatedServer
-            )
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) {
+            registerNativeCommands(event.commandDispatcher, event.server.isDedicatedServer)
         }
 
         dudeFuckedOff = File(
             projectConfigDirectory + File.separator + "fuck-off-dude.txt"
-        ).exists().also {
-            if (!it) {
-                logger.warn(
-                    """
+        ).exists().also { if (!it) printGreetingMessage() }
 
-Notification from Project Essentials
-
-Project Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
-Project Essentials **is not a commercial project** and all its modules distributed free and not have any restrictions.
-
-I will be very happy with your support, below is a link to the donation documentation and how to disable this annoying alert.
-For support project you can also put an star on the Project Essentials repository.
-
-[ -> Github organization https://github.com/ProjectEssentials ]
-[ -> Support the project https://git.io/JfZ1V ]
-
-                    """
-                )
-            }
-        }
         CommandAPI.assignDispatcherRoot(event.commandDispatcher)
         CommandAPI.assignDispatcher(event.commandDispatcher)
         ProcessorAPI.getProcessorByName("command").postProcess()
@@ -161,6 +116,39 @@ Project Essentials §c§ois not a commercial project §fand all its modules dist
             }
         }
     }
+
+    private fun initializeModuleSettings() {
+        generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
+        generalConfiguration.getStringOrDefault(SETTING_LOC_FALLBACK_LANG, "en_us")
+        generalConfiguration.getBoolOrDefault(SETTING_DISABLE_SAFE_ENCHANT, false)
+        generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_REPLACE, true)
+        generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
+        generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
+        generalConfiguration.getIntOrDefault(SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000)
+        generalConfiguration.getBoolOrDefault(SETTING_DEOP_COMMAND_REMOVE_OP_PERM, true)
+
+        ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_REPLACE)
+        ConfigureEssentialsCommandAPI.required(SETTING_LOC_FALLBACK_LANG)
+    }
+
+    private fun printGreetingMessage() = LogManager.getLogger().warn(
+        """
+
+Notification from Project Essentials
+
+Project Essentials - the project is based on the enthusiasm of the author, the project is completely free to use and distribute. However, the author needs material support, that is, a donate.
+Project Essentials **is not a commercial project** and all its modules distributed free and not have any restrictions.
+
+I will be very happy with your support, below is a link to the donation documentation and how to disable this annoying alert.
+For support project you can also put an star on the Project Essentials repository.
+
+Thanks for using my project! </3
+
+[ -> Github organization https://github.com/ProjectEssentials ]
+[ -> Support the project https://git.io/JfZ1V ]
+
+        """
+    )
 
     private fun registerNativeCommands(
         dispatcher: CommandDispatcher<CommandSource>,

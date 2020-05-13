@@ -12,7 +12,6 @@ import org.apache.logging.log4j.MarkerManager
  * Processor API, for interacting with processors.
  * @since 2.0.0-SNAPSHOT.1.
  */
-@OptIn(ExperimentalUnsignedTypes::class)
 object ProcessorAPI {
     private var processed = false
     private var postProcessed = false
@@ -47,7 +46,7 @@ object ProcessorAPI {
      * @return last available loading index for processor.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun getAvailableLastIndex() = processors.map { it.processorLoadIndex }.max()?.plus(1u) ?: 0u
+    fun getAvailableLastIndex() = processors.map { it.processorLoadIndex }.max()?.plus(1) ?: 0
 
     /**
      * @return true if processors already processed.

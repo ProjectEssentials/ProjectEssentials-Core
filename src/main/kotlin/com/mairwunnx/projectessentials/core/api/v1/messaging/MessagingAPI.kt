@@ -3,7 +3,7 @@
 package com.mairwunnx.projectessentials.core.api.v1.messaging
 
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -20,7 +20,7 @@ import net.minecraft.util.text.event.HoverEvent
  */
 object MessagingAPI {
     private val generalConfiguration by lazy {
-        ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+        getConfigurationByName<GeneralConfiguration>("general")
     }
 
     /**

@@ -1,7 +1,6 @@
 package com.mairwunnx.projectessentials.core.impl.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.MESSAGE_CORE_PREFIX
-import com.mairwunnx.projectessentials.core.api.v1.commands.Command
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandBase
 import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
@@ -13,11 +12,8 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder.literal
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 
-@Command("back")
 internal object BackLocationCommand : CommandBase(literal("back")) {
-    init {
-        data = getData(this.javaClass)
-    }
+    override val name = "back"
 
     override fun process(context: CommandContext<CommandSource>): Int {
         if (context.isPlayerSender()) {

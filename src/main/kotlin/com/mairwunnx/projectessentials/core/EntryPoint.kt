@@ -37,11 +37,11 @@ internal class EntryPoint {
         and we can discuss it.
      */
     private val providers = listOf(
-        GeneralConfiguration::class,
-        NativeAliasesConfiguration::class,
-        ModuleObject::class,
-        BackLocationCommand::class,
-        ConfigureEssentialsCommand::class
+        GeneralConfiguration::class.java,
+        NativeAliasesConfiguration::class.java,
+        ModuleObject::class.java,
+        BackLocationCommand::class.java,
+        ConfigureEssentialsCommand::class.java
     )
 
     private val processors = listOf(
@@ -63,7 +63,7 @@ internal class EntryPoint {
             ForgeEventType.SetupEvent
         ) {
             applyLocalization()
-            processors.forEach { ProcessorAPI.register(it) }
+            processors.forEach(ProcessorAPI::register)
         }
 
         subscribeOn<InterModEnqueueEventData>(

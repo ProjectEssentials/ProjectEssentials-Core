@@ -15,7 +15,6 @@ object ServerMessagingAPI {
      * Throw in console warning message with reason:
      * only player can execute command.
      *
-     * todo: add localization to this message.
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun throwOnlyPlayerCan() = logger.warn("> Only player can execute this command")
@@ -30,7 +29,7 @@ object ServerMessagingAPI {
     /**
      * Send response message on something to server console.
      * @param message response message.
-     * @since Mod: 2.0.0-SNAPSHOT.2, API: 1.1.0
+     * @since 2.0.0-SNAPSHOT.2.
      */
     fun response(message: () -> String) = logger.info("> ${message()}")
 }

@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.Mod
  * Class for interacting with other modules.
  * @since 2.0.0-SNAPSHOT.1.
  */
-@Suppress("unused")
+@Suppress("unused", "MemberVisibilityCanBePrivate")
 object ModuleAPI {
     /**
      * @return all installed and checked modules.
@@ -19,13 +19,10 @@ object ModuleAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun getModuleModId(module: IModule): String {
-        if (module.getModuleData().name == "essentials") {
-            return "project_essentials"
-        }
         if (module.javaClass.isAnnotationPresent(Mod::class.java)) {
             return module.javaClass.getAnnotation(Mod::class.java).value
         }
-        return "project_essentials_${module.getModuleData().name}"
+        return "project_essentials_${module.name.toLowerCase()}"
     }
 
     /**
@@ -34,20 +31,11 @@ object ModuleAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun getModuleByName(name: String) =
-        getAllModules().find { it.getModule().getModuleData().name == name }?.let {
+        getAllModules().find { it.name == name }?.let {
             return@let it
         } ?: throw ModuleNotFoundException(
             "Module with name $name not found and not processed."
         )
-
-    /**
-     * @param module module class instance.
-     * @return true if module existing or installed.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun isModuleExist(module: IModule) = ModuleProcessor.getModules().find {
-        it.getModule().getModuleData().name == module.getModule().getModuleData().name
-    }.let { return@let it != null }
 
     /**
      * @param module module name what provided in Module annotation.
@@ -55,6 +43,6 @@ object ModuleAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun isModuleExist(module: String) = ModuleProcessor.getModules().find {
-        it.getModule().getModuleData().name == module
+        it.name == module
     }.let { return@let it != null }
 }

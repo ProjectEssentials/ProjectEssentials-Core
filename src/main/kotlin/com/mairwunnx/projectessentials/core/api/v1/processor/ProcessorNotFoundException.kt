@@ -7,6 +7,4 @@ import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
  * @param message exception message.
  * @since 2.0.0-SNAPSHOT.1.
  */
-class ProcessorNotFoundException(
-    message: String = String.empty
-) : Exception(message)
+class ProcessorNotFoundException(message: String = String.empty) : Exception(message)

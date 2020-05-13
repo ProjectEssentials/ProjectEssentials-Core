@@ -12,13 +12,7 @@ import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import kotlin.reflect.KClass
-import kotlin.reflect.full.createInstance
-import kotlin.reflect.full.findAnnotation
-import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.full.isSubclassOf
 
-@OptIn(ExperimentalUnsignedTypes::class, ExperimentalStdlibApi::class)
 internal object ModuleProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("MODULE PROCESSOR")
@@ -41,23 +35,22 @@ internal object ModuleProcessor : IProcessor {
                     getForgeProvidedInstance(it)
                 } else {
                     // For core basically. Because core also load modules and other stuff.
-                    it.createInstance() as IModule
+                    it.newInstance() as IModule
                 }
 
                 ModuleEventAPI.fire(OnModuleClassProcessing, ModuleEventData(clazz))
-                processIndexes(clazz.getModuleData().loadIndex)
+                processIndexes(clazz.loadIndex)
 
                 logger.debug(
                     marker,
-                    "\n\n    *** Module found! ${it.simpleName}".plus(
-                        "\n\n  - Name: ${clazz.getModule().getModuleData().name}"
-                    ).plus(
-                        "\n  - Class: ${it.qualifiedName}"
-                    ).plus(
-                        "\n  - Version: ${clazz.getModule().getModuleData().version}"
-                    ).plus(
-                        "\n  - API Version: ${clazz.getModule().getModuleData().apiVersion}\n\n"
-                    )
+                    """
+
+    ### Project Essentials module found: ${it.simpleName}
+        - Name: ${clazz.name}
+        - Class: ${it.canonicalName}
+        - Version: ${clazz.version}
+
+                    """
                 )
                 modules = modules + clazz
                 ModuleEventAPI.fire(OnModuleClassProcessed, ModuleEventData(clazz))
@@ -66,33 +59,34 @@ internal object ModuleProcessor : IProcessor {
         sortByLoadIndex()
     }
 
-    private fun processIndexes(index: UInt) {
-        modules.find { it.getModule().getModuleData().loadIndex == index }?.let {
+    private fun processIndexes(index: Int) {
+        modules.find { it.loadIndex == index }?.let {
             throw ModuleIndexDuplicateException(
                 "Module with same load index $index already processed."
             )
         }
     }
 
-    private fun isModule(kclazz: KClass<*>) = kclazz.isSubclassOf(IModule::class)
+    private fun isModule(clazz: Class<*>) = clazz is IModule
 
-    private fun getInstanceModId(kclazz: KClass<*>) =
-        kclazz.findAnnotation<Mod>()?.value ?: String.empty
+    private fun getInstanceModId(clazz: Class<*>) =
+        clazz.getAnnotation(Mod::class.java)?.value ?: String.empty
 
-    private fun isForgeInstanceProvider(kclazz: KClass<*>) = kclazz.hasAnnotation<Mod>()
+    private fun isForgeInstanceProvider(clazz: Class<*>) =
+        clazz.isAnnotationPresent(Mod::class.java)
 
-    private fun getForgeProvidedInstance(kclazz: KClass<*>) =
-        ModList.get().getModObjectById<IModule>(getInstanceModId(kclazz)).get()
+    private fun getForgeProvidedInstance(clazz: Class<*>) =
+        ModList.get().getModObjectById<IModule>(getInstanceModId(clazz)).get()
 
     private fun sortByLoadIndex() {
-        modules = modules.sortedWith(compareBy { it.getModule().getModuleData().loadIndex })
+        modules = modules.sortedWith(compareBy { it.loadIndex })
     }
 
     override fun postProcess() {
         getModules().forEach {
             ModuleEventAPI.fire(OnModuleClassPostProcessing, ModuleEventData(it))
-            logger.info(marker, "Starting initializing module ${it.getModuleData().name}")
-            it.getModule().init()
+            logger.info(marker, "Starting initializing module ${it.name}")
+            it.init()
         }
     }
 }

@@ -3,7 +3,7 @@
 package com.mairwunnx.projectessentials.core.api.v1.extensions
 
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI.getLocalizedString
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mojang.brigadier.context.CommandContext
@@ -27,7 +27,7 @@ import net.minecraftforge.fml.server.ServerLifecycleHooks
 import java.io.File
 
 private val generalConfiguration by lazy {
-    ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+    getConfigurationByName<GeneralConfiguration>("general")
 }
 
 /**

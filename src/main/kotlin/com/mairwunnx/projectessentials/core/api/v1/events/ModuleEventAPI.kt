@@ -1,4 +1,4 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
 package com.mairwunnx.projectessentials.core.api.v1.events
 

@@ -2,7 +2,6 @@
 
 package com.mairwunnx.projectessentials.core.impl.configurations
 
-import com.mairwunnx.projectessentials.core.api.v1.configuration.Configuration
 import com.mairwunnx.projectessentials.core.api.v1.configuration.IConfiguration
 import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirectory
 import org.apache.logging.log4j.LogManager
@@ -12,13 +11,12 @@ import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
 
-@OptIn(ExperimentalUnsignedTypes::class)
-@Configuration("general", 1u)
 object GeneralConfiguration : IConfiguration<Properties> {
     private val logger = LogManager.getLogger()
-    private var cachedData: Configuration? = null
     private val properties = Properties()
 
+    override val name = "general"
+    override val version = 1
     override val configuration = take()
     override val path = projectConfigDirectory + File.separator + "general.properties"
 
@@ -33,9 +31,8 @@ object GeneralConfiguration : IConfiguration<Properties> {
     }
 
     override fun save() = try {
-        logger.info("Saving configuration `${data().name}`")
+        logger.info("Saving configuration `${name}`")
         FileOutputStream(path).use { output ->
-            // todo: add comment. (with documentation)
             properties.store(output, null)
         }
     } catch (ex: IOException) {
@@ -43,13 +40,6 @@ object GeneralConfiguration : IConfiguration<Properties> {
     }
 
     override fun take() = properties
-
-    override fun data(): Configuration {
-        if (cachedData == null) {
-            cachedData = this.javaClass.getAnnotation(Configuration::class.java)
-        }
-        return cachedData!!
-    }
 
     fun getDoubleOrDefault(key: String, value: Double): Double {
         val property = properties[key]

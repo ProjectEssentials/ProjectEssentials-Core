@@ -4,7 +4,6 @@ package com.mairwunnx.projectessentials.core.api.v1.processor
  * Interface for all module processors.
  * @since 2.0.0-SNAPSHOT.1.
  */
-@OptIn(ExperimentalUnsignedTypes::class)
 interface IProcessor {
     /**
      * Processor loading index, can't contains two and more
@@ -16,7 +15,7 @@ interface IProcessor {
      *
      * @since 2.0.0-SNAPSHOT.1.
      */
-    val processorLoadIndex: UInt
+    val processorLoadIndex: Int
 
     /**
      * Processor name. E.g for ConfigurationProcessor class

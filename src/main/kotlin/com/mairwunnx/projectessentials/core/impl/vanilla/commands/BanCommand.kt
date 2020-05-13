@@ -6,9 +6,10 @@
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
-import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
+
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
@@ -38,7 +39,7 @@ internal object BanCommand : VanillaCommandBase() {
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
-        CommandsAliases.aliases["ban"] = aliases.toMutableList()
+        CommandAliases.aliases["ban"] = aliases.toMutableList()
     }
 
     fun register(dispatcher: CommandDispatcher<CommandSource>) {

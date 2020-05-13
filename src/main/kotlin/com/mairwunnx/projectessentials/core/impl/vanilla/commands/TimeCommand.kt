@@ -6,9 +6,10 @@
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
-import com.mairwunnx.projectessentials.cooldown.essentials.CommandsAliases
+
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
@@ -33,10 +34,10 @@ internal object TimeCommand : VanillaCommandBase() {
 
     private fun tryAssignAliases() {
         if (!ModuleAPI.isModuleExist("cooldown")) return
-        CommandsAliases.aliases["noon"] = (noonAliases + "time").toMutableList()
-        CommandsAliases.aliases["sunset"] = (sunsetAliases + "time").toMutableList()
-        CommandsAliases.aliases["sunrise"] = (sunriseAliases + "time").toMutableList()
-        CommandsAliases.aliases["time"] =
+        CommandAliases.aliases["noon"] = (noonAliases + "time").toMutableList()
+        CommandAliases.aliases["sunset"] = (sunsetAliases + "time").toMutableList()
+        CommandAliases.aliases["sunrise"] = (sunriseAliases + "time").toMutableList()
+        CommandAliases.aliases["time"] =
             (noonAliases + sunsetAliases + sunriseAliases + "day" + "night" + "midnight").toMutableList()
     }
 

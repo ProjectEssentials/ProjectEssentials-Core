@@ -1,10 +1,9 @@
 package com.mairwunnx.projectessentials.core.api.v1.localization
 
-import com.beust.klaxon.JsonReader
 import com.mairwunnx.projectessentials.core.api.v1.INITIAL_FALLBACK_LANGUAGE
 import com.mairwunnx.projectessentials.core.api.v1.LOCALIZATION_PROCESSOR_INDEX
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_FALLBACK_LANG
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.events.EmptyEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.internal.LocalizationEventData
@@ -14,17 +13,16 @@ import com.mairwunnx.projectessentials.core.api.v1.processor.IProcessor
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
-import java.io.StringReader
+import org.json.JSONObject
 import java.util.*
 import kotlin.system.measureTimeMillis
 
-@OptIn(ExperimentalUnsignedTypes::class)
 internal object LocalizationProcessor : IProcessor {
     private val logger = LogManager.getLogger()
     private val marker = MarkerManager.Log4jMarker("LOCALIZATION PROCESSOR")
 
     private val generalConfiguration by lazy {
-        ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
+        getConfigurationByName<GeneralConfiguration>("general")
     }
 
     val localizations = mutableListOf<Localization>()
@@ -61,11 +59,13 @@ internal object LocalizationProcessor : IProcessor {
                         localization.sourceClass.classLoader, source
                     )?.readText() ?: throw KotlinNullPointerException()
 
-                    JsonReader(StringReader(json)).use { reader ->
-                        reader.beginObject {
-                            while (reader.hasNext()) {
-                                val key = reader.nextName()
-                                val value = reader.nextString()
+                    JSONObject(json).also { jsonObject ->
+                        jsonObject.keys().also { keys ->
+                            while (keys.hasNext()) {
+                                val key = keys.next() as String
+                                val value = jsonObject.get(key) as String
+
+                                logger.debug("Loaded localization key $key with value $value")
 
                                 localizationsData[localizationName]?.add(
                                     hashMapOf(Pair(key, value))

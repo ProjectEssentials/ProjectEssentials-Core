@@ -34,14 +34,6 @@ minecraft {
 }
 
 repositories {
-    maven {
-        name = package_maven_repo_name
-        url = uri "$package_maven_repo-cooldown"
-        credentials {
-            username = package_maven_repo_mail
-            password = packagesToken
-        }
-    }
     maven { url 'https://libraries.minecraft.net' }
     mavenCentral()
     jcenter()
@@ -50,12 +42,9 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     implementation "com.mojang:brigadier:$brigadier_version"
-    // todo: change to "com.projectessentials.cooldown:ProjectEssentials-Cooldown:cooldown_version"
-    implementation "com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:$cooldown_version"
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
-    internal "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
-    internal "com.beust:klaxon:$klaxon_version"
+    implementation group: 'org.json', name: 'json', version: '20190722'
 }
 
 dokka {
