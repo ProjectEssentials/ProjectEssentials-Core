@@ -6,6 +6,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0-RC.2] - 2020-05-14
+
+### Added
+- Back location revoking on player leaving.
+- `zh_cn` localization added to safe localizations list.
+- `PermissionResolutionStrategy` implemented.
+- `org.json:json` implementation/internal dependency.
+- `CommandAliases` class with `aliases` hash map.
+
+### Changes
+- Kotlin serialization gradle plugin updated.
+- `mods.toml` -> `credits` property value updated.
+- Module logic have moved to `ModuleObject.kt`.
+- Changed documentation since version format.
+- Some multi-line strings converted to string blocks.
+- Kotlin experimental unsigned types replaced on typical types.
+
+### Removed
+- `logoFile` entry from `mods.toml`.
+- Directory paths for debugging.
+- Old unused assets.
+- Documentation from `documentation` directory.
+- ⚠ Annotations for `configuration`, `commands` and `module`.
+- `kotlin-reflect` from implementation\internal dependencies.
+- `Klaxon` from implementation\internal dependencies.
+- `Cooldown` from implementation dependencies.
+- ⚠ `api version` property from module (with annotation).
+- ⚠ `IModule#reload()` method removed.
+- ⚠ `IModule#getModule()` method removed.
+- ⚠ `IModule#getModuleData()` method removed.
+
 ## [2.0.0-RC.1] - 2020-05-09
 
 *Note: it is not full list with changes!* 
