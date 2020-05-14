@@ -65,8 +65,6 @@ internal object LocalizationProcessor : IProcessor {
                                 val key = keys.next() as String
                                 val value = jsonObject.get(key) as String
 
-                                logger.debug("Loaded localization key $key with value $value")
-
                                 localizationsData[localizationName]?.add(
                                     hashMapOf(Pair(key, value))
                                 ) ?: localizationsData.set(
