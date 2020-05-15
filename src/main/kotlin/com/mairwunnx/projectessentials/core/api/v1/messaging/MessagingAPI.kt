@@ -2,12 +2,19 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.messaging
 
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_LIST_MAX_ELEMENTS_IN_PAGE
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
+import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
+import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
+import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerSender
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
+import com.mojang.brigadier.context.CommandContext
+import net.minecraft.command.CommandSource
 import net.minecraft.entity.player.ServerPlayerEntity
 import net.minecraft.server.MinecraftServer
+import net.minecraft.util.text.StringTextComponent
 import net.minecraft.util.text.TextComponentUtils
 import net.minecraft.util.text.TranslationTextComponent
 import net.minecraft.util.text.event.ClickEvent
@@ -63,6 +70,74 @@ object MessagingAPI {
             }
         }
     )
+
+    /**
+     * Send list like response to player in chat.
+     * With pages (passed as argument in [context])
+     * with name `page`.
+     *
+     * Max displayed lines per page defined in
+     * setting `list-max-elements-in-page`.
+     *
+     * @param context command context.
+     * @param list list to display in server console.
+     * @param title list title, list name or something like that.
+     * @since 2.0.0-RC.3.
+     */
+    fun sendListAsMessage(
+        context: CommandContext<CommandSource>,
+        list: List<String>,
+        title: () -> String
+    ) {
+        require(context.isPlayerSender()) {
+            "Command sender is no player, use [ServerMessagingAPI.listAsResponse] for server"
+        }
+        val linesPerPage = generalConfiguration.getIntOrDefault(
+            SETTING_LIST_MAX_ELEMENTS_IN_PAGE, 8
+        )
+        val pages = list.count() / linesPerPage + 1
+        val page = when {
+            CommandAPI.getIntExisting(context, "page") -> {
+                CommandAPI.getInt(context, "page")
+            }
+            else -> 1
+        }
+        sendListAsMessage(context.getPlayer()!!, list, page, pages, linesPerPage, title)
+    }
+
+    /**
+     * Send list like response to player in chat.
+     *
+     * Max displayed lines per page defined in
+     * setting `list-max-elements-in-page`.
+     *
+     * @param player player to send list.
+     * @param list list to display in server console.
+     * @param page list page. (unchecked page!)
+     * @param maxPage pages total to can be displayed.
+     * @param linesPerPage lines per page.
+     * @param title list title, list name or something like that.
+     * @since 2.0.0-RC.3.
+     */
+    fun sendListAsMessage(
+        player: ServerPlayerEntity,
+        list: List<String>,
+        page: Int,
+        maxPage: Int,
+        linesPerPage: Int,
+        title: () -> String
+    ) {
+        val displayedLines = page * linesPerPage
+        val droppedLines = displayedLines - linesPerPage
+        val values = list.take(displayedLines).drop(droppedLines)
+        val message =
+            """
+§7$title page §c$page §7of §c$maxPage
+
+§7${values.joinToString(separator = "\n") { "    §c> §7$it" }}
+            """
+        player.commandSource.sendFeedback(StringTextComponent(message), false)
+    }
 
     /**
      * Send message to all player on server with localized
