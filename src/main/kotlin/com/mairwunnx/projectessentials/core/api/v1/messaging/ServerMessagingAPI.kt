@@ -32,4 +32,23 @@ object ServerMessagingAPI {
      * @since 2.0.0-SNAPSHOT.2.
      */
     fun response(message: () -> String) = logger.info("> ${message()}")
+
+    /**
+     * Send list like response to server.
+     *
+     * For example, list all player homes or
+     * warps or permissions, etc.
+     *
+     * @param list list to display in server console.
+     * @param title list title, list name or something like that.
+     * @since 2.0.0-RC.3.
+     */
+    fun listAsResponse(list: List<String>, title: () -> String) = response {
+        """
+
+    ${title()}
+
+${list.joinToString(separator = ",\n") { "    > $it" }}
+        """
+    }
 }
