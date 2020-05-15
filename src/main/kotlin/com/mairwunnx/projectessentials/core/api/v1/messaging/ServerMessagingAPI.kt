@@ -45,7 +45,6 @@ object ServerMessagingAPI {
      */
     fun listAsResponse(list: List<String>, title: () -> String) = response {
         """
-
     ${title()}
 
 ${list.joinToString(separator = ",\n") { "    > $it" }}

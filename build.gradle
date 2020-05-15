@@ -44,7 +44,7 @@ dependencies {
     implementation "com.mojang:brigadier:$brigadier_version"
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
-    implementation group: 'org.json', name: 'json', version: '20190722'
+    internal group: 'org.json', name: 'json', version: '20190722'
 }
 
 dokka {

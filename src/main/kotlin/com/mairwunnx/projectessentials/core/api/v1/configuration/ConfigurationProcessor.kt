@@ -49,7 +49,8 @@ internal object ConfigurationProcessor : IProcessor {
         }
     }
 
-    private fun isConfiguration(clazz: Class<*>) = clazz is IConfiguration<*>
+    private fun isConfiguration(clazz: Class<*>) =
+        IConfiguration::class.java.isAssignableFrom(clazz)
 
     override fun postProcess() {
         getConfigurations().forEach {

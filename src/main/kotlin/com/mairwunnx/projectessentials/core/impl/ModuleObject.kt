@@ -76,16 +76,17 @@ internal class ModuleObject : IModule {
 
     @SubscribeEvent
     fun onServerStarting(event: FMLServerStartingEvent) {
-        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) {
-            registerNativeCommands(event.commandDispatcher, event.server.isDedicatedServer)
-        }
-
         dudeFuckedOff = File(
             projectConfigDirectory + File.separator + "fuck-off-dude.txt"
         ).exists().also { if (!it) printGreetingMessage() }
 
         CommandAPI.assignDispatcherRoot(event.commandDispatcher)
         CommandAPI.assignDispatcher(event.commandDispatcher)
+
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) {
+            registerNativeCommands(event.commandDispatcher, event.server.isDedicatedServer)
+        }
+
         ProcessorAPI.getProcessorByName("command").postProcess()
     }
 

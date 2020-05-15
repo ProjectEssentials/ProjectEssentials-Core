@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0-RC.4] - 2020-05-15
+
+### Added
+- `org.json:json` included in mod bundle.
+
+### Changed
+- Removed redundant new line in `ServerMessagingAPI.listAsResponse`.
+
+### Fixed
+- Exception while overriding native commands.
+- Incorrect base implementation class checking.
+
 ## [2.0.0-RC.3] - 2020-05-15
 
 ### Added

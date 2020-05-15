@@ -67,7 +67,7 @@ internal object ModuleProcessor : IProcessor {
         }
     }
 
-    private fun isModule(clazz: Class<*>) = clazz is IModule
+    private fun isModule(clazz: Class<*>) = IModule::class.java.isAssignableFrom(clazz)
 
     private fun getInstanceModId(clazz: Class<*>) =
         clazz.getAnnotation(Mod::class.java)?.value ?: String.empty

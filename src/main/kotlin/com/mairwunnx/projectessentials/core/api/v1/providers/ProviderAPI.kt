@@ -42,35 +42,37 @@ object ProviderAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     @Synchronized
-    fun addProvider(clazz: Class<*>) = when (clazz) {
-        is IConfiguration<*> -> {
-            addProvider(ProviderType.CONFIGURATION, clazz).run {
-                logger.debug(
-                    marker,
-                    "Provider class founded: Type: `Configuration`, Class: `${clazz.simpleName}`"
-                )
+    fun addProvider(clazz: Class<*>) {
+        when {
+            IConfiguration::class.java.isAssignableFrom(clazz) -> {
+                addProvider(ProviderType.CONFIGURATION, clazz).run {
+                    logger.debug(
+                        marker,
+                        "Provider class founded: Type: `Configuration`, Class: `${clazz.simpleName}`"
+                    )
+                }
             }
-        }
-        is IModule -> {
-            addProvider(ProviderType.MODULE, clazz).run {
-                logger.debug(
-                    marker,
-                    "Provider class founded: Type: `Module`, Class: `${clazz.simpleName}`"
-                )
+            IModule::class.java.isAssignableFrom(clazz) -> {
+                addProvider(ProviderType.MODULE, clazz).run {
+                    logger.debug(
+                        marker,
+                        "Provider class founded: Type: `Module`, Class: `${clazz.simpleName}`"
+                    )
+                }
             }
-        }
-        is ICommand -> {
-            addProvider(ProviderType.COMMAND, clazz).run {
-                logger.debug(
-                    marker,
-                    "Provider class founded: Type: `Command`, Class: `${clazz.simpleName}`"
-                )
+            ICommand::class.java.isAssignableFrom(clazz) -> {
+                addProvider(ProviderType.COMMAND, clazz).run {
+                    logger.debug(
+                        marker,
+                        "Provider class founded: Type: `Command`, Class: `${clazz.simpleName}`"
+                    )
+                }
             }
+            else -> logger.warn(
+                marker,
+                "Incorrect provider class found! (skipped to load): Class: `${clazz.simpleName}`"
+            )
         }
-        else -> logger.warn(
-            marker,
-            "Incorrect provider class found! (skipped to load): Class: `${clazz.simpleName}`"
-        )
     }
 
     /**
