@@ -6,6 +6,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0-RC.3] - 2020-05-15
+
+### Added
+- `list-max-elements-in-page` setting added.
+- `sendListAsMessage` implemented in `MessagingAPI.kt`.
+- `listAsResponse` implemented in `ServerMessagingAPI.kt`.
+
+### Changed
+- Default permission resolution strategy improved.
+
 ## [2.0.0-RC.2] - 2020-05-14
 
 ### Added
@@ -15,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `org.json:json` implementation/internal dependency.
 - `CommandAliases` class with `aliases` hash map.
 
-### Changes
+### Changed
 - Kotlin serialization gradle plugin updated.
 - `mods.toml` -> `credits` property value updated.
 - Module logic have moved to `ModuleObject.kt`.
@@ -46,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ability to configure some settings in game with command `/configure-essentials <> <>`.
 - Permissions for back command after death.
 
-### Changes
+### Changed
 - Fully rewritten core module code, and module system.
 - API breaking changes (not documented changes).
 - Version number format now fully relative to semver.
