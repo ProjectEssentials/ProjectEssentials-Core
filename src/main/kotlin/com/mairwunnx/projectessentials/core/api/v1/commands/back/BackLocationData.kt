@@ -23,7 +23,7 @@ data class BackLocationData(
      * @since 2.0.0-SNAPSHOT.1.
      */
     val position: Position = Position(
-        player.posX, player.posY, player.posZ
+        player.positionVec.x, player.positionVec.y, player.positionVec.z
     ),
     /**
      * Player camera head at the time of teleportation.

@@ -28,19 +28,16 @@ import net.minecraft.command.impl.FunctionCommand
 import net.minecraft.tags.Tag
 import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
-import net.minecraft.util.text.event.HoverEvent
-import org.apache.logging.log4j.LogManager
 import java.util.function.Function
 
 internal object ScheduleCommand : VanillaCommandBase() {
-    private val logger = LogManager.getLogger()
-
     private val field_218913_a =
         SimpleCommandExceptionType(TranslationTextComponent("commands.schedule.same_tick"))
     private val field_229811_b_ = DynamicCommandExceptionType(
         Function { p_229818_0_: Any? ->
             TranslationTextComponent("commands.schedule.cleared.failure", p_229818_0_)
         }
+    )
     private val field_229812_c_ =
         SuggestionProvider { p_229814_0_: CommandContext<CommandSource>, p_229814_1_: SuggestionsBuilder ->
             ISuggestionProvider.suggest(

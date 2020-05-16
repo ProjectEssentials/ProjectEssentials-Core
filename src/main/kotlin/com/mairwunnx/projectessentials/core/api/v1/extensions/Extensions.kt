@@ -48,7 +48,7 @@ fun ServerPlayerEntity.playSound(
     val pos = player.positionVec
     DistExecutor.runWhenOn(Dist.CLIENT) {
         Runnable {
-            Minecraft.getInstance().world.playSound(
+            Minecraft.getInstance().world?.playSound(
                 pos.x, pos.y + player.eyeHeight.toDouble(), pos.z,
                 sound, category, volume, pitch, false
             )
