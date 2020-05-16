@@ -17,7 +17,6 @@ import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
-import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -49,7 +48,6 @@ internal object PublishCommand : VanillaCommandBase() {
         configuration.take().aliases.publish + "publish"
 
     private fun tryAssignAliases() {
-        if (!ModuleAPI.isModuleExist("cooldown")) return
         CommandAliases.aliases["publish"] = aliases.toMutableList()
     }
 

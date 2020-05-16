@@ -17,7 +17,6 @@ import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
-import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.StringArgumentType
@@ -48,7 +47,6 @@ internal object BanIpCommand : VanillaCommandBase() {
     private var aliases = configuration.take().aliases.banip + "ban-ip"
 
     private fun tryAssignAliases() {
-        if (!ModuleAPI.isModuleExist("cooldown")) return
         CommandAliases.aliases["banip"] = aliases.toMutableList()
     }
 
