@@ -1,3 +1,14 @@
+/**
+ * This command implementation by Mojang.
+ * And decompiled with idea source code was converted
+ * to kotlin code.
+ * Also added some logic, for example checking on
+ * permissions, and for some commands shorten aliases.
+ *
+ * 1. This can be bad code.
+ * 2. This file can be not formatter pretty.
+ */
+
 @file:Suppress("PLATFORM_CLASS_MAPPED_TO_KOTLIN")
 
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands

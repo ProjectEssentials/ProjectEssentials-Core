@@ -1,3 +1,14 @@
+/**
+ * This command implementation by Mojang.
+ * And decompiled with idea source code was converted
+ * to kotlin code.
+ * Also added some logic, for example checking on
+ * permissions, and for some commands shorten aliases.
+ *
+ * 1. This can be bad code.
+ * 2. This file can be not formatter pretty.
+ */
+
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
