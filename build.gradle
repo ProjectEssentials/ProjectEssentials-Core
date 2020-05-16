@@ -1,6 +1,6 @@
 buildscript {
     repositories {
-        maven { url "https://files.minecraftforge.net/maven" }
+        maven { url 'https://files.minecraftforge.net/maven' }
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
@@ -8,8 +8,8 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.70'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.72'
     id 'org.jetbrains.dokka' version '0.10.1'
     id 'maven-publish'
     id 'java-library'
@@ -17,12 +17,10 @@ plugins {
 
 apply plugin: 'net.minecraftforge.gradle'
 
-String packagesToken = new String(
-    package_public_token.decodeBase64()
-)
+String packagesToken = new String(package_public_token.decodeBase64())
 
-version = module_version as Object
-group = "com.mairwunnx.$module_id"
+version = module_version
+group = "com.projectessentials.core"
 archivesBaseName = module_name
 
 configurations {
@@ -33,42 +31,10 @@ configurations {
 minecraft {
     accessTransformer = file 'src/main/resources/META-INF/accesstransformer.cfg'
     mappings channel: forge_mappings_channel_type, version: forge_mappings_channel_version
-
-    runs {
-        client {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-            mods { ProjectEssentialsCore { source sourceSets.main } }
-            workingDirectory project.file(dev_run_client_path as Object)
-        }
-        server {
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-            mods { ProjectEssentialsCore { source sourceSets.main } }
-            workingDirectory project.file(dev_run_server_path as Object)
-        }
-    }
 }
 
 repositories {
-    maven {
-        name = package_maven_repo_name
-        url = uri "$package_maven_repo-permissions"
-        credentials {
-            username = package_maven_repo_mail
-            password = packagesToken
-        }
-    }
-    maven {
-        name = package_maven_repo_name
-        url = uri "$package_maven_repo-cooldown"
-        credentials {
-            username = package_maven_repo_mail
-            password = packagesToken
-        }
-    }
     maven { url 'https://libraries.minecraft.net' }
-    maven { url 'https://jitpack.io' }
     mavenCentral()
     jcenter()
 }
@@ -76,13 +42,9 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     implementation "com.mojang:brigadier:$brigadier_version"
-
-    implementation "com.mairwunnx.project_essentials_permissions:ProjectEssentials-Permissions:$permissions_version"
-    implementation "com.mairwunnx.project_essentials_cooldown:ProjectEssentials-Cooldown:$cooldown_version"
-
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
-    internal "org.json:json:$json_version"
+    internal group: 'org.json', name: 'json', version: '20190722'
 }
 
 dokka {
@@ -95,19 +57,25 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
+task dokkaJar(type: Jar) {
+    group = JavaBasePlugin.DOCUMENTATION_GROUP
+    classifier = 'javadoc'
+    from tasks.dokka as Object
+}
+
 task modJar(type: Jar) {
     with tasks.jar
     from configurations.internal.collect { it.isDirectory() ? it : zipTree(it) }
 
     manifest {
         attributes([
-            "Specification-Title"     : module_name,
-            "Specification-Vendor"    : module_version,
-            "Specification-Version"   : module_vendor,
-            "Implementation-Title"    : module_name,
-            "Implementation-Version"  : module_version,
-            "Implementation-Vendor"   : module_vendor,
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : module_name,
+                "Specification-Vendor"    : module_version,
+                "Specification-Version"   : module_vendor,
+                "Implementation-Title"    : module_name,
+                "Implementation-Version"  : module_version,
+                "Implementation-Vendor"   : module_vendor,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 
@@ -117,17 +85,17 @@ task modJar(type: Jar) {
 jar {
     manifest {
         attributes([
-            "Specification-Title"     : module_name,
-            "Specification-Vendor"    : module_vendor,
-            "Specification-Version"   : module_version,
-            "Implementation-Title"    : module_name,
-            "Implementation-Version"  : module_version,
-            "Implementation-Vendor"   : module_vendor,
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title"     : module_name,
+                "Specification-Vendor"    : module_vendor,
+                "Specification-Version"   : module_version,
+                "Implementation-Title"    : module_name,
+                "Implementation-Version"  : module_version,
+                "Implementation-Vendor"   : module_vendor,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 
-    baseName = module_name + '-API'
+    baseName = module_name + '-NoRT'
 }
 
 reobf {
@@ -141,18 +109,11 @@ project.tasks['jar'].dependsOn project.tasks['dokka']
 project.tasks['modJar'].dependsOn project.tasks['jar']
 
 sourceCompatibility = targetCompatibility =
-    compileJava.sourceCompatibility =
-        compileJava.targetCompatibility = project_jvm_version_target
+        compileJava.sourceCompatibility =
+                compileJava.targetCompatibility = project_jvm_version_target
 
 compileKotlin.kotlinOptions.jvmTarget =
-    compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
-
-task dokkaJar(type: Jar) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    description = 'Assembles Kotlin docs with Dokka'
-    classifier = 'javadoc'
-    from tasks.dokka as Object
-}
+        compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
 
 publishing {
     repositories {
@@ -171,5 +132,11 @@ publishing {
             artifact sourcesJar
             artifact dokkaJar
         }
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    kotlinOptions {
+        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
     }
 }

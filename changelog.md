@@ -6,6 +6,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0-RC.4] - 2020-05-16
+
+### Added
+- Synced changes from 1.14.4 branch.
+
+## [2.0.0-RC.3] - 2020-05-15
+
+### Added
+- `list-max-elements-in-page` setting added.
+- `sendListAsMessage` implemented in `MessagingAPI.kt`.
+- `listAsResponse` implemented in `ServerMessagingAPI.kt`.
+
+### Changed
+- Default permission resolution strategy improved.
+
 ## [1.15.2-1.1.0] - 2020-03-12
 
 ### Added
