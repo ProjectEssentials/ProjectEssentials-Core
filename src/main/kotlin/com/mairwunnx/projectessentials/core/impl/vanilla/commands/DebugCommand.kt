@@ -1,7 +1,12 @@
 /**
- * Command realization by Minecraft, converted
- * from java to kotlin with small changes, e.g
- * added check on permissions and aliases register.
+ * This command implementation by Mojang.
+ * And decompiled with idea source code was converted
+ * to kotlin code.
+ * Also added some logic, for example checking on
+ * permissions, and for some commands shorten aliases.
+ *
+ * 1. This can be bad code.
+ * 2. This file can be not formatter pretty.
  */
 
 @file:Suppress("FunctionName")
