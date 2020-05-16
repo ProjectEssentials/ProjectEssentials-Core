@@ -17,7 +17,6 @@ import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
-import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -41,7 +40,6 @@ internal object GiveCommand : VanillaCommandBase() {
         configuration.take().aliases.give + "give"
 
     private fun tryAssignAliases() {
-        if (!ModuleAPI.isModuleExist("cooldown")) return
         CommandAliases.aliases["give"] = aliases.toMutableList()
     }
 

@@ -18,7 +18,6 @@ import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
-import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -78,7 +77,6 @@ internal object WeatherCommand : VanillaCommandBase() {
     )
 
     private fun tryAssignAliases() {
-        if (!ModuleAPI.isModuleExist("cooldown")) return
         CommandAliases.aliases["sun"] = (sunAliases + "weather").toMutableList()
         CommandAliases.aliases["rain"] = (rainAliases + "weather").toMutableList()
         CommandAliases.aliases["thunder"] = (thunderAliases + "weather").toMutableList()
