@@ -4,7 +4,7 @@ Base module for all Project Essentials modules, API for creating modules of Proj
 
 ### Explore
 
-#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.15.2-1.1.0/ProjectEssentials-Core-MOD-1.15.2-1.1.0.jar) · [User guide](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#how-to-install) · [Developer documentation](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#using-as-api) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [Telegram](https://t.me/minecraftforge) · [Discord](https://discord.gg/VU9XZAt)
+#### [Download mod](https://github.com/ProjectEssentials/ProjectEssentials-Core/releases/download/v1.15.2-1.1.0/ProjectEssentials-Core-MOD-1.15.2-1.1.0.jar) · [User guide](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#how-to-install) · [Developer documentation](https://mairwunnx.gitbook.io/project-essentials/project-essentials-core#using-as-api) · [Troubleshooting](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/new/choose) · [Telegram](https://t.me/minecraftforge) · [Discord](https://discord.gg/VU9XZAt) · [Change log](https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/master/changelog.md)
 
 [![](https://github.com/ProjectEssentials/ProjectEssentials-Assets/raw/ASSETS-20-Q2/assets/common/support.png)](https://gist.github.com/MairwunNx/fda95062618db6880ef8ee06e1bba54f)
 
