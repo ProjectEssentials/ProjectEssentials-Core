@@ -130,9 +130,23 @@ object MessagingAPI {
         val displayedLines = page * linesPerPage
         val droppedLines = displayedLines - linesPerPage
         val values = list.take(displayedLines).drop(droppedLines)
+        val pageString = LocalizationAPI.getLocalizedString(
+            player.language,
+            "project_essentials_core.simple.page",
+            page.toString(),
+            maxPage.toString()
+        ).let {
+            if (it.isEmpty()) {
+                return@let TranslationTextComponent(
+                    "project_essentials_core.simple.page",
+                    page, maxPage
+                ).formattedText
+            }
+            return@let it
+        }
         val message =
             """
-§7$title page §c$page §7of §c$maxPage
+§7$title $pageString
 
 §7${values.joinToString(separator = "\n") { "    §c> §7$it" }}
             """
