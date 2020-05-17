@@ -6,5 +6,6 @@
   "project_essentials_core.back.restricted": "§cYou §7don't have permission §cto rolling back your location.",
   "project_essentials_core.configure.successfully": "§6Setting name \"§7%s§6\" value changed from \"§7%s§6\" to \"§7%s§6\"",
   "project_essentials_core.configure.successfully_required_restart": "§6Setting name \"§7%s§6\" value changed from \"§7%s§6\" to \"§7%s§6\", but §crestart required §6for applying changes.",
-  "project_essentials_core.configure.restricted": "§cYou §7don't have permission §cto change setting (§8\"§7%s§8\"§c) value."
+  "project_essentials_core.configure.restricted": "§cYou §7don't have permission §cto change setting (§8\"§7%s§8\"§c) value.",
+  "project_essentials_core.simple.page": "§7page §c%s §7of §c%s"
 }
