@@ -4,6 +4,7 @@ package com.mairwunnx.projectessentials.core.api.v1.localization
 
 import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProcessor.fallbackLanguage
+import net.minecraft.entity.player.ServerPlayerEntity
 
 /**
  * Localization API class, for interacting with
@@ -116,4 +117,11 @@ object LocalizationAPI {
         }
         return msg
     }
+
+    /**
+     * @param player target player to get result.
+     * @return player language.
+     * @since 2.0.0.
+     */
+    fun getPlayerLanguage(player: ServerPlayerEntity): String = player.language
 }
