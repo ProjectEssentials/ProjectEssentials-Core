@@ -102,7 +102,7 @@ object MessagingAPI {
             }
             else -> 1
         }
-        sendListAsMessage(context.getPlayer()!!, list, page, pages, linesPerPage, title)
+        sendListAsMessage(context.getPlayer()!!, list, page, pages, linesPerPage, title())
     }
 
     /**
@@ -125,7 +125,7 @@ object MessagingAPI {
         page: Int,
         maxPage: Int,
         linesPerPage: Int,
-        title: () -> String
+        title: String
     ) {
         val displayedLines = page * linesPerPage
         val droppedLines = displayedLines - linesPerPage
