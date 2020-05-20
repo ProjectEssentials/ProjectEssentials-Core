@@ -8,6 +8,14 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ⚠ - Breaking backward compatibility with dependants.
 
+## [2.0.0] - 2020-05-20
+
+### Added
+- `getPlayerLanguage` added in `LocalizationAPI.kt`.
+
+### Fixed
+- Incorrect output in lists fixed.
+
 ## [2.0.0-RC.5] - 2020-05-17
 
 ### Added
