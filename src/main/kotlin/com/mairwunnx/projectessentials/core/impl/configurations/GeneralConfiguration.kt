@@ -100,10 +100,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
             putList(key, defaultValue)
             return defaultValue
         }
-        return array
-            .removeSurrounding("[", "]")
-            .replace(" ", "")
-            .split(",")
+        return array.trim('[', ']').replace("\"", "").split(',').map { it.trim() }
     }
 
     fun putList(key: String, value: List<String>) = properties.set(key, value.toString())
