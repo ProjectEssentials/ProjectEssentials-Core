@@ -8,6 +8,11 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ⚠ - Breaking backward compatibility with dependants.
 
+## [Unreleased]
+
+### Changed
+- `GeneralConfiguration.getList()` string parsing improved.
+
 ## [2.0.0] - 2020-05-20
 
 ### Added
