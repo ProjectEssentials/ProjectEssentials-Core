@@ -12,6 +12,8 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ### Changed
 - `GeneralConfiguration.getList()` string parsing improved.
+- Forge dependency version updated to `31.2.0` from `31.1.0`. *(For 1.15.2)*
+- Forge mappings updated to `20200514-1.15.1`. *(For 1.15.2)*
 
 ## [2.0.0] - 2020-05-20
 
