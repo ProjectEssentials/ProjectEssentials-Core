@@ -10,6 +10,9 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ## [Unreleased]
 
+### Added
+- Reloading configurations with `/reload` command.
+
 ### Changed
 - `GeneralConfiguration.getList()` string parsing improved.
 - Forge dependency version updated to `31.2.0` from `31.1.0`. *(For 1.15.2)*
