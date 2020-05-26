@@ -13,6 +13,7 @@ package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
 import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
@@ -35,6 +36,7 @@ internal object ReloadCommand : VanillaCommandBase() {
                     TranslationTextComponent("commands.reload.success"), true
                 )
                 it.source.server.reload()
+                ConfigurationAPI.reloadAll()
                 0
             }
         )
