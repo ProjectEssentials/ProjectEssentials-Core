@@ -7,7 +7,6 @@ import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
-import com.mojang.brigadier.tree.RootCommandNode
 import net.minecraft.command.CommandSource
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.Entity
@@ -18,29 +17,8 @@ import net.minecraft.entity.player.ServerPlayerEntity
  * @since 2.0.0-SNAPSHOT.1.
  */
 object CommandAPI {
-    private lateinit var registeredCommands: RootCommandNode<CommandSource>
     private lateinit var dispatcher: CommandDispatcher<CommandSource>
     private var dispatcherAssigned = false
-
-    /**
-     * Internal function. Assign dispatcher root
-     * for removing command. Must be called before
-     * any processor initializing.
-     * @param dispatcher command dispatcher.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    /*
-        This is a crutch to replace vanilla commands,
-         and to gain access to the dispatcher root.
-     */
-    @Suppress("UNCHECKED_CAST")
-    internal fun assignDispatcherRoot(
-        dispatcher: CommandDispatcher<CommandSource>
-    ) {
-        val root = dispatcher.javaClass.getDeclaredField("root")
-        root.isAccessible = true
-        registeredCommands = root.get(dispatcher) as RootCommandNode<CommandSource>
-    }
 
     /**
      * Assign dispatcher for command registering.
@@ -50,10 +28,8 @@ object CommandAPI {
     fun assignDispatcher(
         dispatcher: CommandDispatcher<CommandSource>
     ) {
-        if (!dispatcherAssigned) {
-            dispatcherAssigned = true
-            this.dispatcher = dispatcher
-        }
+        if (!dispatcherAssigned) dispatcherAssigned = true
+        this.dispatcher = dispatcher
     }
 
     /**
@@ -81,8 +57,8 @@ object CommandAPI {
      * @return true if command removed, false otherwise.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun removeCommand(command: String): Boolean =
-        registeredCommands.children.removeIf { it.name == command }
+    fun removeCommand(command: String) =
+        dispatcher.root.children.removeIf { it.name == command }
 
     /**
      * @param context command context.

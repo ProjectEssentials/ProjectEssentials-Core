@@ -25,6 +25,7 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.living.LivingDeathEvent
 import net.minecraftforge.event.entity.player.PlayerEvent
 import net.minecraftforge.event.world.BlockEvent
+import net.minecraftforge.eventbus.api.EventPriority
 import net.minecraftforge.eventbus.api.SubscribeEvent
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent
@@ -74,13 +75,12 @@ internal class ModuleObject : IModule {
         event: FMLServerStoppingEvent
     ) = ConfigurationAPI.saveAll()
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onServerStarting(event: FMLServerStartingEvent) {
         dudeFuckedOff = File(
             projectConfigDirectory + File.separator + "fuck-off-dude.txt"
         ).exists().also { if (!it) printGreetingMessage() }
 
-        CommandAPI.assignDispatcherRoot(event.commandDispatcher)
         CommandAPI.assignDispatcher(event.commandDispatcher)
 
         if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) {
