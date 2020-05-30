@@ -12,23 +12,25 @@ import java.util.concurrent.CompletableFuture
 /**
  * String argument type class, for commands.
  *
+ * **It probably not work, this must not use by other modules!**
+ *
+ * *Will removed in next major version.*
+ *
  * @param array array with accepted values for command.
  * @since 2.0.0-SNAPSHOT.1.
  */
+@Deprecated("Use custom arguments, this unified argument type and may not work.")
 class StringArrayArgument(private val array: List<String>) : ArgumentType<String> {
     override fun parse(reader: StringReader): String {
         val value = reader.readUnquotedString()
         return if (value in array) {
             array.find { it == value } ?: value
-        } else {
-            throw IllegalArgumentException("No value found for name $value in array.")
-        }
+        } else throw IllegalArgumentException("No value found for name $value in array.")
     }
 
     override fun <S> listSuggestions(
-        context: CommandContext<S>,
-        builder: SuggestionsBuilder
-    ): CompletableFuture<Suggestions> = ISuggestionProvider.suggest(array.sorted(), builder)
+        context: CommandContext<S>, builder: SuggestionsBuilder
+    ): CompletableFuture<Suggestions> = ISuggestionProvider.suggest(array, builder)
 
     companion object {
         /**
