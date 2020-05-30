@@ -53,7 +53,7 @@ internal class EntryPoint {
 
     init {
         EventBridge.initialize()
-        providers.forEach { ProviderAPI.addProvider(it) }
+        providers.forEach(ProviderAPI::addProvider)
         subscribeEvents()
         EVENT_BUS.register(this)
     }
