@@ -3,7 +3,6 @@ package com.mairwunnx.projectessentials.core.impl.commands
 import com.mairwunnx.projectessentials.core.api.v1.MESSAGE_CORE_PREFIX
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandBase
-import com.mairwunnx.projectessentials.core.api.v1.commands.arguments.StringArrayArgument
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerSender
@@ -12,6 +11,7 @@ import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.messaging.ServerMessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI.requiredServerRestart
+import com.mairwunnx.projectessentials.core.impl.commands.arguments.ConfigurationKeyArgument
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
@@ -56,7 +56,7 @@ object ConfigureEssentialsCommandAPI {
 }
 
 internal object ConfigureEssentialsCommand : CommandBase(
-    takeConfigureEssentialsLiteral(), false
+    configureEssentialsLiteral, false
 ) {
     private val generalConfiguration by lazy {
         ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
@@ -70,12 +70,12 @@ internal object ConfigureEssentialsCommand : CommandBase(
         the first time it is empty.
      */
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
-        this.literal = takeConfigureEssentialsLiteral()
+        this.literal = configureEssentialsLiteral
         super.register(dispatcher)
     }
 
     override fun process(context: CommandContext<CommandSource>): Int {
-        val setting = StringArrayArgument.getValue(context, "setting")
+        val setting = ConfigurationKeyArgument.getValue(context, "setting")
         val value = CommandAPI.getString(context, "value")
         val oldValue = generalConfiguration.take().getValue(setting).toString()
 
