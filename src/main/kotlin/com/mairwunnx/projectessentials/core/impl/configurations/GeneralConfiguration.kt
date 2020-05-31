@@ -3,6 +3,7 @@
 package com.mairwunnx.projectessentials.core.impl.configurations
 
 import com.mairwunnx.projectessentials.core.api.v1.configuration.IConfiguration
+import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
 import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirectory
 import org.apache.logging.log4j.LogManager
 import java.io.File
@@ -43,9 +44,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     fun getDoubleOrDefault(key: String, value: Double): Double {
         val property = properties[key]
-        if (property == null) {
-            put(key, value.toString())
-        }
+        if (property == null) put(key, value.toString())
         return property?.toString()?.toDouble() ?: value
     }
 
@@ -53,9 +52,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     fun getFloatOrDefault(key: String, value: Float): Float {
         val property = properties[key]
-        if (property == null) {
-            put(key, value.toString())
-        }
+        if (property == null) put(key, value.toString())
         return property?.toString()?.toFloat() ?: value
     }
 
@@ -63,9 +60,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     fun getIntOrDefault(key: String, value: Int): Int {
         val property = properties[key]
-        if (property == null) {
-            put(key, value.toString())
-        }
+        if (property == null) put(key, value.toString())
         return property?.toString()?.toInt() ?: value
     }
 
@@ -73,9 +68,7 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     fun getBoolOrDefault(key: String, value: Boolean): Boolean {
         val property = properties[key]
-        if (property == null) {
-            put(key, value.toString())
-        }
+        if (property == null) put(key, value.toString())
         return property?.toString()?.toBoolean() ?: value
     }
 
@@ -83,24 +76,26 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     fun getStringOrDefault(key: String, value: String): String {
         val property = properties[key]
-        if (property == null) {
-            put(key, value)
-        }
+        if (property == null) put(key, value)
         return property?.toString() ?: value
     }
 
     fun getString(key: String) = properties[key].toString()
 
     fun getList(
-        key: String,
-        defaultValue: ArrayList<String> = arrayListOf()
+        key: String, defaultValue: ArrayList<String> = arrayListOf()
     ): List<String> {
-        val array = getStringOrDefault(key, "")
-        if (array.isEmpty()) {
-            putList(key, defaultValue)
-            return defaultValue
+        val rawList = getStringOrDefault(key, String.empty)
+        if (rawList.isBlank()) return defaultValue.also { putList(key, defaultValue) }
+        return rawList.trim('[', ']').replace("\"", "").let {
+            val list = mutableListOf<String>()
+            if (it.contains(',') && it.count() > 3) {
+                it.split(',').forEach { value -> list.add(value.trim()) }
+            } else if (it.count() >= 1) {
+                list.add(it.trim())
+            }
+            return@let list
         }
-        return array.trim('[', ']').replace("\"", "").split(',').map { it.trim() }
     }
 
     fun putList(key: String, value: List<String>) = properties.set(key, value.toString())
