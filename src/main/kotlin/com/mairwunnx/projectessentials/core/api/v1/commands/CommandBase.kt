@@ -7,7 +7,6 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
-import net.minecraft.command.Commands
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.MarkerManager
 
@@ -51,19 +50,28 @@ abstract class CommandBase(
      * @since 2.0.0-SNAPSHOT.1.
      */
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        fun hack(value: String) = try {
+            with(literal.javaClass.getDeclaredField("literal")) {
+                isAccessible = true
+                set(literal, value)
+            }
+        } catch (any: Exception) {
+            logger.error("Failed register alias $value for $name")
+        }
+
         if (ModuleAPI.isModuleExist("cooldown")) {
             CommandAliases.aliases[name] = aliases.toMutableList()
         }
 
         if (actionNeed) {
-            val literalNode = dispatcher.register(literal.executes(::process))
-            aliases.filter { it != name }.forEach {
-                dispatcher.register(Commands.literal(it).executes(::process).redirect(literalNode))
+            dispatcher.register(literal.executes { process(it) })
+            aliases.filter { it != name }.forEach { alias ->
+                hack(alias).run { dispatcher.register(literal.executes { process(it) }) }
             }
         } else {
-            val literalNode = dispatcher.register(literal)
-            aliases.filter { it != name }.forEach {
-                dispatcher.register(Commands.literal(it).redirect(literalNode))
+            dispatcher.register(literal)
+            aliases.filter { it != name }.forEach { alias ->
+                hack(alias).run { dispatcher.register(literal) }
             }
         }
     }
