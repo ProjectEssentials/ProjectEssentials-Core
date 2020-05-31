@@ -151,10 +151,7 @@ fun hoverEventFrom(
         }
     )
 } else {
-    HoverEvent(
-        HoverEvent.Action.SHOW_TEXT,
-        TranslationTextComponent(l10n, args)
-    )
+    HoverEvent(HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(l10n, args))
 }
 
 /**
