@@ -13,7 +13,7 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 ### Added
 - Reloading configurations with `/reload` command.
 - Validating configuration argument added.
-- Auto-complete general settings implemented.
+- Auto-complete general settings implemented. #6.
 
 ### Changed
 - `GeneralConfiguration.getList()` string parsing improved.
