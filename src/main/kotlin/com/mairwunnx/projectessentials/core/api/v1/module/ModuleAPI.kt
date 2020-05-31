@@ -31,7 +31,7 @@ object ModuleAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun getModuleByName(name: String) =
-        getAllModules().asSequence().find { it.name.toLowerCase() == name.toLowerCase() }?.let {
+        getAllModules().find { it.name == name }?.let {
             return@let it
         } ?: throw ModuleNotFoundException(
             "Module with name $name not found and not processed."
@@ -42,7 +42,7 @@ object ModuleAPI {
      * @return true if module existing or installed.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun isModuleExist(module: String) = ModuleProcessor.getModules().asSequence().find {
+    fun isModuleExist(module: String) = ModuleProcessor.getModules().find {
         it.name == module
     }.let { return@let it != null }
 }
