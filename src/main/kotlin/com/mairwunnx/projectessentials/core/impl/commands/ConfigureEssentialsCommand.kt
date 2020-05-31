@@ -3,7 +3,6 @@ package com.mairwunnx.projectessentials.core.impl.commands
 import com.mairwunnx.projectessentials.core.api.v1.MESSAGE_CORE_PREFIX
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandBase
-import com.mairwunnx.projectessentials.core.api.v1.commands.arguments.StringArrayArgument
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerSender
@@ -13,7 +12,6 @@ import com.mairwunnx.projectessentials.core.api.v1.messaging.ServerMessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI.requiredServerRestart
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
-import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 import org.apache.logging.log4j.LogManager
@@ -55,8 +53,8 @@ object ConfigureEssentialsCommandAPI {
     fun getRequired() = requiredServerRestart.toList()
 }
 
-internal object ConfigureEssentialsCommand : CommandBase(
-    takeConfigureEssentialsLiteral(), false
+object ConfigureEssentialsCommand : CommandBase(
+    configureEssentialsLiteral, false
 ) {
     private val generalConfiguration by lazy {
         ConfigurationAPI.getConfigurationByName<GeneralConfiguration>("general")
@@ -64,19 +62,23 @@ internal object ConfigureEssentialsCommand : CommandBase(
 
     override val name = "configure-essentials"
 
-    /*
-        This is a correction of the problem in order to get the list
-        of settings in the configuration several times, because for
-        the first time it is empty.
-     */
-    override fun register(dispatcher: CommandDispatcher<CommandSource>) {
-        this.literal = takeConfigureEssentialsLiteral()
-        super.register(dispatcher)
-    }
-
     override fun process(context: CommandContext<CommandSource>): Int {
-        val setting = StringArrayArgument.getValue(context, "setting")
+        val setting = CommandAPI.getString(context, "setting")
         val value = CommandAPI.getString(context, "value")
+
+        if (!validateArguments(setting, value)) {
+            if (context.isPlayerSender()) {
+                MessagingAPI.sendMessage(
+                    context.getPlayer()!!,
+                    "$MESSAGE_CORE_PREFIX.configure.not_found",
+                    args = *arrayOf(name)
+                )
+            } else {
+                ServerMessagingAPI.response { "Setting with name $name not exist or value has incorrect format." }
+            }
+            return 0
+        }
+
         val oldValue = generalConfiguration.take().getValue(setting).toString()
 
         if (context.isPlayerSender()) {
@@ -124,4 +126,8 @@ internal object ConfigureEssentialsCommand : CommandBase(
         }
         return 0
     }
+
+    private fun validateArguments(setting: String, value: String) =
+        generalConfiguration.take().keys.filter { it as String == setting }.count() > 1 &&
+                value.isNotBlank() && !Regex("[=|:@$^*]").containsMatchIn(value)
 }
