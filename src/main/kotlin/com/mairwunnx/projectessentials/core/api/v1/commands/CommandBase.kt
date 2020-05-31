@@ -57,12 +57,12 @@ abstract class CommandBase(
 
         if (actionNeed) {
             val literalNode = dispatcher.register(literal.executes(::process))
-            aliases.asSequence().filter { it != name }.forEach {
+            aliases.filter { it != name }.forEach {
                 dispatcher.register(Commands.literal(it).executes(::process).redirect(literalNode))
             }
         } else {
             val literalNode = dispatcher.register(literal)
-            aliases.asSequence().filter { it != name }.forEach {
+            aliases.filter { it != name }.forEach {
                 dispatcher.register(Commands.literal(it).redirect(literalNode))
             }
         }
