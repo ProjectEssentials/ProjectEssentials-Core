@@ -25,6 +25,7 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ### Fixed
 - Incorrect command behavior after a client re-login to local world.
+- Command aliases registered via `redirect` has incorrect behavior. [#7](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/7).
 
 ### Removed
 - Brigadier dependency removed.
