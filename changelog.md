@@ -12,14 +12,22 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ### Added
 - Reloading configurations with `/reload` command.
+- Validating configuration argument added.
+- Auto-complete general settings implemented.
 
 ### Changed
 - `GeneralConfiguration.getList()` string parsing improved.
 - Forge dependency version updated to `31.2.0` from `31.1.0`. *(For 1.15.2)*
 - Forge mappings updated to `20200514-1.15.1`. *(For 1.15.2)*
+- `StringArrayArgument` now is deprecated.
+- `ModuleAPI.kt` comparing module names improved.
+- `Extensions.kt` formatted.
 
 ### Fixed
 - Incorrect command behavior after a client re-login to local world.
+
+### Removed
+- Brigadier dependency removed.
 
 ## [2.0.0] - 2020-05-20
 
