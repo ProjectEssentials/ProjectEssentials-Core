@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.mairwunnx.projectessentials.core.api.v1.commands.arguments
 
 import com.mojang.brigadier.StringReader
