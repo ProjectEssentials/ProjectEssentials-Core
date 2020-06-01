@@ -2,10 +2,7 @@ package com.mairwunnx.projectessentials.core.impl.events;
 
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI;
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.*;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
-import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
+import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 public class EventBridge {
@@ -14,6 +11,7 @@ public class EventBridge {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(EventBridge::enqueueIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(EventBridge::processIMC);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(EventBridge::doClientStuff);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(EventBridge::complete);
     }
 
     public static void setup(final FMLCommonSetupEvent event) {
@@ -37,6 +35,12 @@ public class EventBridge {
     public static void processIMC(final InterModProcessEvent event) {
         ModuleEventAPI.INSTANCE.fire(
             ForgeEventType.ProcessIMCEvent, new InterModProcessEventData(event)
+        );
+    }
+
+    public static void complete(final FMLLoadCompleteEvent event) {
+        ModuleEventAPI.INSTANCE.fire(
+            ForgeEventType.LoadComplete, new LoadCompleteEventData(event)
         );
     }
 }

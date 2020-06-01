@@ -1,18 +1,19 @@
+@file:Suppress("UNUSED_PARAMETER")
+
 package com.mairwunnx.projectessentials.core
 
-import com.mairwunnx.projectessentials.core.api.v1.commands.CommandProcessor
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationProcessor
+import com.mairwunnx.projectessentials.core.api.v1.IMCLocalizationMessage
+import com.mairwunnx.projectessentials.core.api.v1.IMCProvidersMessage
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI.subscribeOn
-import com.mairwunnx.projectessentials.core.api.v1.events.forge.FMLCommonSetupEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.ForgeEventType
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModEnqueueEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModProcessEventData
-import com.mairwunnx.projectessentials.core.api.v1.localization.Localization
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
-import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProcessor
-import com.mairwunnx.projectessentials.core.api.v1.module.ModuleProcessor
-import com.mairwunnx.projectessentials.core.api.v1.processor.ProcessorAPI
+import com.mairwunnx.projectessentials.core.api.v1.localizationMarker
+import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.api.v1.providersMarker
 import com.mairwunnx.projectessentials.core.impl.ModuleObject
 import com.mairwunnx.projectessentials.core.impl.commands.BackLocationCommand
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommand
@@ -20,74 +21,100 @@ import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfigura
 import com.mairwunnx.projectessentials.core.impl.configurations.NativeAliasesConfiguration
 import com.mairwunnx.projectessentials.core.impl.events.EventBridge
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
+import net.minecraftforge.eventbus.api.SubscribeEvent
+import net.minecraftforge.fml.InterModComms
+import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
+import org.apache.logging.log4j.LogManager
 
 @Suppress("unused")
 @Mod("project_essentials_core")
 internal class EntryPoint {
-    /*
-        Sorry for hardcoded classes in this list.
-        I tried getting this classes with library https://github.com/matfax/klassindex
-        but it incorrectly works with multi-module projects,
-        for example if core will using klassindex library, then
-        other modules will incorrectly finding annotated classes,
-        because same class path of generated object with class references.
-
-        If you know how resolve it, please, open issue or pull request
-        and we can discuss it.
-     */
-    private val providers = listOf(
-        GeneralConfiguration::class.java,
-        NativeAliasesConfiguration::class.java,
-        ModuleObject::class.java,
-        BackLocationCommand::class.java,
-        ConfigureEssentialsCommand::class.java
-    )
-
-    private val processors = listOf(
-        ConfigurationProcessor,
-        ModuleProcessor,
-        LocalizationProcessor,
-        CommandProcessor
-    )
+    private val logger = LogManager.getLogger()
 
     init {
         EventBridge.initialize()
-        providers.forEach(ProviderAPI::addProvider)
-        subscribeEvents()
         EVENT_BUS.register(this)
+        subscribeEvents()
+    }
+
+    @SubscribeEvent
+    fun onServerPreStart(event: FMLServerAboutToStartEvent) {
+        ConfigurationAPI.loadAll()
+        ModuleAPI.initializeOrdered()
     }
 
     private fun subscribeEvents() {
-        subscribeOn<FMLCommonSetupEventData>(
-            ForgeEventType.SetupEvent
-        ) {
-            applyLocalization()
-            processors.forEach(ProcessorAPI::register)
-        }
-
         subscribeOn<InterModEnqueueEventData>(
             ForgeEventType.EnqueueIMCEvent
         ) {
-            ProcessorAPI.processProcessors()
+            sendLocalizationRequest()
+            sendProvidersRequest()
         }
 
         subscribeOn<InterModProcessEventData>(
             ForgeEventType.ProcessIMCEvent
-        ) {
-            ProcessorAPI.postProcessProcessors()
+        ) { event ->
+            processLocalizationRequest(event)
+            processProvidersRequest(event)
         }
     }
 
-    private fun applyLocalization() {
-        LocalizationAPI.apply(
-            Localization(
-                mutableListOf(
-                    "/assets/projectessentialscore/lang/en_us.json",
-                    "/assets/projectessentialscore/lang/ru_ru.json",
-                    "/assets/projectessentialscore/lang/zh_cn.json"
-                ), "core", EntryPoint::class.java
+    private fun sendLocalizationRequest() {
+        InterModComms.sendTo(
+            "project_essentials_core",
+            IMCLocalizationMessage
+        ) {
+            fun() = mutableListOf(
+                "/assets/projectessentialscore/lang/en_us.json",
+                "/assets/projectessentialscore/lang/ru_ru.json",
+                "/assets/projectessentialscore/lang/zh_cn.json"
             )
-        )
+        }
+    }
+
+    private fun sendProvidersRequest() {
+        InterModComms.sendTo(
+            "project_essentials_core",
+            IMCProvidersMessage
+        ) {
+            fun() = listOf(
+                GeneralConfiguration::class.java,
+                NativeAliasesConfiguration::class.java,
+                ModuleObject::class.java,
+                BackLocationCommand::class.java,
+                ConfigureEssentialsCommand::class.java
+            )
+        }
+    }
+
+    private fun processLocalizationRequest(event: InterModProcessEventData) {
+        event.event.getIMCStream { method ->
+            method == IMCLocalizationMessage
+        }.also { stream ->
+            stream.forEach { message ->
+                val clazz = ModList.get().getModContainerById(message.modId).get().mod.javaClass
+                message.getMessageSupplier<() -> List<String>>().get().also {
+                    logger.debug(
+                        localizationMarker, "Localization got from ${message.senderModId}"
+                    ).run { LocalizationAPI.apply(clazz, it) }
+                }
+            }
+        }
+    }
+
+    private fun processProvidersRequest(event: InterModProcessEventData) {
+        event.event.getIMCStream { method ->
+            method == IMCProvidersMessage
+        }.also { stream ->
+            stream.forEach { message ->
+                message.getMessageSupplier<() -> List<Class<out Any>>>().get().also {
+                    logger.debug(
+                        providersMarker, "Providers got from ${message.senderModId}"
+                    ).run { it().forEach(ProviderAPI::addProvider) }
+                }
+            }
+        }
     }
 }

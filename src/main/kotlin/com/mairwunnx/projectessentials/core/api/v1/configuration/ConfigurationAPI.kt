@@ -1,16 +1,27 @@
+@file:Suppress("unused")
+
 package com.mairwunnx.projectessentials.core.api.v1.configuration
+
+import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ConfigurationEventData
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
+import org.apache.logging.log4j.LogManager
 
 /**
  * Configuration API, for interacting with configurations.
  * @since 2.0.0-SNAPSHOT.1.
  */
-@Suppress("unused")
 object ConfigurationAPI {
+    private val logger = LogManager.getLogger()
+    private var configurations = listOf<IConfiguration<*>>()
+
     /**
      * @return all installed and checked configurations.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun getAllConfigurations() = ConfigurationProcessor.getConfigurations()
+    fun getConfigurations() = configurations
 
     /**
      * @param name processor name.
@@ -21,11 +32,11 @@ object ConfigurationAPI {
      */
     @Suppress("UNCHECKED_CAST")
     fun <T> getConfigurationByName(name: String): T where T : IConfiguration<*> =
-        getAllConfigurations().find { it.name == name }?.let {
+        configurations.asSequence().find {
+            it.name.toLowerCase() == name.toLowerCase()
+        }?.let {
             return@let it as T
-        } ?: throw ConfigurationNotFoundException(
-            "Configuration with name $name not found."
-        )
+        } ?: throw ConfigurationNotFoundException("Configuration with name $name not found.")
 
     /**
      * Reloads all initialized and processed configurations.
@@ -34,9 +45,8 @@ object ConfigurationAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun reloadAll(saveBeforeLoad: Boolean = true) {
-        getAllConfigurations().forEach {
-            if (saveBeforeLoad) it.save()
-            it.load()
+        getConfigurations().forEach { cfg ->
+            if (saveBeforeLoad) cfg.save().also { cfg.load() }
         }
     }
 
@@ -51,20 +61,34 @@ object ConfigurationAPI {
         configuration: IConfiguration<*>,
         saveBeforeLoad: Boolean = true
     ) {
-        if (saveBeforeLoad) configuration.save()
-        configuration.load()
+        if (saveBeforeLoad) configuration.save().also { configuration.load() }
     }
 
     /**
      * Saves all initialized and processed configurations.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun saveAll() = getAllConfigurations().forEach { it.save() }
+    fun saveAll() = getConfigurations().forEach { it.save() }
 
-    /**
-     * Saves specified configuration.
-     * @param configuration configuration for saving.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun saveSpecified(configuration: IConfiguration<*>) = configuration.save()
+    internal fun loadAll() {
+        ProviderAPI.getProvidersByType(ProviderType.Configuration).forEach {
+            val clazz = it.getDeclaredField("INSTANCE").get(null) as IConfiguration<*>
+            ModuleEventAPI.fire(
+                ModuleCoreEventType.OnConfigurationClassProcessing, ConfigurationEventData(clazz)
+            )
+            logger.debug(
+                "Configuration taken! ${it.simpleName}, name: ${clazz.name}, version: ${clazz.version}, at ${clazz.path}"
+            )
+            configurations = configurations + clazz
+            load(clazz)
+            ModuleEventAPI.fire(
+                ModuleCoreEventType.OnConfigurationClassProcessed, ConfigurationEventData(clazz)
+            )
+        }
+    }
+
+    private fun load(configuration: IConfiguration<*>) =
+        logger.info("Starting loading configuration ${configuration.name}").also {
+            configuration.load()
+        }
 }

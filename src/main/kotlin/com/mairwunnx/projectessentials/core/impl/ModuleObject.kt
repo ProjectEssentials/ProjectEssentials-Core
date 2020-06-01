@@ -13,7 +13,6 @@ import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirector
 import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
-import com.mairwunnx.projectessentials.core.api.v1.processor.ProcessorAPI
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.*
@@ -37,14 +36,14 @@ internal class ModuleObject : IModule {
     override val version = this::class.java.`package`.implementationVersion!!
     override val loadIndex = 0
 
-    private val generalConfiguration by lazy {
-        getConfigurationByName<GeneralConfiguration>("general")
-    }
-
     private var dudeFuckedOff = true
 
     init {
         MinecraftForge.EVENT_BUS.register(this)
+    }
+
+    private val generalConfiguration by lazy {
+        getConfigurationByName<GeneralConfiguration>("general")
     }
 
     override fun init() = initializeModuleSettings()
@@ -87,7 +86,7 @@ internal class ModuleObject : IModule {
             registerNativeCommands(event.commandDispatcher, event.server.isDedicatedServer)
         }
 
-        ProcessorAPI.getProcessorByName("command").postProcess()
+        CommandAPI.registerAll()
     }
 
     @SubscribeEvent
