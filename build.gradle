@@ -43,8 +43,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:$forge_version"
     internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
     internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
-    internal 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    internal 'org.json:json:20190722'
+    internal "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
+    internal "org.json:json:$json_version"
 }
 
 dokka {
