@@ -56,3 +56,4 @@ const val SETTING_DEOP_COMMAND_REMOVE_OP_PERM = "deop-command-remove-op-perm"
 const val SETTING_LIST_MAX_ELEMENTS_IN_PAGE = "list-max-elements-in-page"
 
 const val IMCLocalizationMessage = "localization-request"
+const val IMCProvidersMessage = "providers-request"
