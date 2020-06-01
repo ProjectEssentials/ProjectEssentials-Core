@@ -1,10 +1,23 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "MemberVisibilityCanBePrivate", "DEPRECATION", "RedundantAsync")
 
 package com.mairwunnx.projectessentials.core.api.v1.localization
 
+import com.mairwunnx.projectessentials.core.api.v1.INITIAL_FALLBACK_LANGUAGE
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_FALLBACK_LANG
+import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
-import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationProcessor.fallbackLanguage
+import com.mairwunnx.projectessentials.core.api.v1.helpers.getResourceAsFile
+import com.mairwunnx.projectessentials.core.api.v1.localizationMarker
+import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import net.minecraft.entity.player.ServerPlayerEntity
+import org.apache.logging.log4j.LogManager
+import org.json.JSONObject
+import java.util.*
+import kotlin.system.measureTimeMillis
 
 /**
  * Localization API class, for interacting with
@@ -12,79 +25,79 @@ import net.minecraft.entity.player.ServerPlayerEntity
  * @since 2.0.0-SNAPSHOT.1.
  */
 object LocalizationAPI {
-    /**
-     * Applying localization, without processing. Thread safe.
-     * **Apply only in setup event!**
-     * @param localization localization data class instance.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun apply(localization: Localization) {
-        synchronized(this) {
-            LocalizationProcessor.localizations.add(localization)
+    val logger = LogManager.getLogger()!!
+
+    private val generalConfiguration by lazy {
+        getConfigurationByName<GeneralConfiguration>("general")
+    }
+
+    val localizations: HashMap<String, MutableList<HashMap<String, String>>> = hashMapOf()
+
+    inline fun apply(clazz: Class<*>, crossinline entries: () -> List<String>) {
+        CoroutineScope(Dispatchers.Default).launch {
+            async {
+                entries().asSequence().forEach {
+                    val name = it.substring(it.lastIndexOf("/")).drop(1).dropLast(5)
+                    measureTimeMillis {
+                        val json = getResourceAsFile(
+                            clazz.classLoader, it
+                        )?.readText() ?: error("Localization $it / $name failed to process")
+                        JSONObject(json).also { jsonObject ->
+                            jsonObject.keys().asSequence().filter { predicate ->
+                                predicate != "_comment"
+                            }.forEach { key ->
+                                val value = jsonObject.get(key) as String
+                                val result = localizations[name]
+                                if (result == null) {
+                                    localizations[name] = mutableListOf(hashMapOf(key to value))
+                                } else {
+                                    result.add(hashMapOf(Pair(key, value)))
+                                }
+                            }
+                        }
+                    }.also { time ->
+                        logger.debug(
+                            localizationMarker, "Localization `$name` processed with ${time}ms"
+                        )
+                    }
+                }
+            }.await()
         }
     }
 
     /**
-     * Removing localization from localizations. (For
-     * applying changes you need remove all localization data
-     * and re-process localization processor).
-     * @param localization localization data class with specified
-     * name and sources.
-     * @return true if any elements were removed.
+     * Applying localization, without (with since 2.0.1) processing. Thread safe.
+     * **Apply only in setup event!**
+     *
+     * Deprecated, and redirects to [apply].
+     *
+     * @param localization localization data class instance.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun remove(localization: Localization) =
-        LocalizationProcessor.localizations.removeIf {
-            it.sourceName == localization.sourceName && it.sources == localization.sources
-        }
-
-    /**
-     * Removing all localizations.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun removeAll() = LocalizationProcessor.localizations.clear()
+    @Deprecated(
+        "Deprecated feature, but still existing for backward compatibility",
+        ReplaceWith("apply { localization.sources }")
+    )
+    fun apply(localization: Localization) = apply(localization.sourceClass) { localization.sources }
 
     /**
      * @return fall back localizations language.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun getFallBackLanguage() = fallbackLanguage
+    fun getFallBackLanguage() = generalConfiguration.getStringOrDefault(
+        SETTING_LOC_FALLBACK_LANG, INITIAL_FALLBACK_LANGUAGE
+    )
 
     /**
      * Install new fall back localizations language.
      * @param language language string in format `xx_xx`.
-     * @throws IllegalLanguageCodeException when language
      * code is illegal.
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun setFallBackLanguage(language: String) =
         if (language.matches(Regex("^[a-z]{2}_[a-z]{2}$"))) {
-            fallbackLanguage = language
-        } else {
-            throw IllegalLanguageCodeException(
-                "Language code format $language incorrect and unsupported."
-            )
-        }
-
-    /**
-     * @param name target localization name.
-     * @return Localization data by specified name.
-     * @throws LocalizationNotFoundException when localization
-     * not found.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun getByName(name: String) =
-        LocalizationProcessor.localizations.find {
-            it.sourceName == name
-        } ?: throw LocalizationNotFoundException(
-            "Localization with name $name not found."
-        )
-
-    /**
-     * @return all localizations as mutable list.
-     * @since 2.0.0-SNAPSHOT.1.
-     */
-    fun getAll() = LocalizationProcessor.localizations
+            generalConfiguration.put(SETTING_LOC_FALLBACK_LANG, language)
+        } else throw error("Language code format $language incorrect and unsupported.")
 
     /**
      * @param targetLanguage target language, in format `xx_xx`.
@@ -102,18 +115,27 @@ object LocalizationAPI {
         argumentChar: Char = 's'
     ): String {
         var msg = String.empty
-        val messagesList = LocalizationProcessor.localizationsData[
+        val messagesList = localizations[
                 targetLanguage.toLowerCase()
-        ] ?: LocalizationProcessor.localizationsData[fallbackLanguage]
+        ] ?: localizations[getFallBackLanguage()]
 
-        messagesList?.forEach {
-            it[l10nString]?.let { message ->
-                msg = message
+        messagesList!!.asSequence().forEach {
+            it[l10nString]?.let { message -> msg = message }
+        }.also {
+            for (i in 0 until msg.asSequence().filter { it == '%' }.count()) {
+                msg = msg.replaceFirst("%$argumentChar", args[i])
             }
         }
 
-        for (i in 0 until msg.filter { it == '%' }.count()) {
-            msg = msg.replaceFirst("%$argumentChar", args[i])
+        if (msg.isEmpty()) {
+            StringBuilder(msg).apply {
+                append("Probably localization error occurred:\n")
+                append("    > Requested language: $targetLanguage,\n")
+                append("    > requested string: $l10nString,\n")
+                append("    > Fallback language: ${getFallBackLanguage()},\n")
+                append("    > Messages count: ${messagesList.count()},\n")
+                append("    > Registered localizations: ${localizations.count()}")
+            }.toString().also { logger.error(it) }
         }
         return msg
     }
