@@ -23,6 +23,13 @@ enum class ModuleCoreEventType : IModuleEventType {
 
     /**
      * This event type will be fired on
+     * processor processing.
+     * @since 2.0.0-SNAPSHOT.1.
+     */
+    OnProcessorProcessing,
+
+    /**
+     * This event type will be fired on
      * configuration class processing.
      * @since 2.0.0-SNAPSHOT.1.
      */
