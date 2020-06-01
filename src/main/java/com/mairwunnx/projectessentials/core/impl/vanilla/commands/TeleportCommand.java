@@ -98,7 +98,7 @@ public class TeleportCommand {
         checkPermissions(source);
 
         for (Entity entity : targets) {
-            teleport(source, entity, (ServerWorld) destination.world, destination.func_226277_ct_(), destination.func_226278_cu_(), destination.func_226281_cx_(), EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class), destination.rotationYaw, destination.rotationPitch, null);
+            teleport(source, entity, (ServerWorld) destination.world, destination.getPosX(), destination.getPosY(), destination.getPosZ(), EnumSet.noneOf(SPlayerPositionLookPacket.Flags.class), destination.rotationYaw, destination.rotationPitch, null);
         }
 
         if (targets.size() == 1) {
@@ -166,10 +166,10 @@ public class TeleportCommand {
 
         if (entityIn instanceof ServerPlayerEntity) {
             ChunkPos chunkpos = new ChunkPos(new BlockPos(x, y, z));
-            worldIn.getChunkProvider().func_217228_a(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
+            worldIn.getChunkProvider().registerTicket(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
             entityIn.stopRiding();
             if (((ServerPlayerEntity) entityIn).isSleeping()) {
-                ((ServerPlayerEntity) entityIn).func_225652_a_(true, true);
+                ((ServerPlayerEntity) entityIn).stopSleepInBed(true, true);
             }
 
             if (worldIn == entityIn.world) {
@@ -198,7 +198,7 @@ public class TeleportCommand {
                 entityIn.copyDataFromOld(entity);
                 entityIn.setLocationAndAngles(x, y, z, f1, f);
                 entityIn.setRotationYawHead(f1);
-                worldIn.func_217460_e(entityIn);
+                worldIn.addFromAnotherDimension(entityIn);
             }
         }
 

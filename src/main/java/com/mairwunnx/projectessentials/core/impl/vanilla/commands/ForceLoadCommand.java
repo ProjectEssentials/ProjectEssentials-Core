@@ -53,19 +53,19 @@ public class ForceLoadCommand {
         CommandAPI.INSTANCE.removeCommand("forceload");
 
         dispatcher.register(Commands.literal("forceload").then(Commands.literal("add").then(Commands.argument("from", ColumnPosArgument.columnPos()).executes((p_212711_0_) -> {
-            return func_212719_a(p_212711_0_.getSource(), ColumnPosArgument.func_218101_a(p_212711_0_, "from"), ColumnPosArgument.func_218101_a(p_212711_0_, "from"), true);
+            return func_212719_a(p_212711_0_.getSource(), ColumnPosArgument.fromBlockPos(p_212711_0_, "from"), ColumnPosArgument.fromBlockPos(p_212711_0_, "from"), true);
         }).then(Commands.argument("to", ColumnPosArgument.columnPos()).executes((p_212714_0_) -> {
-            return func_212719_a(p_212714_0_.getSource(), ColumnPosArgument.func_218101_a(p_212714_0_, "from"), ColumnPosArgument.func_218101_a(p_212714_0_, "to"), true);
+            return func_212719_a(p_212714_0_.getSource(), ColumnPosArgument.fromBlockPos(p_212714_0_, "from"), ColumnPosArgument.fromBlockPos(p_212714_0_, "to"), true);
         })))).then(Commands.literal("remove").then(Commands.argument("from", ColumnPosArgument.columnPos()).executes((p_218850_0_) -> {
-            return func_212719_a(p_218850_0_.getSource(), ColumnPosArgument.func_218101_a(p_218850_0_, "from"), ColumnPosArgument.func_218101_a(p_218850_0_, "from"), false);
+            return func_212719_a(p_218850_0_.getSource(), ColumnPosArgument.fromBlockPos(p_218850_0_, "from"), ColumnPosArgument.fromBlockPos(p_218850_0_, "from"), false);
         }).then(Commands.argument("to", ColumnPosArgument.columnPos()).executes((p_212718_0_) -> {
-            return func_212719_a(p_212718_0_.getSource(), ColumnPosArgument.func_218101_a(p_212718_0_, "from"), ColumnPosArgument.func_218101_a(p_212718_0_, "to"), false);
+            return func_212719_a(p_212718_0_.getSource(), ColumnPosArgument.fromBlockPos(p_212718_0_, "from"), ColumnPosArgument.fromBlockPos(p_212718_0_, "to"), false);
         }))).then(Commands.literal("all").executes((p_212715_0_) -> {
             return func_212722_b(p_212715_0_.getSource());
         }))).then(Commands.literal("query").executes((p_212710_0_) -> {
             return func_212721_a(p_212710_0_.getSource());
         }).then(Commands.argument("pos", ColumnPosArgument.columnPos()).executes((p_212723_0_) -> {
-            return func_212713_a(p_212723_0_.getSource(), ColumnPosArgument.func_218101_a(p_212723_0_, "pos"));
+            return func_212713_a(p_212723_0_.getSource(), ColumnPosArgument.fromBlockPos(p_212723_0_, "pos"));
         }))));
     }
 

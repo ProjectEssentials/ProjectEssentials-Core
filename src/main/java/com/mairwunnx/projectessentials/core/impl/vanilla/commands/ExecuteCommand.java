@@ -139,7 +139,7 @@ public class ExecuteCommand {
         }))).then(Commands.literal("anchored").then(Commands.argument("anchor", EntityAnchorArgument.entityAnchor()).redirect(literalcommandnode, (p_201091_0_) -> {
             return p_201091_0_.getSource().withEntityAnchorType(EntityAnchorArgument.getEntityAnchor(p_201091_0_, "anchor"));
         }))).then(Commands.literal("in").then(Commands.argument("dimension", DimensionArgument.getDimension()).redirect(literalcommandnode, (p_201089_0_) -> {
-            return p_201089_0_.getSource().withWorld(p_201089_0_.getSource().getServer().getWorld(DimensionArgument.func_212592_a(p_201089_0_, "dimension")));
+            return p_201089_0_.getSource().withWorld(p_201089_0_.getSource().getServer().getWorld(DimensionArgument.getDimensionArgument(p_201089_0_, "dimension")));
         }))));
     }
 
@@ -184,27 +184,27 @@ public class ExecuteCommand {
             datacommand$idataprovider.createArgument(literal, (p_229765_3_) -> {
                 return p_229765_3_.then(Commands.argument("path", NBTPathArgument.nbtPath()).then(Commands.literal("int").then(Commands.argument("scale", DoubleArgumentType.doubleArg()).redirect(parent, (p_229801_2_) -> {
                     return storeIntoNBT(p_229801_2_.getSource(), datacommand$idataprovider.createAccessor(p_229801_2_), NBTPathArgument.getNBTPath(p_229801_2_, "path"), (p_229800_1_) -> {
-                        return IntNBT.func_229692_a_((int) ((double) p_229800_1_ * DoubleArgumentType.getDouble(p_229801_2_, "scale")));
+                        return IntNBT.valueOf((int) ((double) p_229800_1_ * DoubleArgumentType.getDouble(p_229801_2_, "scale")));
                     }, storingResult);
                 }))).then(Commands.literal("float").then(Commands.argument("scale", DoubleArgumentType.doubleArg()).redirect(parent, (p_229798_2_) -> {
                     return storeIntoNBT(p_229798_2_.getSource(), datacommand$idataprovider.createAccessor(p_229798_2_), NBTPathArgument.getNBTPath(p_229798_2_, "path"), (p_229797_1_) -> {
-                        return FloatNBT.func_229689_a_((float) ((double) p_229797_1_ * DoubleArgumentType.getDouble(p_229798_2_, "scale")));
+                        return FloatNBT.valueOf((float) ((double) p_229797_1_ * DoubleArgumentType.getDouble(p_229798_2_, "scale")));
                     }, storingResult);
                 }))).then(Commands.literal("short").then(Commands.argument("scale", DoubleArgumentType.doubleArg()).redirect(parent, (p_229794_2_) -> {
                     return storeIntoNBT(p_229794_2_.getSource(), datacommand$idataprovider.createAccessor(p_229794_2_), NBTPathArgument.getNBTPath(p_229794_2_, "path"), (p_229792_1_) -> {
-                        return ShortNBT.func_229701_a_((short) ((int) ((double) p_229792_1_ * DoubleArgumentType.getDouble(p_229794_2_, "scale"))));
+                        return ShortNBT.valueOf((short) ((int) ((double) p_229792_1_ * DoubleArgumentType.getDouble(p_229794_2_, "scale"))));
                     }, storingResult);
                 }))).then(Commands.literal("long").then(Commands.argument("scale", DoubleArgumentType.doubleArg()).redirect(parent, (p_229790_2_) -> {
                     return storeIntoNBT(p_229790_2_.getSource(), datacommand$idataprovider.createAccessor(p_229790_2_), NBTPathArgument.getNBTPath(p_229790_2_, "path"), (p_229788_1_) -> {
-                        return LongNBT.func_229698_a_((long) ((double) p_229788_1_ * DoubleArgumentType.getDouble(p_229790_2_, "scale")));
+                        return LongNBT.valueOf((long) ((double) p_229788_1_ * DoubleArgumentType.getDouble(p_229790_2_, "scale")));
                     }, storingResult);
                 }))).then(Commands.literal("double").then(Commands.argument("scale", DoubleArgumentType.doubleArg()).redirect(parent, (p_229784_2_) -> {
                     return storeIntoNBT(p_229784_2_.getSource(), datacommand$idataprovider.createAccessor(p_229784_2_), NBTPathArgument.getNBTPath(p_229784_2_, "path"), (p_229781_1_) -> {
-                        return DoubleNBT.func_229684_a_((double) p_229781_1_ * DoubleArgumentType.getDouble(p_229784_2_, "scale"));
+                        return DoubleNBT.valueOf((double) p_229781_1_ * DoubleArgumentType.getDouble(p_229784_2_, "scale"));
                     }, storingResult);
                 }))).then(Commands.literal("byte").then(Commands.argument("scale", DoubleArgumentType.doubleArg()).redirect(parent, (p_229774_2_) -> {
                     return storeIntoNBT(p_229774_2_.getSource(), datacommand$idataprovider.createAccessor(p_229774_2_), NBTPathArgument.getNBTPath(p_229774_2_, "path"), (p_229762_1_) -> {
-                        return ByteNBT.func_229671_a_((byte) ((int) ((double) p_229762_1_ * DoubleArgumentType.getDouble(p_229774_2_, "scale"))));
+                        return ByteNBT.valueOf((byte) ((int) ((double) p_229762_1_ * DoubleArgumentType.getDouble(p_229774_2_, "scale"))));
                     }, storingResult);
                 }))));
             });
