@@ -319,7 +319,7 @@ public class LootCommand {
         if (!(p_218869_1_ instanceof LivingEntity)) {
             throw field_218906_c.create(p_218869_1_.getDisplayName());
         } else {
-            ResourceLocation resourcelocation = ((LivingEntity) p_218869_1_).func_213346_cF();
+            ResourceLocation resourcelocation = ((LivingEntity) p_218869_1_).getLootTableResourceLocation();
             CommandSource commandsource = p_218869_0_.getSource();
             LootContext.Builder lootcontext$builder = new LootContext.Builder(commandsource.getWorld());
             Entity entity = commandsource.getEntity();
