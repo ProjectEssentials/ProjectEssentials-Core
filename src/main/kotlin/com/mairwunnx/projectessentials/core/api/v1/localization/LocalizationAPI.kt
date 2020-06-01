@@ -13,6 +13,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import net.minecraft.entity.player.ServerPlayerEntity
 import org.apache.logging.log4j.LogManager
 import org.json.JSONObject
@@ -31,6 +33,7 @@ object LocalizationAPI {
         getConfigurationByName<GeneralConfiguration>("general")
     }
 
+    val mutex = Mutex()
     val localizations: HashMap<String, MutableList<HashMap<String, String>>> = hashMapOf()
 
     inline fun apply(clazz: Class<*>, crossinline entries: () -> List<String>) {
@@ -47,11 +50,13 @@ object LocalizationAPI {
                                 predicate != "_comment"
                             }.forEach { key ->
                                 val value = jsonObject.get(key) as String
-                                val result = localizations[name]
-                                if (result == null) {
-                                    localizations[name] = mutableListOf(hashMapOf(key to value))
-                                } else {
-                                    result.add(hashMapOf(Pair(key, value)))
+                                mutex.withLock {
+                                    val result = localizations[name]
+                                    if (result == null) {
+                                        localizations[name] = mutableListOf(hashMapOf(key to value))
+                                    } else {
+                                        result.add(hashMapOf(Pair(key, value)))
+                                    }
                                 }
                             }
                         }
