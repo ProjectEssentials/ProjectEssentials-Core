@@ -2,6 +2,11 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.commands
 
+import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.CommandEventData
+import com.mairwunnx.projectessentials.core.api.v1.events.internal.ModuleCoreEventType
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderAPI
+import com.mairwunnx.projectessentials.core.api.v1.providers.ProviderType
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.arguments.BoolArgumentType
 import com.mojang.brigadier.arguments.IntegerArgumentType
@@ -11,12 +16,16 @@ import net.minecraft.command.CommandSource
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.ServerPlayerEntity
+import org.apache.logging.log4j.LogManager
 
 /**
  * Class for interacting with command api.
  * @since 2.0.0-SNAPSHOT.1.
  */
 object CommandAPI {
+    private val logger = LogManager.getLogger()
+    private var commands = listOf<ICommand>()
+
     private lateinit var dispatcher: CommandDispatcher<CommandSource>
     private var dispatcherAssigned = false
 
@@ -48,7 +57,7 @@ object CommandAPI {
      * @return all installed and checked commands.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun getAllCommands() = CommandProcessor.getCommands()
+    fun getCommands() = commands
 
     /**
      * Remove already registered command with
@@ -248,4 +257,27 @@ object CommandAPI {
         context: CommandContext<CommandSource>,
         argumentName: String
     ): MutableCollection<ServerPlayerEntity> = EntityArgument.getPlayers(context, argumentName)
+
+    internal fun registerAll() {
+        ProviderAPI.getProvidersByType(ProviderType.Command).forEach {
+            val clazz = it.getDeclaredField("INSTANCE").get(null) as ICommand
+            ModuleEventAPI.fire(
+                ModuleCoreEventType.OnCommandClassProcessing, CommandEventData(clazz)
+            )
+            logger.debug(
+                "Command taken! ${clazz.javaClass.simpleName}, name: ${clazz.name}, aliases: ${clazz.aliases}"
+            )
+            commands = commands + clazz
+            register(clazz)
+            ModuleEventAPI.fire(
+                ModuleCoreEventType.OnCommandClassProcessed, CommandEventData(clazz)
+            )
+        }
+    }
+
+    private fun register(command: ICommand) =
+        logger.info("Starting registering command ${command.name}").also {
+            command.initialize()
+            command.register(getDispatcher())
+        }
 }
