@@ -29,5 +29,11 @@ enum class ForgeEventType : IModuleEventType {
      * `doClientStuff` method for modloading.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    DoClientStuffEvent
+    DoClientStuffEvent,
+
+    /**
+     * `complete` method for modloading.
+     * @since 2.0.1.
+     */
+    LoadComplete,
 }
