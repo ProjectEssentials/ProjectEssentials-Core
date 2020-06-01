@@ -42,46 +42,57 @@ object GeneralConfiguration : IConfiguration<Properties> {
 
     override fun take() = properties
 
+    @Synchronized
     fun getDoubleOrDefault(key: String, value: Double): Double {
         val property = properties[key]
         if (property == null) put(key, value.toString())
-        return property?.toString()?.toDouble() ?: value
+        return properties[key]?.toString()?.toDouble() ?: value
     }
 
+    @Synchronized
     fun getDouble(key: String) = properties[key].toString().toDouble()
 
+    @Synchronized
     fun getFloatOrDefault(key: String, value: Float): Float {
         val property = properties[key]
         if (property == null) put(key, value.toString())
-        return property?.toString()?.toFloat() ?: value
+        return properties[key]?.toString()?.toFloat() ?: value
     }
 
+    @Synchronized
     fun getFloatInt(key: String) = properties[key].toString().toFloat()
 
+    @Synchronized
     fun getIntOrDefault(key: String, value: Int): Int {
         val property = properties[key]
         if (property == null) put(key, value.toString())
-        return property?.toString()?.toInt() ?: value
+        return properties[key]?.toString()?.toInt() ?: value
     }
 
+    @Synchronized
     fun getInt(key: String) = properties[key].toString().toInt()
 
+    @Synchronized
     fun getBoolOrDefault(key: String, value: Boolean): Boolean {
         val property = properties[key]
         if (property == null) put(key, value.toString())
-        return property?.toString()?.toBoolean() ?: value
+        return properties[key]?.toString()?.toBoolean() ?: value
     }
 
+    @Synchronized
     fun getBool(key: String) = properties[key].toString().toBoolean()
 
+    @Synchronized
     fun getStringOrDefault(key: String, value: String): String {
         val property = properties[key]
         if (property == null) put(key, value)
-        return property?.toString() ?: value
+        return properties[key]?.toString() ?: value
     }
 
+    @Synchronized
     fun getString(key: String) = properties[key].toString()
 
+    @Synchronized
     fun getList(
         key: String, defaultValue: ArrayList<String> = arrayListOf()
     ): List<String> {
@@ -98,7 +109,9 @@ object GeneralConfiguration : IConfiguration<Properties> {
         }
     }
 
+    @Synchronized
     fun putList(key: String, value: List<String>) = properties.set(key, value.toString())
 
+    @Synchronized
     fun put(key: String, value: String) = properties.set(key, value)
 }
