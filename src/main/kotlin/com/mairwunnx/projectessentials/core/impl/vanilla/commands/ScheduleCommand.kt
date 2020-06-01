@@ -57,7 +57,7 @@ internal object ScheduleCommand : VanillaCommandBase() {
             Commands.literal("schedule").then(
                 Commands.literal("function").then(
                     Commands.argument(
-                        "function", FunctionArgument.func_200021_a()
+                        "function", FunctionArgument.function()
                     ).suggests(FunctionCommand.FUNCTION_SUGGESTER).then(
                         Commands.argument(
                             "time", TimeArgument.func_218091_a()

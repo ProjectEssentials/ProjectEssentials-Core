@@ -127,9 +127,7 @@ internal object GiveCommand : VanillaCommandBase() {
                     itementity1?.makeFakeItem()
                     serverplayerentity.world.playSound(
                         null as PlayerEntity?,
-                        serverplayerentity.func_226277_ct_(),
-                        serverplayerentity.func_226278_cu_(),
-                        serverplayerentity.func_226281_cx_(),
+                        serverplayerentity.posX, serverplayerentity.posY, serverplayerentity.posZ,
                         SoundEvents.ENTITY_ITEM_PICKUP,
                         SoundCategory.PLAYERS,
                         0.2f,

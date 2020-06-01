@@ -309,7 +309,7 @@ internal object ExperienceCommand : VanillaCommandBase() {
                 obj.addExperienceLevel(levels)
             },
             BiPredicate<ServerPlayerEntity, Int> { p_198425_0_, p_198425_1_ ->
-                p_198425_0_.func_195399_b(p_198425_1_)
+                p_198425_0_.setExperienceLevel(p_198425_1_)
                 true
             },
             ToIntFunction<ServerPlayerEntity> { it.experienceLevel }

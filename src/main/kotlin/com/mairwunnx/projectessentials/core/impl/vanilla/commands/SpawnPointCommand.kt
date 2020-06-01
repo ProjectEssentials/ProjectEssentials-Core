@@ -109,7 +109,7 @@ internal object SpawnPointCommand : VanillaCommandBase() {
 
         for (serverplayerentity in targets) {
             @Suppress("DEPRECATION")
-            serverplayerentity.func_226560_a_(pos, true, false)
+            serverplayerentity.setRespawnPosition(pos, true, false)
         }
 
         if (targets.size == 1) {

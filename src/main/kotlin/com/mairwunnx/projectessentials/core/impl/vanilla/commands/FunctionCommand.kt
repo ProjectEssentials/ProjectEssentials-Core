@@ -51,7 +51,7 @@ internal object FunctionCommand : VanillaCommandBase() {
         aliases.forEach { command ->
             dispatcher.register(
                 Commands.literal(command).then(
-                    Commands.argument("name", FunctionArgument.func_200021_a()).suggests(
+                    Commands.argument("name", FunctionArgument.function()).suggests(
                         FUNCTION_SUGGESTER
                     ).executes { p_198479_0_ ->
                         executeFunctions(

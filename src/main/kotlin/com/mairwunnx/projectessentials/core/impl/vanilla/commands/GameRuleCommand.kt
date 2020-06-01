@@ -43,18 +43,21 @@ internal object GameRuleCommand : VanillaCommandBase() {
 
         aliases.forEach { command ->
             val literalargumentbuilder = Commands.literal(command)
-            func_223590_a(object : IRuleEntryVisitor {
-                override fun <T : RuleValue<T>> func_223481_a(
-                    p_223481_1_: RuleKey<T>, p_223481_2_: RuleType<T>
+            visitAll(object : IRuleEntryVisitor {
+                override fun <T : RuleValue<T>?> visit(
+                    key: RuleKey<T>,
+                    type: RuleType<T>
                 ) {
                     literalargumentbuilder.then(
-                        Commands.literal(p_223481_1_.func_223576_a()).executes { p_223483_1_ ->
-                            func_223486_b(p_223483_1_.source, p_223481_1_)
-                        }.then(
-                            p_223481_2_.func_223581_a("value").executes { p_223482_1_ ->
-                                func_223485_b(p_223482_1_, p_223481_1_)
-                            }
-                        )
+                        Commands.literal(key.name)
+                            .executes { p_223483_1_: CommandContext<CommandSource> ->
+                                func_223486_b(p_223483_1_.source, key)
+                            }.then(
+                                type.createArgument("value")
+                                    .executes { p_223482_1_: CommandContext<CommandSource> ->
+                                        func_223485_b(p_223482_1_, key)
+                                    }
+                            )
                     )
                 }
             })
@@ -87,39 +90,35 @@ internal object GameRuleCommand : VanillaCommandBase() {
         }
     }
 
-    private fun <T : RuleValue<T>> func_223485_b(
+    private fun <T : RuleValue<T>?> func_223485_b(
         p_223485_0_: CommandContext<CommandSource>,
         p_223485_1_: RuleKey<T>
     ): Int {
-        checkPermissions(p_223485_0_.source)
-
         val commandsource = p_223485_0_.source
         val t = commandsource.server.gameRules[p_223485_1_]
-        t.func_223554_b(p_223485_0_, "value")
+        t!!.updateValue(p_223485_0_, "value")
         commandsource.sendFeedback(
             TranslationTextComponent(
                 "commands.gamerule.set",
-                p_223485_1_.func_223576_a(),
+                p_223485_1_.name,
                 t.toString()
             ), true
         )
-        return t.func_223557_c()
+        return t.intValue()
     }
 
-    private fun <T : RuleValue<T>> func_223486_b(
+    private fun <T : RuleValue<T>?> func_223486_b(
         p_223486_0_: CommandSource,
         p_223486_1_: RuleKey<T>
     ): Int {
-        checkPermissions(p_223486_0_)
-
         val t = p_223486_0_.server.gameRules[p_223486_1_]
         p_223486_0_.sendFeedback(
             TranslationTextComponent(
                 "commands.gamerule.query",
-                p_223486_1_.func_223576_a(),
+                p_223486_1_.name,
                 t.toString()
             ), false
         )
-        return t.func_223557_c()
+        return t!!.intValue()
     }
 }

@@ -40,17 +40,18 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 internal object DebugCommand : VanillaCommandBase() {
-    private val field_225390_a = LogManager.getLogger()
+    private val LOGGER = LogManager.getLogger()
+    private val JAR_FILESYSTEM_PROVIDER =
+        FileSystemProvider.installedProviders().stream().filter { p_225386_0_: FileSystemProvider ->
+            p_225386_0_.scheme.equals("jar", ignoreCase = true)
+        }.findFirst().orElse(null as FileSystemProvider?)
+
     private val NOT_RUNNING_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.debug.notRunning")
     )
     private val ALREADY_RUNNING_EXCEPTION = SimpleCommandExceptionType(
         TranslationTextComponent("commands.debug.alreadyRunning")
     )
-    private val field_225391_d =
-        FileSystemProvider.installedProviders().stream().filter { p_225386_0_ ->
-            p_225386_0_.scheme.equals("jar", ignoreCase = true)
-        }.findFirst().orElse(null as FileSystemProvider?)
 
     private var aliases =
         configuration.take().aliases.debug + "debug"
@@ -75,7 +76,7 @@ internal object DebugCommand : VanillaCommandBase() {
                     }
                 ).then(
                     Commands.literal("report").executes { p_225388_0_ ->
-                        func_225389_c(p_225388_0_.source)
+                        writeDebugReport(p_225388_0_.source)
                     }
                 )
             )
@@ -110,10 +111,9 @@ internal object DebugCommand : VanillaCommandBase() {
     @Throws(CommandSyntaxException::class)
     private fun startDebug(source: CommandSource): Int {
         checkPermissions(source)
-
         val minecraftserver = source.server
         val debugprofiler = minecraftserver.profiler
-        return if (debugprofiler.func_219899_d().isEnabled) {
+        return if (debugprofiler.fixedProfiler.isEnabled) {
             throw ALREADY_RUNNING_EXCEPTION.create()
         } else {
             minecraftserver.enableProfiling()
@@ -133,10 +133,10 @@ internal object DebugCommand : VanillaCommandBase() {
 
         val minecraftserver = source.server
         val debugprofiler = minecraftserver.profiler
-        return if (!debugprofiler.func_219899_d().isEnabled) {
+        return if (!debugprofiler.fixedProfiler.isEnabled) {
             throw NOT_RUNNING_EXCEPTION.create()
         } else {
-            val iprofileresult = debugprofiler.func_219899_d().func_219938_b()
+            val iprofileresult = debugprofiler.fixedProfiler.disable()
             val file1 = File(
                 minecraftserver.getFile("debug"),
                 "profile-results-" + SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(Date()) + ".txt"
@@ -146,34 +146,34 @@ internal object DebugCommand : VanillaCommandBase() {
             val f1 = iprofileresult.ticksSpend().toFloat() / f
             source.sendFeedback(
                 TranslationTextComponent(
-                    "commands.debug.stopped", String.format(
-                        Locale.ROOT, "%.2f", f
-                    ), iprofileresult.ticksSpend(), String.format("%.2f", f1)
+                    "commands.debug.stopped",
+                    String.format(Locale.ROOT, "%.2f", f),
+                    iprofileresult.ticksSpend(),
+                    String.format("%.2f", f1)
                 ), true
             )
             MathHelper.floor(f1)
         }
     }
 
-    private fun func_225389_c(p_225389_0_: CommandSource): Int {
+    private fun writeDebugReport(p_225389_0_: CommandSource): Int {
         checkPermissions(p_225389_0_)
 
         val minecraftserver = p_225389_0_.server
-        val s = "debug-report-" + SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(Date())
+        val s =
+            "debug-report-" + SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(Date())
         return try {
             val path1 = minecraftserver.getFile("debug").toPath()
             Files.createDirectories(path1)
-            if (!SharedConstants.developmentMode && field_225391_d != null) {
+            if (!SharedConstants.developmentMode && JAR_FILESYSTEM_PROVIDER != null) {
                 val path2 = path1.resolve("$s.zip")
-                field_225391_d.newFileSystem(
+                JAR_FILESYSTEM_PROVIDER.newFileSystem(
                     path2,
-                    ImmutableMap.of<String, String?>("create", "true")
-                ).use { filesystem ->
-                    minecraftserver.func_223711_a(filesystem.getPath("/"))
-                }
+                    ImmutableMap.of("create", "true")
+                ).use { filesystem -> minecraftserver.dumpDebugInfo(filesystem.getPath("/")) }
             } else {
                 val path = path1.resolve(s)
-                minecraftserver.func_223711_a(path)
+                minecraftserver.dumpDebugInfo(path)
             }
             p_225389_0_.sendFeedback(
                 TranslationTextComponent("commands.debug.reportSaved", s),
@@ -181,10 +181,11 @@ internal object DebugCommand : VanillaCommandBase() {
             )
             1
         } catch (ioexception: IOException) {
-            field_225390_a.error("Failed to save debug dump", ioexception as Throwable)
-            p_225389_0_.sendErrorMessage(
-                TranslationTextComponent("commands.debug.reportFailed")
+            LOGGER.error(
+                "Failed to save debug dump",
+                ioexception as Throwable
             )
+            p_225389_0_.sendErrorMessage(TranslationTextComponent("commands.debug.reportFailed"))
             0
         }
     }

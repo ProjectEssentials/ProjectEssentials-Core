@@ -105,16 +105,15 @@ internal object DataPackCommand : VanillaCommandBase() {
                             enablePack(
                                 p_198292_0_.source,
                                 parsePackInfo(p_198292_0_, "name", true),
-                                object :
-                                    IHandler {
+                                object : IHandler {
                                     override fun apply(
                                         p_apply_1_: MutableList<ResourcePackInfo>,
                                         p_apply_2_: ResourcePackInfo
                                     ) {
-                                        p_apply_2_.priority.func_198993_a(
+                                        p_apply_2_.priority.insert(
                                             p_apply_1_,
                                             p_apply_2_,
-                                            { p_198304_0_ -> p_198304_0_ },
+                                            { p_198304_0_: ResourcePackInfo? -> p_198304_0_ },
                                             false
                                         )
                                     }
@@ -292,7 +291,7 @@ internal object DataPackCommand : VanillaCommandBase() {
         source.sendFeedback(
             TranslationTextComponent(
                 "commands.datapack.enable.success",
-                pack.func_195794_a(true)
+                pack.getChatLink(true)
             ), true
         )
         source.server.reload()
@@ -320,7 +319,7 @@ internal object DataPackCommand : VanillaCommandBase() {
         source.sendFeedback(
             TranslationTextComponent(
                 "commands.datapack.disable.success",
-                pack.func_195794_a(true)
+                pack.getChatLink(true)
             ), true
         )
         source.server.reload()
@@ -359,7 +358,7 @@ internal object DataPackCommand : VanillaCommandBase() {
                     TextComponentUtils.makeList(
                         resourcepacklist.availablePacks
                     ) { p_198293_0_ ->
-                        p_198293_0_.func_195794_a(false)
+                        p_198293_0_.getChatLink(false)
                     }
                 ), false
             )
@@ -389,7 +388,7 @@ internal object DataPackCommand : VanillaCommandBase() {
                     TextComponentUtils.makeList(
                         resourcepacklist.enabledPacks
                     ) { p_198306_0_ ->
-                        p_198306_0_.func_195794_a(true)
+                        p_198306_0_.getChatLink(true)
                     }
                 ), false
             )

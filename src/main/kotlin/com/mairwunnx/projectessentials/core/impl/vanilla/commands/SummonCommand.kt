@@ -84,16 +84,13 @@ internal object SummonCommand : VanillaCommandBase() {
                             )
                         }.then(
                             Commands.argument(
-                                "nbt", NBTCompoundTagArgument.func_218043_a()
+                                "nbt", NBTCompoundTagArgument.nbt()
                             ).executes { p_198739_0_ ->
                                 summonEntity(
                                     p_198739_0_.source,
                                     EntitySummonArgument.getEntityId(p_198739_0_, "entity"),
                                     Vec3Argument.getVec3(p_198739_0_, "pos"),
-                                    NBTCompoundTagArgument.func_218042_a(
-                                        p_198739_0_,
-                                        "nbt"
-                                    ),
+                                    NBTCompoundTagArgument.getNbt(p_198739_0_, "nbt"),
                                     false
                                 )
                             }

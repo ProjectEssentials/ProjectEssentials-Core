@@ -372,7 +372,10 @@ internal object CloneCommand : VanillaCommandBase() {
                                     } else if (!blockstate.isOpaqueCube(
                                             serverworld,
                                             blockpos2
-                                        ) && !blockstate.func_224756_o(serverworld, blockpos2)
+                                        ) && !blockstate.isCollisionShapeOpaque(
+                                            serverworld,
+                                            blockpos2
+                                        )
                                     ) {
                                         list2.add(
                                             BlockInfo(blockpos3, blockstate, null as CompoundNBT?)
