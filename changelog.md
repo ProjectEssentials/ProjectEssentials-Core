@@ -10,10 +10,20 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ## [Unreleased]
 
+## [2.0.1] - 2020-06-01
+
 ### Added
+- `kotlinx-coroutines` added as dependency.
 - Reloading configurations with `/reload` command.
 - Validating configuration argument added.
 - Auto-complete general settings implemented. [#6](https://github.com/ProjectEssentials/ProjectEssentials-Core/issues/6).
+- InternalMarkers.kt added.
+- `IMCLocalizationMessage` added to `InternalConstants.kt`. 
+- `GeneralConfiguration.kt` `synchronized` annotation added.
+- Processing localization messaging added.
+- EventBridge.java completeLoad event added.
+- `providerMarker` added to `InternalMarkers.kt`.
+- `IMCProvidersMessage` added to `InternalConstants.kt`.
 
 ### Changed
 - `GeneralConfiguration.getList()` string parsing improved.
@@ -22,6 +32,15 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 - `StringArrayArgument` now is deprecated.
 - `ModuleAPI.kt` comparing module names improved.
 - `Extensions.kt` formatted.
+- `Localization` marked as deprecated. 
+- Now localization processing is asynchronous.
+- ProviderAPI.kt improved.
+- ProviderType.kt naming changed.
+- ModuleCoreEventType.kt cleanup.
+- ConfigurationAPI.kt refactor.
+- CommandAPI.kt refactor.
+- ModuleAPI.kt refactor.
+- EntryPoint.kt order loading things changed.
 
 ### Fixed
 - Incorrect command behavior after a client re-login to local world.
@@ -29,6 +48,18 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ### Removed
 - Brigadier dependency removed.
+- `LocalizationProcessor.kt` removed.
+- `LocalizationNotFoundException` removed.
+- `IllegalLanguageCodeException` removed.
+- `package-info.java` removed from `processor` package.
+- ModuleProcessor.kt removed.
+- ConfigurationProcessor.kt removed.
+- CommandProcessor.kt removed.
+- IProcessor.kt removed.
+- PostponedInit.kt annotation removed. 
+- ProcessorNotFoundException.kt removed.
+- ProcessorIndexDuplicateException.kt removed.
+- ProcessorEventData.kt removed.
 
 ## [2.0.0] - 2020-05-20
 
