@@ -10,6 +10,23 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ## [Unreleased]
 
+## [2.0.2] - 2020-06-05
+
+### Added
+- Mutex lock added for `apply` in `LocalizationAPI.kt`.
+
+### Changed
+- Rollback from mod messaging system.
+- ProviderAPI.kt using synchronized map.
+
+### Fixed
+- configure-essentials command incorrect behavior fixed.
+- Concurrent localization operation fixed.
+- NativeAliasesConfiguration.kt incorrect saving fixed.
+
+### Removed
+- Deprecated annotation removed for Localization data class.
+
 ## [2.0.1] - 2020-06-01
 
 ### Added
