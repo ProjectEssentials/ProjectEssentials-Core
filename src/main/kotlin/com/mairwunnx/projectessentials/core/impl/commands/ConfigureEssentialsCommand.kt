@@ -128,6 +128,6 @@ object ConfigureEssentialsCommand : CommandBase(
     }
 
     private fun validateArguments(setting: String, value: String) =
-        generalConfiguration.take().keys.filter { it as String == setting }.count() > 1 &&
+        generalConfiguration.take().keys.filter { it as String == setting }.count() > 0 &&
                 value.isNotBlank() && !Regex("[=|:@$^*]").containsMatchIn(value)
 }
