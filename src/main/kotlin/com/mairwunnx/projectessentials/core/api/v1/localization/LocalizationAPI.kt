@@ -27,16 +27,17 @@ import kotlin.system.measureTimeMillis
  * @since 2.0.0-SNAPSHOT.1.
  */
 object LocalizationAPI {
-    val logger = LogManager.getLogger()!!
+    private val logger = LogManager.getLogger()!!
+    private val mutex = Mutex()
 
     private val generalConfiguration by lazy {
         getConfigurationByName<GeneralConfiguration>("general")
     }
 
-    val mutex = Mutex()
-    val localizations: HashMap<String, MutableList<HashMap<String, String>>> = hashMapOf()
+    private val localizations: MutableMap<String, MutableList<HashMap<String, String>>> =
+        Collections.synchronizedMap(mutableMapOf())
 
-    inline fun apply(clazz: Class<*>, crossinline entries: () -> List<String>) {
+    fun apply(clazz: Class<*>, entries: () -> List<String>) {
         CoroutineScope(Dispatchers.Default).launch {
             async {
                 entries().asSequence().forEach {
@@ -50,14 +51,7 @@ object LocalizationAPI {
                                 predicate != "_comment"
                             }.forEach { key ->
                                 val value = jsonObject.get(key) as String
-                                mutex.withLock {
-                                    val result = localizations[name]
-                                    if (result == null) {
-                                        localizations[name] = mutableListOf(hashMapOf(key to value))
-                                    } else {
-                                        result.add(hashMapOf(Pair(key, value)))
-                                    }
-                                }
+                                change(name, key, value)
                             }
                         }
                     }.also { time ->
@@ -70,19 +64,24 @@ object LocalizationAPI {
         }
     }
 
+    @Synchronized
+    private suspend fun change(name: String, key: String, value: String) {
+        mutex.withLock {
+            val result = localizations[name]
+            if (result == null) {
+                localizations[name] = mutableListOf(hashMapOf(key to value))
+            } else {
+                result.add(hashMapOf(Pair(key, value)))
+            }
+        }
+    }
+
     /**
      * Applying localization, without (with since 2.0.1) processing. Thread safe.
-     * **Apply only in setup event!**
-     *
-     * Deprecated, and redirects to [apply].
      *
      * @param localization localization data class instance.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    @Deprecated(
-        "Deprecated feature, but still existing for backward compatibility",
-        ReplaceWith("apply { localization.sources }")
-    )
     fun apply(localization: Localization) = apply(localization.sourceClass) { localization.sources }
 
     /**
