@@ -7,7 +7,6 @@ import com.mairwunnx.projectessentials.core.api.v1.IMCProvidersMessage
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
 import com.mairwunnx.projectessentials.core.api.v1.events.ModuleEventAPI.subscribeOn
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.ForgeEventType
-import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModEnqueueEventData
 import com.mairwunnx.projectessentials.core.api.v1.events.forge.InterModProcessEventData
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
 import com.mairwunnx.projectessentials.core.api.v1.localizationMarker
@@ -22,7 +21,6 @@ import com.mairwunnx.projectessentials.core.impl.configurations.NativeAliasesCon
 import com.mairwunnx.projectessentials.core.impl.events.EventBridge
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.eventbus.api.SubscribeEvent
-import net.minecraftforge.fml.InterModComms
 import net.minecraftforge.fml.ModList
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent
@@ -36,6 +34,8 @@ internal class EntryPoint {
     init {
         EventBridge.initialize()
         EVENT_BUS.register(this)
+        initProviders()
+        initLocalization()
         subscribeEvents()
     }
 
@@ -46,13 +46,6 @@ internal class EntryPoint {
     }
 
     private fun subscribeEvents() {
-        subscribeOn<InterModEnqueueEventData>(
-            ForgeEventType.EnqueueIMCEvent
-        ) {
-            sendLocalizationRequest()
-            sendProvidersRequest()
-        }
-
         subscribeOn<InterModProcessEventData>(
             ForgeEventType.ProcessIMCEvent
         ) { event ->
@@ -61,30 +54,22 @@ internal class EntryPoint {
         }
     }
 
-    private fun sendLocalizationRequest() {
-        InterModComms.sendTo(
-            "project_essentials_core",
-            IMCLocalizationMessage
-        ) {
-            fun() = mutableListOf(
+    private fun initProviders() {
+        listOf(
+            GeneralConfiguration::class.java,
+            NativeAliasesConfiguration::class.java,
+            ModuleObject::class.java,
+            BackLocationCommand::class.java,
+            ConfigureEssentialsCommand::class.java
+        ).forEach(ProviderAPI::addProvider)
+    }
+
+    private fun initLocalization() {
+        LocalizationAPI.apply(this.javaClass) {
+            mutableListOf(
                 "/assets/projectessentialscore/lang/en_us.json",
                 "/assets/projectessentialscore/lang/ru_ru.json",
                 "/assets/projectessentialscore/lang/zh_cn.json"
-            )
-        }
-    }
-
-    private fun sendProvidersRequest() {
-        InterModComms.sendTo(
-            "project_essentials_core",
-            IMCProvidersMessage
-        ) {
-            fun() = listOf(
-                GeneralConfiguration::class.java,
-                NativeAliasesConfiguration::class.java,
-                ModuleObject::class.java,
-                BackLocationCommand::class.java,
-                ConfigureEssentialsCommand::class.java
             )
         }
     }
