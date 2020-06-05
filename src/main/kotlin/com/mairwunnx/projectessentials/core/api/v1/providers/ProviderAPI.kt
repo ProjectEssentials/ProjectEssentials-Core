@@ -7,6 +7,9 @@ import com.mairwunnx.projectessentials.core.api.v1.configuration.IConfiguration
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import com.mairwunnx.projectessentials.core.api.v1.providersMarker
 import org.apache.logging.log4j.LogManager
+import java.util.*
+import kotlin.collections.HashMap
+
 
 /**
  * Provider API class. If you build new module
@@ -16,7 +19,9 @@ import org.apache.logging.log4j.LogManager
  */
 object ProviderAPI {
     private val logger = LogManager.getLogger()
-    private val providers = mutableMapOf<ProviderType, MutableList<Class<*>>>()
+    private val providers = Collections.synchronizedMap(
+        HashMap<ProviderType, MutableList<Class<*>>>()
+    )
 
     /**
      * Adds target provider. (provider type will determine automatically)
@@ -54,7 +59,9 @@ object ProviderAPI {
      * @since 2.0.0-SNAPSHOT.1.
      */
     fun addProvider(type: ProviderType, clazz: Class<*>) {
-        providers[type]?.add(clazz) ?: providers.put(type, mutableListOf(clazz))
+        synchronized(providers) {
+            providers[type]?.add(clazz) ?: providers.put(type, mutableListOf(clazz))
+        }
     }
 
     /**
