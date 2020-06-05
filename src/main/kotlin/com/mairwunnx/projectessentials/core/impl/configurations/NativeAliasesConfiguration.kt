@@ -33,7 +33,7 @@ object NativeAliasesConfiguration : IConfiguration<NativeAliasesConfigurationMod
 
         logger.info("Saving configuration `${name}`")
         val raw = jsonInstance.stringify(
-            NativeAliasesConfigurationModel.serializer(), configuration
+            NativeAliasesConfigurationModel.serializer(), configurationData
         )
         try {
             File(path).writeText(raw)
