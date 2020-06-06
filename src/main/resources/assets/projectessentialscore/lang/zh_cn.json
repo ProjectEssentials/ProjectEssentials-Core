@@ -7,5 +7,5 @@
   "project_essentials_core.configure.successfully": "§6设置 \"§7%s§6\" 的值由 \"§7%s§6\" 变更为 \"§7%s§6\"",
   "project_essentials_core.configure.successfully_required_restart": "§6设置 \"§7%s§6\" 的值由 \"§7%s§6\" 变更为 \"§7%s§6\", 但是 §c需要重启 §6才能应用变更。",
   "project_essentials_core.configure.restricted": "§c你 §7没有权限 §c改变设置 (§8\"§7%s§8\"§c) 的值。",
-  "project_essentials_core.simple.page": "§7page §c%s §7of §c%s"
+  "project_essentials_core.simple.page": "§7页码 §c%s §7总页数 §c%s"
 }
