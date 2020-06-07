@@ -1,7 +1,11 @@
 {
   "native.command.restricted": "§c你 §7没有权限 §c使用这个命令。",
-  "native.command.restricted_hover": "§7为了使用此命令, 需要权限 \"§c%s§7\" 或者op等级大于等于 \"§c%s§7\"。",
+  "native.command.restricted_hover": "§7要使用此命令, 需要权限 \"§c%s§7\" 或者OP等级大于等于 \"§c%s§7\"。",
   "project_essentials_core.back.success": "§6回滚到 你的位置...",
   "project_essentials_core.back.tickets_not_exists": "§c回滚位置的票不存在, 抱歉。",
-  "project_essentials_core.back.restricted": "§c你 §7没有权限 §c回滚到你的位置。"
+  "project_essentials_core.back.restricted": "§c你 §7没有权限 §c回滚到你的位置。",
+  "project_essentials_core.configure.successfully": "§6设置 \"§7%s§6\" 的值由 \"§7%s§6\" 变更为 \"§7%s§6\"",
+  "project_essentials_core.configure.successfully_required_restart": "§6设置 \"§7%s§6\" 的值由 \"§7%s§6\" 变更为 \"§7%s§6\", 但是 §c需要重启 §6才能应用变更。",
+  "project_essentials_core.configure.restricted": "§c你 §7没有权限 §c改变设置 (§8\"§7%s§8\"§c) 的值。",
+  "project_essentials_core.simple.page": "§7页码 §c%s §7总页数 §c%s"
 }
