@@ -10,6 +10,14 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ## [Unreleased]
 
+## [2.0.3] - 2020-06-08
+
+### Changed
+- Chinese simplified localizations by [KuroNoSeiHai](https://github.com/KuroNoSeiHai)
+
+### Fixed
+- Probably fixed incorrect string format in hover event.
+
 ## [2.0.2] - 2020-06-05
 
 ### Added
