@@ -1,6 +1,7 @@
 {
   "homepage": "https://github.com/ProjectEssentials/ProjectEssentials-Core",
   "1.15.2": {
+    "2.0.3": "change log -> https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/master/changelog.md#203---2020-06-08",
     "2.0.2": "change log -> https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/master/changelog.md#202---2020-06-05",
     "2.0.1": "change log -> https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/master/changelog.md#201---2020-06-01",
     "2.0.0": "change log -> https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/master/changelog.md#200---2020-05-17",
@@ -11,7 +12,7 @@
     "2.0.0-RC.1": "change log -> https://git.io/JfC5F"
   },
   "promos": {
-    "1.15.2-latest": "2.0.2",
-    "1.15.2-recommended": "2.0.2"
+    "1.15.2-latest": "2.0.3",
+    "1.15.2-recommended": "2.0.3"
   }
 }
