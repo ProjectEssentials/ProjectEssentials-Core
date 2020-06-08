@@ -151,7 +151,7 @@ fun hoverEventFrom(
         }
     )
 } else {
-    HoverEvent(HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(l10n, args))
+    HoverEvent(HoverEvent.Action.SHOW_TEXT, TranslationTextComponent(l10n, *args))
 }
 
 /**
@@ -174,7 +174,7 @@ fun textComponentFrom(
     if (safeLocalization) {
         getLocalizedString(player.language, l10n, *args)
     } else {
-        TranslationTextComponent(l10n, args).formattedText
+        TranslationTextComponent(l10n, *args).formattedText
     }
 }
 
