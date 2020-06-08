@@ -8,7 +8,7 @@ issueTrackerURL="https://github.com/ProjectEssentials/ProjectEssentials-Core/iss
     displayName="Project Essentials Core"
     updateJSONURL="https://raw.githubusercontent.com/ProjectEssentials/ProjectEssentials-Core/MC-1.15.2/updatev2.json"
     displayURL="https://github.com/ProjectEssentials/ProjectEssentials-Core"
-    credits="hujle, JetBrains, all forge developers, and other contributors"
+    credits="hujle, KuroNoSeiHai, JetBrains, all forge developers, and other contributors"
     authors="MairwunNx (Pavel Erokhin)"
     description='''
     API for creating modules of Project Essentials and reduce code duplication,
