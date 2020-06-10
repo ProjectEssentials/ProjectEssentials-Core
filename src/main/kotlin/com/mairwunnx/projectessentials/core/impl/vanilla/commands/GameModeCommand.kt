@@ -21,9 +21,13 @@ import net.minecraft.world.GameType
 internal object GameModeCommand : VanillaCommandBase("gamemode") {
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
         super.register(dispatcher).also { aliases() }
+        // @formatter:off
         GameType.values().forEach {
-            if (!it.name.startsWith("sp")) short("gm${it.getName()[0]}", it) else short("gmsp", it)
+            if (it != GameType.NOT_SET) {
+                if (!it.getName().startsWith("sp")) short("gm${it.getName()[0]}", it) else short("gmsp", it)
+            }
         }
+        // @formatter:on
         val literal = Commands.literal(name)
         GameType.values().forEach { type ->
             if (type != GameType.NOT_SET) {
