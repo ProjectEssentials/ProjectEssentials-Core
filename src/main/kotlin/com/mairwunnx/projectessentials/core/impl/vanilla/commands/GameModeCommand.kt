@@ -1,5 +1,5 @@
 /**
- * ! This command implementation by Mojang Game Studios!
+ * ! This command implementation by Mojang Studios!
  *
  * Decompiled with idea source code was converted to kotlin code.
  * But with additions such as permissions checking and etc.
@@ -9,21 +9,13 @@
  */
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
-import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
-import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
-import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
-import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
-import com.mairwunnx.projectessentials.core.impl.generalConfiguration
 import com.mojang.brigadier.CommandDispatcher
-import net.minecraft.command.CommandException
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
 import net.minecraft.command.arguments.EntityArgument
 import net.minecraft.command.impl.GameModeCommand
-import net.minecraft.entity.player.ServerPlayerEntity
-import net.minecraft.util.text.Style
 import net.minecraft.world.GameType
 
 internal object GameModeCommand : VanillaCommandBase("gamemode") {
@@ -36,12 +28,14 @@ internal object GameModeCommand : VanillaCommandBase("gamemode") {
         GameType.values().forEach { type ->
             if (type != GameType.NOT_SET) {
                 literal.then(
-                    Commands.literal(type.getName()).executes {
-                        checkPermissions(it.source, type, false)
+                    Commands.literal(type.getName()).requires {
+                        isAllowed(it, "gamemode.${type.getName()}", 2)
+                    }.executes {
                         GameModeCommand.setGameMode(it, setOf(it.source.asPlayer()), type)
                     }.then(
-                        Commands.argument("target", EntityArgument.players()).executes {
-                            checkPermissions(it.source, type, true)
+                        Commands.argument("target", EntityArgument.players()).requires {
+                            isAllowed(it, "gamemode.${type.getName()}.other", 3)
+                        }.executes {
                             GameModeCommand.setGameMode(
                                 it, EntityArgument.getPlayers(it, "target"), type
                             )
@@ -59,43 +53,16 @@ internal object GameModeCommand : VanillaCommandBase("gamemode") {
     }
 
     private fun short(short: String, mode: GameType) {
-        Commands.literal(short).executes {
-            checkPermissions(it.source, mode, false)
+        Commands.literal(short).requires {
+            isAllowed(it, "gamemode.${mode.getName()}", 2)
+        }.executes {
             GameModeCommand.setGameMode(it, setOf(it.source.asPlayer()), mode)
         }.then(
-            Commands.argument("target", EntityArgument.players()).executes {
-                checkPermissions(it.source, mode, true)
+            Commands.argument("target", EntityArgument.players()).requires {
+                isAllowed(it, "gamemode.${mode.getName()}.other", 3)
+            }.executes {
                 GameModeCommand.setGameMode(it, EntityArgument.getPlayers(it, "target"), mode)
             }
         ).also { CommandAPI.getDispatcher().register(it) }
     }
-
-    private fun checkPermissions(source: CommandSource, gameTypeIn: GameType, other: Boolean) {
-        if (source !is ServerPlayerEntity) return
-        if (!hasPermission(
-                source.asPlayer(),
-                "native.gamemode.${gameTypeIn.getName()}${if (other) ".other" else ""}",
-                if (other) 3 else 2
-            )
-        ) {
-            throw CommandException(
-                textComponentFrom(
-                    source.asPlayer(),
-                    generalConfiguration.getBool(SETTING_LOC_ENABLED),
-                    "native.command.restricted"
-                ).setStyle(
-                    Style().setHoverEvent(
-                        hoverEventFrom(
-                            source.asPlayer(),
-                            generalConfiguration.getBool(SETTING_LOC_ENABLED),
-                            "native.command.restricted_hover",
-                            "native.gamemode.${gameTypeIn.getName()}${if (other) ".other" else ""}",
-                            if (other) "3" else "2"
-                        )
-                    )
-                )
-            )
-        }
-    }
 }
-
