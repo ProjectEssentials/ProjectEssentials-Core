@@ -169,5 +169,7 @@ Thanks for using my project! </3
         ReloadCommand.register(dispatcher)
         SaveAllCommand.register(dispatcher)
         TimeCommand.register(dispatcher)
+        WeatherCommand.register(dispatcher)
+        TeleportCommand().register(dispatcher)
     }
 }
