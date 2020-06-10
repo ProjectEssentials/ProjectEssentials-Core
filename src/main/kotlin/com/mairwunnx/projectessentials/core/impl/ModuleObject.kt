@@ -81,11 +81,15 @@ internal class ModuleObject : IModule {
         ).exists().also { if (!it) printGreetingMessage() }
 
         CommandAPI.assignDispatcher(event.commandDispatcher)
-
         if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) {
-            registerNativeCommands(event.commandDispatcher, event.server.isDedicatedServer)
+            registerNativeCommands(event.commandDispatcher)
         }
-
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REQUIRE_PREDICATE_REPLACE)) {
+            replaceRequirementPredicates()
+        }
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_ALIASES_REPLACE)) {
+            insertNativeAliases()
+        }
         CommandAPI.registerAll()
     }
 
