@@ -19,6 +19,8 @@ import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfigura
 import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.insertNativeAliases
 import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.replaceRequirementPredicates
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.EnchantCommand
+import com.mairwunnx.projectessentials.core.impl.vanilla.commands.GameModeCommand
+import com.mairwunnx.projectessentials.core.impl.vanilla.commands.ReloadCommand
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -167,5 +169,7 @@ Thanks for using my project! </3
 
     private fun registerNativeCommands(dispatcher: CommandDispatcher<CommandSource>) {
         EnchantCommand.register(dispatcher)
+        GameModeCommand.register(dispatcher)
+        ReloadCommand.register(dispatcher)
     }
 }
