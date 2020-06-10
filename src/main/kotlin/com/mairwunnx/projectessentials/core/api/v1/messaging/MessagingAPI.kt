@@ -5,11 +5,10 @@ package com.mairwunnx.projectessentials.core.api.v1.messaging
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LIST_MAX_ELEMENTS_IN_PAGE
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.extensions.getPlayer
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerSender
 import com.mairwunnx.projectessentials.core.api.v1.localization.LocalizationAPI
-import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
+import com.mairwunnx.projectessentials.core.impl.generalConfiguration
 import com.mojang.brigadier.context.CommandContext
 import net.minecraft.command.CommandSource
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -26,10 +25,6 @@ import net.minecraft.util.text.event.HoverEvent
  * @since 2.0.0-SNAPSHOT.1.
  */
 object MessagingAPI {
-    private val generalConfiguration by lazy {
-        getConfigurationByName<GeneralConfiguration>("general")
-    }
-
     /**
      * Send message to player with localized string
      * or simple message.
