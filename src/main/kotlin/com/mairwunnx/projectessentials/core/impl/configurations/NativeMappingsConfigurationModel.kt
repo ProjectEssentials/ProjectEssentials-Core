@@ -21,7 +21,6 @@ data class NativeMappingsConfigurationModel(
         "stopsound" to "native.sound.stop@2",
         "reload" to "native.server.reload@2",
         "stop" to "native.server.stop@4",
-        "save-all" to "native.save.all@4",
         "save-off" to "native.save.off@4",
         "save-on" to "native.save.on@4",
         "say" to "native.messaging.say@1"
@@ -35,7 +34,7 @@ data class NativeMappingsConfigurationModel(
         "gamerule" to "gr",
         "summon" to "spawnmob",
         "pardonip" to "unbanip",
-        "sun" to "esun,weatherclear,clearsky,sky",
+        "sun" to "weatherclear,clearsky,sky",
         "thunder" to "storm,goodweather",
         "noon" to "midday,noonday",
         "sunset" to "dusk,sundown,evening",
