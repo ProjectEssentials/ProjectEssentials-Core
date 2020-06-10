@@ -18,12 +18,13 @@ import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
 import net.minecraft.command.arguments.*;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.network.play.server.SPlayerPositionLookPacket;
-import net.minecraft.util.math.Vec2f;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.server.TicketType;
 import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nullable;
@@ -100,9 +101,9 @@ public class TeleportCommand extends VanillaCommandBase {
 
         for (Entity entity : targets) {
             if (rotationIn == null) {
-                net.minecraft.command.impl.TeleportCommand.teleport(source, entity, worldIn, vec3d.x, vec3d.y, vec3d.z, set, entity.rotationYaw, entity.rotationPitch, facing);
+                teleport(source, entity, worldIn, vec3d.x, vec3d.y, vec3d.z, set, entity.rotationYaw, entity.rotationPitch, facing);
             } else {
-                net.minecraft.command.impl.TeleportCommand.teleport(source, entity, worldIn, vec3d.x, vec3d.y, vec3d.z, set, vec2f.y, vec2f.x, facing);
+                teleport(source, entity, worldIn, vec3d.x, vec3d.y, vec3d.z, set, vec2f.y, vec2f.x, facing);
             }
         }
 
@@ -113,6 +114,56 @@ public class TeleportCommand extends VanillaCommandBase {
         }
 
         return targets.size();
+    }
+
+    public static void teleport(CommandSource source, Entity entityIn, ServerWorld worldIn, double x, double y, double z, Set<SPlayerPositionLookPacket.Flags> relativeList, float yaw, float pitch, @Nullable Facing facing) {
+        if (entityIn instanceof ServerPlayerEntity) {
+            ChunkPos chunkpos = new ChunkPos(new BlockPos(x, y, z));
+            worldIn.getChunkProvider().func_217228_a(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
+            entityIn.stopRiding();
+            if (((ServerPlayerEntity) entityIn).isSleeping()) {
+                ((ServerPlayerEntity) entityIn).wakeUpPlayer(true, true, false);
+            }
+
+            if (worldIn == entityIn.world) {
+                ((ServerPlayerEntity) entityIn).connection.setPlayerLocation(x, y, z, yaw, pitch, relativeList);
+            } else {
+                ((ServerPlayerEntity) entityIn).teleport(worldIn, x, y, z, yaw, pitch);
+            }
+
+            entityIn.setRotationYawHead(yaw);
+        } else {
+            float f1 = MathHelper.wrapDegrees(yaw);
+            float f = MathHelper.wrapDegrees(pitch);
+            f = MathHelper.clamp(f, -90.0F, 90.0F);
+            if (worldIn == entityIn.world) {
+                entityIn.setLocationAndAngles(x, y, z, f1, f);
+                entityIn.setRotationYawHead(f1);
+            } else {
+                entityIn.detach();
+                entityIn.dimension = worldIn.dimension.getType();
+                Entity entity = entityIn;
+                entityIn = entityIn.getType().create(worldIn);
+                if (entityIn == null) {
+                    return;
+                }
+
+                entityIn.copyDataFromOld(entity);
+                entityIn.setLocationAndAngles(x, y, z, f1, f);
+                entityIn.setRotationYawHead(f1);
+                worldIn.func_217460_e(entityIn);
+            }
+        }
+
+        if (facing != null) {
+            facing.updateLook(source, entityIn);
+        }
+
+        if (!(entityIn instanceof LivingEntity) || !((LivingEntity) entityIn).isElytraFlying()) {
+            entityIn.setMotion(entityIn.getMotion().mul(1.0D, 0.0D, 1.0D));
+            entityIn.onGround = true;
+        }
+
     }
 
     static class Facing {
