@@ -131,7 +131,6 @@ Project Essentials §c§ois not a commercial project §fand all its modules dist
         generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_ALIASES_REPLACE, true)
         generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
         generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
-        generalConfiguration.getIntOrDefault(SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000)
         generalConfiguration.getBoolOrDefault(SETTING_DEOP_COMMAND_REMOVE_OP_PERM, true)
         generalConfiguration.getIntOrDefault(SETTING_LIST_MAX_ELEMENTS_IN_PAGE, 8)
         generalConfiguration.getBoolOrDefault(SETTING_ENABLE_CONSOLE_COLORS, false)
