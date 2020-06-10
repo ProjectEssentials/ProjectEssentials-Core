@@ -54,6 +54,7 @@ const val SETTING_DISABLE_PORTAL_SPAWNING = "disable-portal-spawning"
 const val SETTING_WEATHER_COMMAND_DEFAULT_DURATION = "weather-command-default-duration"
 const val SETTING_DEOP_COMMAND_REMOVE_OP_PERM = "deop-command-remove-op-perm"
 const val SETTING_LIST_MAX_ELEMENTS_IN_PAGE = "list-max-elements-in-page"
+const val SETTING_ENABLE_CONSOLE_COLORS = "enable-console-colors"
 
 const val IMCLocalizationMessage = "localization-request"
 const val IMCProvidersMessage = "providers-request"
