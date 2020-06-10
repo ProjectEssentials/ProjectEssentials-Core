@@ -17,6 +17,7 @@ import net.minecraft.command.impl.SaveAllCommand
 
 internal object SaveAllCommand : VanillaCommandBase("save-all") {
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        super.register(dispatcher)
         dispatcher.register(
             Commands.literal(name).executes {
                 ConfigurationAPI.saveAll()
