@@ -1,69 +1,27 @@
 /**
- * This command implementation by Mojang.
- * And decompiled with idea source code was converted
- * to kotlin code.
- * Also added some logic, for example checking on
- * permissions, and for some commands shorten aliases.
+ * ! This command implementation by Mojang Game Studios!
+ *
+ * Decompiled with idea source code was converted to kotlin code.
+ * But with additions such as permissions checking and etc.
  *
  * 1. This can be bad code.
  * 2. This file can be not formatter pretty.
  */
-
 package com.mairwunnx.projectessentials.core.impl.vanilla.commands
 
-import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_ENABLED
-import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
-import com.mairwunnx.projectessentials.core.api.v1.extensions.hoverEventFrom
-import com.mairwunnx.projectessentials.core.api.v1.extensions.textComponentFrom
-import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mojang.brigadier.CommandDispatcher
-import com.mojang.brigadier.exceptions.CommandSyntaxException
-import net.minecraft.command.CommandException
 import net.minecraft.command.CommandSource
 import net.minecraft.command.Commands
-import net.minecraft.util.text.Style
 import net.minecraft.util.text.TranslationTextComponent
 
-internal object ReloadCommand : VanillaCommandBase() {
-    fun register(dispatcher: CommandDispatcher<CommandSource>) {
-        CommandAPI.removeCommand("reload")
-
+internal object ReloadCommand : VanillaCommandBase("reload") {
+    override fun register(dispatcher: CommandDispatcher<CommandSource>) {
         dispatcher.register(
-            Commands.literal("reload").executes {
-                checkPermissions(it.source)
-                it.source.sendFeedback(
-                    TranslationTextComponent("commands.reload.success"), true
-                )
-                it.source.server.reload()
-                ConfigurationAPI.reloadAll()
-                0
+            Commands.literal(name).executes {
+                it.source.sendFeedback(TranslationTextComponent("commands.reload.success"), true)
+                it.source.server.reload().also { ConfigurationAPI.reloadAll() }.let { 0 }
             }
         )
-    }
-
-    private fun checkPermissions(source: CommandSource) {
-        try {
-            if (!hasPermission(source.asPlayer(), "native.server.reload", 2)) {
-                throw CommandException(
-                    textComponentFrom(
-                        source.asPlayer(),
-                        generalConfiguration.getBool(SETTING_LOC_ENABLED),
-                        "native.command.restricted"
-                    ).setStyle(
-                        Style().setHoverEvent(
-                            hoverEventFrom(
-                                source.asPlayer(),
-                                generalConfiguration.getBool(SETTING_LOC_ENABLED),
-                                "native.command.restricted_hover",
-                                "native.server.reload", "2"
-                            )
-                        )
-                    )
-                )
-            }
-        } catch (e: CommandSyntaxException) {
-            // ignored, because command executed by server.
-        }
     }
 }
