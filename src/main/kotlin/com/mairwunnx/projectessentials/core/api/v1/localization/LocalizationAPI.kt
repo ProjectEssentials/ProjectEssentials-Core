@@ -135,7 +135,7 @@ object LocalizationAPI {
             StringBuilder(msg).apply {
                 append("Probably localization error occurred:\n")
                 append("    > Requested language: $targetLanguage,\n")
-                append("    > requested string: $l10nString,\n")
+                append("    > Requested string: $l10nString,\n")
                 append("    > Fallback language: ${getFallBackLanguage()},\n")
                 append("    > Messages count: ${messagesList.count()},\n")
                 append("    > Registered localizations: ${localizations.count()}")
