@@ -48,6 +48,7 @@ const val MESSAGE_MODULE_PREFIX = "project_essentials_"
 const val SETTING_LOC_ENABLED = "v2-localization-enabled"
 const val SETTING_LOC_FALLBACK_LANG = "v2-localization-fallback-lang"
 const val SETTING_DISABLE_SAFE_ENCHANT = "disable-safely-enchant-level"
+const val SETTING_NATIVE_COMMAND_REPLACE = "enable-native-command-replace"
 const val SETTING_NATIVE_COMMAND_REQUIRE_PREDICATE_REPLACE =
     "enable-native-command-require-predicate-replace"
 const val SETTING_NATIVE_COMMAND_ALIASES_REPLACE = "enable-native-command-aliases-replace"
