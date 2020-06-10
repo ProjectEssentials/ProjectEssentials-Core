@@ -4,11 +4,10 @@ package com.mairwunnx.projectessentials.core.api.v1.localization
 
 import com.mairwunnx.projectessentials.core.api.v1.INITIAL_FALLBACK_LANGUAGE
 import com.mairwunnx.projectessentials.core.api.v1.SETTING_LOC_FALLBACK_LANG
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
 import com.mairwunnx.projectessentials.core.api.v1.helpers.getResourceAsFile
 import com.mairwunnx.projectessentials.core.api.v1.localizationMarker
-import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
+import com.mairwunnx.projectessentials.core.impl.generalConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -29,10 +28,6 @@ import kotlin.system.measureTimeMillis
 object LocalizationAPI {
     private val logger = LogManager.getLogger()!!
     private val mutex = Mutex()
-
-    private val generalConfiguration by lazy {
-        getConfigurationByName<GeneralConfiguration>("general")
-    }
 
     private val localizations: MutableMap<String, MutableList<HashMap<String, String>>> =
         Collections.synchronizedMap(mutableMapOf())
