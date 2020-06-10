@@ -17,6 +17,7 @@ import net.minecraft.util.text.TranslationTextComponent
 
 internal object ReloadCommand : VanillaCommandBase("reload") {
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
+        super.register(dispatcher)
         dispatcher.register(
             Commands.literal(name).executes {
                 it.source.sendFeedback(TranslationTextComponent("commands.reload.success"), true)
