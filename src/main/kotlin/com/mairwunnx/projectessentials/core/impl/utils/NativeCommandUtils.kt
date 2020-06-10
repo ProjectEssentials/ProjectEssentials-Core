@@ -21,7 +21,7 @@ object NativeCommandUtils {
         logger.debug("Replacing native requirement predicates ...")
 
         CommandAPI.getDispatcher().root.children.asSequence().filter { node ->
-            node.name in natives && node.name !in overridden
+            node.name in natives
         }.forEach { node ->
             logger.debug("Replacing requirement predicate for ${node.name}")
             try {
@@ -54,7 +54,7 @@ object NativeCommandUtils {
     internal fun insertNativeAliases() {
         logger.debug("Replacing and inserting native aliases ...")
         CommandAPI.getDispatcher().root.children.filter { node ->
-            node.name in natives && node.name !in overridden
+            node.name in natives
         }.forEach { node ->
             node as LiteralCommandNode
             nativeMappingsConfiguration.aliases[node.literal]?.split(',')?.let { aliases ->
@@ -83,9 +83,5 @@ object NativeCommandUtils {
         "setworldspawn", "spawnpoint", "spectate", "spreadplayers", "stop", "stopsound", "summon",
         "tag", "team", "teammsg", "teleport", "tell", "tellraw", "time", "title", "tp", "trigger",
         "w", "weather", "whitelist", "worldborder", "xp"
-    )
-
-    val overridden = mutableListOf(
-        "enchant", "gamemode", "op", "save-all", "teleport", "time", "tp", "weather"
     )
 }
