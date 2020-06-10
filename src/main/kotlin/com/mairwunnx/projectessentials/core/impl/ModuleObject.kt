@@ -34,7 +34,6 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent
 import org.apache.logging.log4j.LogManager
 import java.io.File
 
-
 internal class ModuleObject : IModule {
     override val name = this::class.java.`package`.implementationTitle.split(" ").last()
     override val version = this::class.java.`package`.implementationVersion!!
