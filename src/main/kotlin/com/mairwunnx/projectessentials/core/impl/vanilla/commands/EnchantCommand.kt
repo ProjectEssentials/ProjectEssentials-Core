@@ -1,5 +1,5 @@
 /**
- * ! This command implementation by Mojang Game Studios!
+ * ! This command implementation by Mojang Studios!
  *
  * Decompiled with idea source code was converted to kotlin code.
  * But with additions such as permissions checking and etc.
@@ -33,8 +33,12 @@ internal object EnchantCommand : VanillaCommandBase("enchant") {
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
         super.register(dispatcher).also {
             dispatcher.register(
-                Commands.literal(name).requires { it.hasPermissionLevel(2) }.then(
-                    Commands.argument("targets", EntityArgument.entities()).then(
+                Commands.literal(name).requires {
+                    isAllowed(it, "enchant", 2)
+                }.then(
+                    Commands.argument("targets", EntityArgument.entities()).requires {
+                        isAllowed(it, "enchant.other", 3)
+                    }.then(
                         Commands.argument(
                             "enchantment", EnchantmentArgument.enchantment()
                         ).executes {
