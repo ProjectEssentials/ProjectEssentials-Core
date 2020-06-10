@@ -15,7 +15,13 @@ import org.apache.logging.log4j.LogManager
  */
 object ConfigurationAPI {
     private val logger = LogManager.getLogger()
-    private var configurations = listOf<IConfiguration<*>>()
+    private var configurations = mutableListOf<IConfiguration<*>>()
+
+    /**
+     * Removes all registered configurations.
+     * @since 2.1.0.
+     */
+    fun dispose() = configurations.clear()
 
     /**
      * @return all installed and checked configurations.
@@ -79,7 +85,7 @@ object ConfigurationAPI {
             logger.debug(
                 "Configuration taken! ${it.simpleName}, name: ${clazz.name}, version: ${clazz.version}, at ${clazz.path}"
             )
-            configurations = configurations + clazz
+            configurations.add(clazz)
             load(clazz)
             ModuleEventAPI.fire(
                 ModuleCoreEventType.OnConfigurationClassProcessed, ConfigurationEventData(clazz)

@@ -72,7 +72,7 @@ internal class ModuleObject : IModule {
     fun onServerStopping(
         @Suppress("UNUSED_PARAMETER")
         event: FMLServerStoppingEvent
-    ) = ConfigurationAPI.saveAll()
+    ) = ConfigurationAPI.saveAll().also { ModuleAPI.dispose() }.also { ConfigurationAPI.dispose() }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onServerStarting(event: FMLServerStartingEvent) {
