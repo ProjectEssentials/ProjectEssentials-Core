@@ -1,9 +1,11 @@
 package com.mairwunnx.projectessentials.core.impl.utils
 
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_NATIVE_COMMAND_REPLACE
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.helpers.getFieldsOf
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
+import com.mairwunnx.projectessentials.core.impl.generalConfiguration
 import com.mairwunnx.projectessentials.core.impl.nativeMappingsConfiguration
 import com.mojang.brigadier.tree.LiteralCommandNode
 import com.mojang.brigadier.tree.RootCommandNode
@@ -17,11 +19,14 @@ import java.util.function.Predicate
 object NativeCommandUtils {
     private val logger = LogManager.getLogger()
 
+    private fun isOverridden(name: String) =
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) name !in overridden else false
+
     internal fun replaceRequirementPredicates() {
         logger.debug("Replacing native requirement predicates ...")
 
         CommandAPI.getDispatcher().root.children.asSequence().filter { node ->
-            node.name in natives
+            node.name in natives && !isOverridden(node.name)
         }.forEach { node ->
             logger.debug("Replacing requirement predicate for ${node.name}")
             try {
@@ -54,7 +59,7 @@ object NativeCommandUtils {
     internal fun insertNativeAliases() {
         logger.debug("Replacing and inserting native aliases ...")
         CommandAPI.getDispatcher().root.children.filter { node ->
-            node.name in natives
+            node.name in natives && !isOverridden(node.name)
         }.forEach { node ->
             node as LiteralCommandNode
             nativeMappingsConfiguration.aliases[node.literal]?.split(',')?.let { aliases ->
@@ -83,5 +88,9 @@ object NativeCommandUtils {
         "setworldspawn", "spawnpoint", "spectate", "spreadplayers", "stop", "stopsound", "summon",
         "tag", "team", "teammsg", "teleport", "tell", "tellraw", "time", "title", "tp", "trigger",
         "w", "weather", "whitelist", "worldborder", "xp"
+    )
+
+    val overridden = listOf(
+        "weather", "time", "save-all", "reload", "gamemode", "enchant", "teleport"
     )
 }
