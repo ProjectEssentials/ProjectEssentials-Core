@@ -21,6 +21,7 @@ import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.replac
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.EnchantCommand
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.GameModeCommand
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.ReloadCommand
+import com.mairwunnx.projectessentials.core.impl.vanilla.commands.SaveAllCommand
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
 import net.minecraft.entity.player.ServerPlayerEntity
@@ -171,5 +172,6 @@ Thanks for using my project! </3
         EnchantCommand.register(dispatcher)
         GameModeCommand.register(dispatcher)
         ReloadCommand.register(dispatcher)
+        SaveAllCommand.register(dispatcher)
     }
 }
