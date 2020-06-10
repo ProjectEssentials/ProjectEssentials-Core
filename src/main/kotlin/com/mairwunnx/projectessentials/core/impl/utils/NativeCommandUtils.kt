@@ -1,12 +1,18 @@
 package com.mairwunnx.projectessentials.core.impl.utils
 
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
+import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAliases
 import com.mairwunnx.projectessentials.core.api.v1.helpers.getFieldsOf
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.impl.nativeMappingsConfiguration
+import com.mojang.brigadier.tree.LiteralCommandNode
+import com.mojang.brigadier.tree.RootCommandNode
+import net.minecraft.command.CommandSource
+import net.minecraft.command.Commands.literal
 import net.minecraft.entity.player.PlayerEntity
 import org.apache.logging.log4j.LogManager
 import java.util.function.Predicate
+
 
 object NativeCommandUtils {
     private val logger = LogManager.getLogger()
@@ -24,7 +30,7 @@ object NativeCommandUtils {
                 }?.let { field ->
                     field.isAccessible = true
                     val cond = nativeMappingsConfiguration.permissions[node.name]?.let { notation ->
-                        Predicate { source ->
+                        Predicate { source: CommandSource ->
                             if (source.entity is PlayerEntity) {
                                 val pair = notation.split('@')
                                 hasPermission(source.asPlayer(), pair.first(), pair.last().toInt())
@@ -41,6 +47,28 @@ object NativeCommandUtils {
                 } ?: run { logger.debug("Not found requirement predicate field for ${node.name}") }
             } catch (any: Exception) {
                 logger.error("Failed to replace requirement predicate for ${node.name}", any)
+            }
+        }
+    }
+
+    internal fun insertNativeAliases() {
+        logger.debug("Replacing and inserting native aliases ...")
+        CommandAPI.getDispatcher().root.children.filter { node ->
+            node.name in natives && node.name !in overridden
+        }.forEach { node ->
+            node as LiteralCommandNode
+            nativeMappingsConfiguration.aliases[node.literal]?.split(',')?.let { aliases ->
+                CommandAliases.aliases[node.name] = aliases.toMutableList()
+                if (aliases.isNotEmpty()) {
+                    aliases.filter { it != node.literal }.forEach { alias ->
+                        val lit = literal(alias).requires {
+                            node.requirement.test(it)
+                        }.executes { return@executes node.command?.run(it) ?: 0 }
+                        node.children.forEach { if (node !is RootCommandNode<*>) lit.then(it) }
+                        CommandAPI.getDispatcher().register(lit)
+                        logger.debug("Alias literal ${lit.literal} registered for ${node.name}")
+                    }
+                }
             }
         }
     }
