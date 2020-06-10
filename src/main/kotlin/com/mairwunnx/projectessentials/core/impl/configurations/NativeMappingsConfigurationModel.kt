@@ -29,7 +29,6 @@ data class NativeMappingsConfigurationModel(
     val aliases: MutableMap<String, String> = mutableMapOf(
         "_comment" to "There are command aliases, leave this empty if you want commands without aliases, if you want many aliases, enumerate that with `,`.",
         "clear" to "ci",
-        "gamemode" to "gm",
         "list" to "online",
         "locate" to "find,where",
         "pardon" to "unban",
