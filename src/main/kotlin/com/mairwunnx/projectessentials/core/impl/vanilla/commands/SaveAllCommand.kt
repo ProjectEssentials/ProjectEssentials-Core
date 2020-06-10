@@ -1,5 +1,5 @@
 /**
- * ! This command implementation by Mojang Game Studios!
+ * ! This command implementation by Mojang Studios!
  *
  * Decompiled with idea source code was converted to kotlin code.
  * But with additions such as permissions checking and etc.
@@ -19,7 +19,9 @@ internal object SaveAllCommand : VanillaCommandBase("save-all") {
     override fun register(dispatcher: CommandDispatcher<CommandSource>) {
         super.register(dispatcher)
         dispatcher.register(
-            Commands.literal(name).executes {
+            Commands.literal(name).requires {
+                isAllowed(it, "save.all", 4)
+            }.executes {
                 ConfigurationAPI.saveAll()
                 SaveAllCommand.saveAll(it.source, false)
             }.then(
