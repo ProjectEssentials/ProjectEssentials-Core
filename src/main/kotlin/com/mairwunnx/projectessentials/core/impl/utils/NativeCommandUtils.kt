@@ -15,7 +15,6 @@ import net.minecraft.entity.player.PlayerEntity
 import org.apache.logging.log4j.LogManager
 import java.util.function.Predicate
 
-
 object NativeCommandUtils {
     private val logger = LogManager.getLogger()
 
