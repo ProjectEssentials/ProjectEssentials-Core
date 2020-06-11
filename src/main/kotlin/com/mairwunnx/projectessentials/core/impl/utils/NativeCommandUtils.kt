@@ -19,7 +19,7 @@ object NativeCommandUtils {
     private val logger = LogManager.getLogger()
 
     private fun isOverridden(name: String) =
-        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) name !in overridden else false
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) name in overridden else false
 
     internal fun replaceRequirementPredicates() {
         logger.debug("Replacing native requirement predicates ...")
