@@ -17,7 +17,7 @@ import com.mairwunnx.projectessentials.core.impl.ModuleObject
 import com.mairwunnx.projectessentials.core.impl.commands.BackLocationCommand
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommand
 import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
-import com.mairwunnx.projectessentials.core.impl.configurations.NativeAliasesConfiguration
+import com.mairwunnx.projectessentials.core.impl.configurations.NativeMappingsConfiguration
 import com.mairwunnx.projectessentials.core.impl.events.EventBridge
 import net.minecraftforge.common.MinecraftForge.EVENT_BUS
 import net.minecraftforge.eventbus.api.SubscribeEvent
@@ -57,7 +57,7 @@ internal class EntryPoint {
     private fun initProviders() {
         listOf(
             GeneralConfiguration::class.java,
-            NativeAliasesConfiguration::class.java,
+            NativeMappingsConfiguration::class.java,
             ModuleObject::class.java,
             BackLocationCommand::class.java,
             ConfigureEssentialsCommand::class.java

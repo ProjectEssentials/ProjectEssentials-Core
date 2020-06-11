@@ -17,7 +17,13 @@ import org.apache.logging.log4j.LogManager
 @Suppress("unused", "MemberVisibilityCanBePrivate")
 object ModuleAPI {
     private val logger = LogManager.getLogger()
-    private var modules = listOf<IModule>()
+    private var modules = mutableListOf<IModule>()
+
+    /**
+     * Removes all registered modules.
+     * @since 2.1.0.
+     */
+    fun dispose() = modules.clear()
 
     /**
      * @return all installed and checked modules.
@@ -69,7 +75,7 @@ object ModuleAPI {
             logger.debug(
                 "Project Essentials module found: ${it.simpleName}, name: ${clazz.name}, version: ${clazz.version}"
             )
-            modules = modules + clazz
+            modules.add(clazz)
             ModuleEventAPI.fire(ModuleCoreEventType.OnModuleClassProcessed, ModuleEventData(clazz))
         }.run { initialize() }
     }

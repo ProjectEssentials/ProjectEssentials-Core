@@ -5,6 +5,7 @@ import kotlinx.serialization.json.JsonConfiguration
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.lang.reflect.Field
 
 /**
  * @param classLoader class loaded.
@@ -77,3 +78,13 @@ val configDirectory = getRootDirectory() + File.separator + "config"
  * @since 2.0.0-SNAPSHOT.1.
  */
 val projectConfigDirectory = configDirectory + File.separator + "ProjectEssentials"
+
+fun getFieldsOf(type: Class<*>?) =
+    with(mutableListOf<Field>()) {
+        var c = type
+        while (c != null) {
+            addAll(c.declaredFields)
+            c = c.superclass
+        }
+        return@with this
+    }

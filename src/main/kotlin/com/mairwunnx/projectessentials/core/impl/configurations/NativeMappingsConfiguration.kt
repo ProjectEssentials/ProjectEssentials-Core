@@ -7,20 +7,20 @@ import org.apache.logging.log4j.LogManager
 import java.io.File
 import java.io.FileNotFoundException
 
-object NativeAliasesConfiguration : IConfiguration<NativeAliasesConfigurationModel> {
+object NativeMappingsConfiguration : IConfiguration<NativeMappingsConfigurationModel> {
     private val logger = LogManager.getLogger()
-    private var configurationData = NativeAliasesConfigurationModel()
+    private var configurationData = NativeMappingsConfigurationModel()
 
-    override val name = "native-aliases"
+    override val name = "native-mappings"
     override val version = 1
     override val configuration = take()
-    override val path = projectConfigDirectory + File.separator + "native-aliases.json"
+    override val path = projectConfigDirectory + File.separator + "native-mappings.json"
 
     override fun load() {
         try {
             val configRaw = File(path).readText()
             configurationData = jsonInstance.parse(
-                NativeAliasesConfigurationModel.serializer(), configRaw
+                NativeMappingsConfigurationModel.serializer(), configRaw
             )
         } catch (ex: FileNotFoundException) {
             logger.error("Configuration file ($path) not found!")
@@ -33,7 +33,7 @@ object NativeAliasesConfiguration : IConfiguration<NativeAliasesConfigurationMod
 
         logger.info("Saving configuration `${name}`")
         val raw = jsonInstance.stringify(
-            NativeAliasesConfigurationModel.serializer(), configurationData
+            NativeMappingsConfigurationModel.serializer(), configurationData
         )
         try {
             File(path).writeText(raw)

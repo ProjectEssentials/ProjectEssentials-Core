@@ -6,15 +6,16 @@ import com.mairwunnx.projectessentials.core.api.v1.*
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.extensions.asPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirectory
 import com.mairwunnx.projectessentials.core.api.v1.messaging.MessagingAPI
 import com.mairwunnx.projectessentials.core.api.v1.module.IModule
+import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI
-import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
+import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.insertNativeAliases
+import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.replaceRequirementPredicates
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.*
 import com.mojang.brigadier.CommandDispatcher
 import net.minecraft.command.CommandSource
@@ -40,10 +41,6 @@ internal class ModuleObject : IModule {
 
     init {
         MinecraftForge.EVENT_BUS.register(this)
-    }
-
-    private val generalConfiguration by lazy {
-        getConfigurationByName<GeneralConfiguration>("general")
     }
 
     override fun init() = initializeModuleSettings()
@@ -72,7 +69,7 @@ internal class ModuleObject : IModule {
     fun onServerStopping(
         @Suppress("UNUSED_PARAMETER")
         event: FMLServerStoppingEvent
-    ) = ConfigurationAPI.saveAll()
+    ) = ConfigurationAPI.saveAll().also { ModuleAPI.dispose() }.also { ConfigurationAPI.dispose() }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     fun onServerStarting(event: FMLServerStartingEvent) {
@@ -81,11 +78,15 @@ internal class ModuleObject : IModule {
         ).exists().also { if (!it) printGreetingMessage() }
 
         CommandAPI.assignDispatcher(event.commandDispatcher)
-
         if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REPLACE)) {
-            registerNativeCommands(event.commandDispatcher, event.server.isDedicatedServer)
+            registerNativeCommands(event.commandDispatcher)
         }
-
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_REQUIRE_PREDICATE_REPLACE)) {
+            replaceRequirementPredicates()
+        }
+        if (generalConfiguration.getBool(SETTING_NATIVE_COMMAND_ALIASES_REPLACE)) {
+            insertNativeAliases()
+        }
         CommandAPI.registerAll()
     }
 
@@ -121,15 +122,20 @@ Project Essentials §c§ois not a commercial project §fand all its modules dist
         generalConfiguration.getBoolOrDefault(SETTING_LOC_ENABLED, false)
         generalConfiguration.getStringOrDefault(SETTING_LOC_FALLBACK_LANG, "en_us")
         generalConfiguration.getBoolOrDefault(SETTING_DISABLE_SAFE_ENCHANT, false)
-        generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_REPLACE, true)
+        generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_ALIASES_REPLACE, true)
         generalConfiguration.getIntOrDefault(SETTING_LOCATE_COMMAND_FIND_RADIUS, 100)
         generalConfiguration.getBoolOrDefault(SETTING_DISABLE_PORTAL_SPAWNING, false)
-        generalConfiguration.getIntOrDefault(SETTING_WEATHER_COMMAND_DEFAULT_DURATION, 6000)
         generalConfiguration.getBoolOrDefault(SETTING_DEOP_COMMAND_REMOVE_OP_PERM, true)
         generalConfiguration.getIntOrDefault(SETTING_LIST_MAX_ELEMENTS_IN_PAGE, 8)
+        generalConfiguration.getBoolOrDefault(SETTING_ENABLE_CONSOLE_COLORS, false)
+        generalConfiguration.getBoolOrDefault(SETTING_NATIVE_COMMAND_REPLACE, true)
+        generalConfiguration.getBoolOrDefault(
+            SETTING_NATIVE_COMMAND_REQUIRE_PREDICATE_REPLACE, true
+        )
 
         ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_REPLACE)
-        ConfigureEssentialsCommandAPI.required(SETTING_LOC_FALLBACK_LANG)
+        ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_REQUIRE_PREDICATE_REPLACE)
+        ConfigureEssentialsCommandAPI.required(SETTING_NATIVE_COMMAND_ALIASES_REPLACE)
     }
 
     private fun printGreetingMessage() = LogManager.getLogger().warn(
@@ -151,77 +157,13 @@ Thanks for using my project! </3
         """
     )
 
-    private fun registerNativeCommands(
-        dispatcher: CommandDispatcher<CommandSource>,
-        isDedicatedServer: Boolean
-    ) {
-        AdvancementCommand.register(dispatcher)
-        BossBarCommand.register(dispatcher)
-        ClearCommand.register(dispatcher)
-        CloneCommand.register(dispatcher)
-        DataPackCommand.register(dispatcher)
-        DebugCommand.register(dispatcher)
-        DefaultGameModeCommand.register(dispatcher)
-        DifficultyCommand.register(dispatcher)
-        EffectCommand.register(dispatcher)
+    private fun registerNativeCommands(dispatcher: CommandDispatcher<CommandSource>) {
         EnchantCommand.register(dispatcher)
-        ExecuteCommand.register(dispatcher)
-        ExperienceCommand.register(dispatcher)
-        FillCommand.register(dispatcher)
-        ForceLoadCommand.register(dispatcher)
-        FunctionCommand.register(dispatcher)
         GameModeCommand.register(dispatcher)
-        GameRuleCommand.register(dispatcher)
-        GiveCommand.register(dispatcher)
-        HelpCommand.register(dispatcher)
-        KickCommand.register(dispatcher)
-        KillCommand.register(dispatcher)
-        ListCommand.register(dispatcher)
-        LocateCommand.register(dispatcher)
-        LootCommand.register(dispatcher)
-        MeCommand.register(dispatcher)
-        MessageCommand.register(dispatcher)
-        ParticleCommand.register(dispatcher)
-        PlaySoundCommand.register(dispatcher)
-        PublishCommand.register(dispatcher)
-        RecipeCommand.register(dispatcher)
         ReloadCommand.register(dispatcher)
-        ReplaceItemCommand.register(dispatcher)
-        SayCommand.register(dispatcher)
-        ScheduleCommand.register(dispatcher)
-        ScoreboardCommand.register(dispatcher)
-        SeedCommand.register(dispatcher)
-        SetBlockCommand.register(dispatcher)
-        SetWorldSpawnCommand.register(dispatcher)
-        SpawnPointCommand.register(dispatcher)
-        SpreadPlayersCommand.register(dispatcher)
-        StopSoundCommand.register(dispatcher)
-        SummonCommand.register(dispatcher)
-        TagCommand.register(dispatcher)
-        TeamCommand.register(dispatcher)
-        TeamMsgCommand.register(dispatcher)
-        TeleportCommand.register(dispatcher)
-        TellRawCommand.register(dispatcher)
+        SaveAllCommand.register(dispatcher)
         TimeCommand.register(dispatcher)
-        TitleCommand.register(dispatcher)
-        TriggerCommand.register(dispatcher)
         WeatherCommand.register(dispatcher)
-        WorldBorderCommand.register(dispatcher)
-
-        if (isDedicatedServer) {
-            BanCommand.register(dispatcher)
-            BanIpCommand.register(dispatcher)
-            BanListCommand.register(dispatcher)
-            DeOpCommand.register(dispatcher)
-            OpCommand.register(dispatcher)
-            PardonCommand.register(dispatcher)
-            PardonIpCommand.register(dispatcher)
-            SaveAllCommand.register(dispatcher)
-            SaveOffCommand.register(dispatcher)
-            SaveOnCommand.register(dispatcher)
-            SetIdleTimeoutCommand.register(dispatcher)
-            StopCommand.register(dispatcher)
-            WhitelistCommand.register(dispatcher)
-        }
+        TeleportCommand().register(dispatcher)
     }
 }

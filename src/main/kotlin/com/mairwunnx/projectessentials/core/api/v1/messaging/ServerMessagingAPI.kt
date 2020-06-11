@@ -2,6 +2,9 @@
 
 package com.mairwunnx.projectessentials.core.api.v1.messaging
 
+import com.mairwunnx.projectessentials.core.api.v1.SETTING_ENABLE_CONSOLE_COLORS
+import com.mairwunnx.projectessentials.core.api.v1.extensions.empty
+import com.mairwunnx.projectessentials.core.impl.generalConfiguration
 import org.apache.logging.log4j.LogManager
 
 /**
@@ -17,21 +20,33 @@ object ServerMessagingAPI {
      *
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun throwOnlyPlayerCan() = logger.warn("> Only player can execute this command")
+    fun throwOnlyPlayerCan() {
+        if (!generalConfiguration.getBool(SETTING_ENABLE_CONSOLE_COLORS)) {
+            logger.warn("> Only player can execute this command")
+        } else {
+            logger.warn("§7> §cOnly player can execute this command")
+        }
+    }
 
     /**
      * Send response message on something to server console.
      * @param message response message.
      * @since 2.0.0-SNAPSHOT.1.
      */
-    fun response(message: String) = logger.info("> $message")
+    fun response(message: String) = response { message }
 
     /**
      * Send response message on something to server console.
      * @param message response message.
      * @since 2.0.0-SNAPSHOT.2.
      */
-    fun response(message: () -> String) = logger.info("> ${message()}")
+    fun response(message: () -> String) = logger.info(
+        "§7> §r${if (!generalConfiguration.getBool(SETTING_ENABLE_CONSOLE_COLORS)) {
+            message().replace(Regex("[&§][0-9a-fk-or]"), String.empty)
+        } else {
+            message().replace("&", "§")
+        }}"
+    )
 
     /**
      * Send list like response to server.
@@ -45,9 +60,9 @@ object ServerMessagingAPI {
      */
     fun listAsResponse(list: List<String>, title: () -> String) = response {
         """
-    ${title()}
+    §6${title()}
 
-${list.joinToString(separator = ",\n") { "    > $it" }}
+${list.joinToString(separator = ",\n") { "    §7> §c$it" }}
         """
     }
 }
