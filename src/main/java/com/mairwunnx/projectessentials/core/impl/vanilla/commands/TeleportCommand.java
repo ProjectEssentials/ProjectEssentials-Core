@@ -61,7 +61,7 @@ public class TeleportCommand extends VanillaCommandBase {
         })).then(Commands.argument("destination", EntityArgument.entity()).executes((p_200562_0_) -> {
             return teleportToEntity(p_200562_0_.getSource(), Collections.singleton(p_200562_0_.getSource().assertIsEntity()), EntityArgument.getEntity(p_200562_0_, "destination"));
         })));
-        dispatcher.register(Commands.literal("tp").redirect(literalcommandnode));
+        dispatcher.register(Commands.literal("tp").requires((it) -> isAllowed(it, "teleport", 2)).redirect(literalcommandnode));
     }
 
     private static int teleportToEntity(CommandSource source, Collection<? extends Entity> targets, Entity destination) {
