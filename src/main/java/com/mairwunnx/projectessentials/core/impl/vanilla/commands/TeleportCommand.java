@@ -119,10 +119,10 @@ public class TeleportCommand extends VanillaCommandBase {
     public static void teleport(CommandSource source, Entity entityIn, ServerWorld worldIn, double x, double y, double z, Set<SPlayerPositionLookPacket.Flags> relativeList, float yaw, float pitch, @Nullable Facing facing) {
         if (entityIn instanceof ServerPlayerEntity) {
             ChunkPos chunkpos = new ChunkPos(new BlockPos(x, y, z));
-            worldIn.getChunkProvider().func_217228_a(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
+            worldIn.getChunkProvider().registerTicket(TicketType.POST_TELEPORT, chunkpos, 1, entityIn.getEntityId());
             entityIn.stopRiding();
             if (((ServerPlayerEntity) entityIn).isSleeping()) {
-                ((ServerPlayerEntity) entityIn).wakeUpPlayer(true, true, false);
+                ((ServerPlayerEntity) entityIn).stopSleepInBed(true, true);
             }
 
             if (worldIn == entityIn.world) {
@@ -151,7 +151,7 @@ public class TeleportCommand extends VanillaCommandBase {
                 entityIn.copyDataFromOld(entity);
                 entityIn.setLocationAndAngles(x, y, z, f1, f);
                 entityIn.setRotationYawHead(f1);
-                worldIn.func_217460_e(entityIn);
+                worldIn.addFromAnotherDimension(entityIn);
             }
         }
 
