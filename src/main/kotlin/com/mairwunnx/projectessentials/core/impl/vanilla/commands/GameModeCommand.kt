@@ -31,7 +31,16 @@ internal object GameModeCommand : VanillaCommandBase("gamemode") {
         val literal = Commands.literal(name)
         GameType.values().forEach { type ->
             if (type != GameType.NOT_SET) {
-                literal.then(
+                literal.requires {
+                    isAllowedAny(it) {
+                        listOf(
+                            "native.gamemode.survival" to 2,
+                            "native.gamemode.creative" to 2,
+                            "native.gamemode.adventure" to 2,
+                            "native.gamemode.spectator" to 2
+                        )
+                    }
+                }.then(
                     Commands.literal(type.getName()).requires {
                         isAllowed(it, "gamemode.${type.getName()}", 2)
                     }.executes {

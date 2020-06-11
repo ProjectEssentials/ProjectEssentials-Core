@@ -32,67 +32,65 @@ internal object TimeCommand : VanillaCommandBase("time") {
         aliases()
 
         dispatcher.register(
-            literal("time").then(
-                literal("set").then(
-                    literal("day").requires { permission(it, "set") }.executes {
+            literal("time").requires {
+                isAllowedAny(it) {
+                    listOf("time.change.set" to 2, "time.change.add" to 2, "time.query" to 2)
+                }
+            }.then(
+                literal("set").requires { permission(it, "set") }.then(
+                    literal("day").executes {
                         TimeCommand.setTime(it.source, 1000)
                     }
                 ).then(
-                    literal("noon").requires { permission(it, "set") }.executes {
+                    literal("noon").executes {
                         TimeCommand.setTime(it.source, 6000)
                     }
                 ).then(
-                    literal("sunset").requires { permission(it, "set") }.executes {
+                    literal("sunset").executes {
                         TimeCommand.setTime(it.source, 12000)
                     }
                 ).then(
-                    literal("night").requires { permission(it, "set") }.executes {
+                    literal("night").executes {
                         TimeCommand.setTime(it.source, 13000)
                     }
                 ).then(
-                    literal("midnight").requires { permission(it, "set") }.executes {
+                    literal("midnight").executes {
                         TimeCommand.setTime(it.source, 18000)
                     }
                 ).then(
-                    literal("sunrise").requires { permission(it, "set") }.executes {
+                    literal("sunrise").executes {
                         TimeCommand.setTime(it.source, 23000)
                     }
                 ).then(
                     Commands.argument(
                         "time", TimeArgument.func_218091_a()
-                    ).requires { permission(it, "set") }.executes {
+                    ).executes {
                         TimeCommand.setTime(it.source, IntegerArgumentType.getInteger(it, "time"))
                     }
                 )
             ).then(
-                literal("add").then(
+                literal("add").requires { permission(it, "add") }.then(
                     Commands.argument(
                         "time", TimeArgument.func_218091_a()
-                    ).requires { permission(it, "add") }.executes {
+                    ).executes {
                         TimeCommand.addTime(it.source, IntegerArgumentType.getInteger(it, "time"))
                     }
                 )
             ).then(
-                literal("query").then(
-                    literal("daytime").requires {
-                        permission(it, "query")
-                    }.executes {
+                literal("query").requires { permission(it, "query") }.then(
+                    literal("daytime").executes {
                         TimeCommand.sendQueryResults(
                             it.source, TimeCommand.getDayTime(it.source.world)
                         )
                     }
                 ).then(
-                    literal("gametime").requires {
-                        permission(it, "query")
-                    }.executes {
+                    literal("gametime").executes {
                         TimeCommand.sendQueryResults(
                             it.source, (it.source.world.gameTime % 2147483647L).toInt()
                         )
                     }
                 ).then(
-                    literal("day").requires {
-                        permission(it, "query")
-                    }.executes {
+                    literal("day").executes {
                         TimeCommand.sendQueryResults(
                             it.source, (it.source.world.dayTime / 24000L % 2147483647L).toInt()
                         )

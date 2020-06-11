@@ -19,5 +19,13 @@ abstract class VanillaCommandBase(val name: String) {
             if (source.entity is ServerPlayerEntity) {
                 hasPermission(source.asPlayer(), "native.$node", opLevel)
             } else true
+
+        @JvmStatic
+        fun isAllowedAny(source: CommandSource, notation: () -> List<Pair<String, Int>>) =
+            if (source.entity is ServerPlayerEntity) {
+                notation().forEach {
+                    if (hasPermission(source.asPlayer(), it.first, it.second)) return true
+                }.let { false }
+            } else true
     }
 }

@@ -28,7 +28,11 @@ internal object WeatherCommand : VanillaCommandBase("weather") {
         super.register(dispatcher)
         short("sun").also { short("rain") }.also { short("thunder") }.also { aliases() }
         dispatcher.register(
-            Commands.literal(name).then(
+            Commands.literal(name).requires {
+                isAllowedAny(it) {
+                    listOf("weather.sun" to 2, "weather.rain" to 2, "weather.thunder" to 2)
+                }
+            }.then(
                 Commands.literal("clear").requires {
                     isAllowed(it, "weather.sun", 2)
                 }.executes {
