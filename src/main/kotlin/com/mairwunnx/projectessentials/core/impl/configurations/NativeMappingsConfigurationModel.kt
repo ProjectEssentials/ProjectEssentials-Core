@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class NativeMappingsConfigurationModel(
+    val comment: String = "That is configuration still in experimental state! Something may work unstable.",
     val permissions: MutableMap<String, String> = mutableMapOf(
         "_comment" to "Hello there! You can change permissions mappings there, in format \"command\":\"node@op-level\". By removing command there, Project Essentials will generate permissions node automatically bases on command name, for command advancements will generated permissions `native.advancements` with op level provided in `https://minecraft.gamepedia.com/Commands`.",
         "ban" to "native.moderation.ban@3",
