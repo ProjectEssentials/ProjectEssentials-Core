@@ -6,7 +6,6 @@ import com.mairwunnx.projectessentials.core.api.v1.*
 import com.mairwunnx.projectessentials.core.api.v1.commands.CommandAPI
 import com.mairwunnx.projectessentials.core.api.v1.commands.back.BackLocationAPI
 import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI
-import com.mairwunnx.projectessentials.core.api.v1.configuration.ConfigurationAPI.getConfigurationByName
 import com.mairwunnx.projectessentials.core.api.v1.extensions.asPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.extensions.isPlayerEntity
 import com.mairwunnx.projectessentials.core.api.v1.helpers.projectConfigDirectory
@@ -15,7 +14,6 @@ import com.mairwunnx.projectessentials.core.api.v1.module.IModule
 import com.mairwunnx.projectessentials.core.api.v1.module.ModuleAPI
 import com.mairwunnx.projectessentials.core.api.v1.permissions.hasPermission
 import com.mairwunnx.projectessentials.core.impl.commands.ConfigureEssentialsCommandAPI
-import com.mairwunnx.projectessentials.core.impl.configurations.GeneralConfiguration
 import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.insertNativeAliases
 import com.mairwunnx.projectessentials.core.impl.utils.NativeCommandUtils.replaceRequirementPredicates
 import com.mairwunnx.projectessentials.core.impl.vanilla.commands.*
@@ -43,10 +41,6 @@ internal class ModuleObject : IModule {
 
     init {
         MinecraftForge.EVENT_BUS.register(this)
-    }
-
-    private val generalConfiguration by lazy {
-        getConfigurationByName<GeneralConfiguration>("general")
     }
 
     override fun init() = initializeModuleSettings()
