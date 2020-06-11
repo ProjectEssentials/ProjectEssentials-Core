@@ -10,6 +10,26 @@ Since 2.0.0 versions change log same for all supported minecraft versions.
 
 ## [Unreleased]
 
+## [2.1.0] - 2020-06-11
+
+### Added
+- Native mappings configuration added.
+- `enable-native-command-require-predicate-replace` setting added.
+- `enable-native-command-aliases-replace` setting added.
+- `enable-console-colors` setting added.
+- `dispose` method in ConfigurationAPI and ModuleAPI added.
+- `getFieldsOf` method in `Helpers.kt`.
+
+### Changed
+- Permissions checking for vanilla commands changed.
+- Configuration instances moved to global scope.
+- Simplified many code in Vanilla command implementations.
+- `VanillaCommandBase` improved code.
+
+### Removed
+- Almost all vanilla command implementations.
+- NativeAliases configuration removed.
+
 ## [2.0.3] - 2020-06-08
 
 ### Changed
