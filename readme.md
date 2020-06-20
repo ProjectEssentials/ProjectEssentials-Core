@@ -1,3 +1,5 @@
+[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/ProjectEssentials/ProjectEssentials-Core/blob/master/LICENSEs) [![GitHub Release](https://img.shields.io/github/release/ProjectEssentials/ProjectEssentials-Core.svg?style=flat)]() [![Donate](https://img.shields.io/badge/$-support-ff69b4.svg?style=flat)](https://paypal.me/mairwunnx) [![Discord Chat](https://img.shields.io/discord/308323056592486420.svg)](https://discord.gg/VU9XZAt)
+
 ### What is it
 
 Base module for all Project Essentials modules, API for creating modules of Project Essentials and reduce code duplication, also core module contains kotlin runtime and libraries. Also contains some settings for vanilla commands and events.
