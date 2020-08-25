@@ -11,4 +11,4 @@ package com.projectessentials.core.annotations
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-annotation class PeModule(val priority: Int = 0)
+annotation class ProvideModule(val priority: Int = 0)
