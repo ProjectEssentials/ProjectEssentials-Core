@@ -4,6 +4,7 @@ package com.projectessentials.core.services
  * Permissions service contract, for interacting
  * with player permissions.
  *
+ * @param TVerifiable generic type of verifiable object.
  * @since 3.0.0.
  */
 interface IPermissionsService<TVerifiable> {
