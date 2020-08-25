@@ -11,6 +11,14 @@ import kotlinx.coroutines.Deferred
  */
 interface IModuleService {
     /**
+     * Disposes all modules, unloads and just removes
+     * from collection of registered modules.
+     *
+     * @since 3.0.0.
+     */
+    fun dispose()
+
+    /**
      * @param module module to check existing.
      * @return `true` if module with specified
      * name is exist otherwise `false`.
