@@ -11,4 +11,6 @@ package com.projectessentials.core.annotations
  * @property id name of module wanted to process localization.
  * @property langs languages what can used in module.
  */
+@Retention(AnnotationRetention.SOURCE)
+@Target(AnnotationTarget.CLASS)
 annotation class ProvideLocalization(val id: String, val langs: Array<String>)
