@@ -53,7 +53,7 @@ interface ILocalizationService {
      * @see stringOf
      * @since 3.0.0.
      */
-    fun stringOfAsync(
+    suspend fun stringOfAsync(
         l10nString: String, language: String = fallbackLanguage, vararg args: Any
     ): Deferred<String>
 }
