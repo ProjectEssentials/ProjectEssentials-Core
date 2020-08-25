@@ -8,8 +8,7 @@ package com.projectessentials.core.annotations
  * Need for collect configurations from module.
  *
  * @since 3.0.0.
- * @property name name of configuration.
  */
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-annotation class ProvideConfiguration(val name: String)
+annotation class ProvideConfiguration
