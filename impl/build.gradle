@@ -1,0 +1,18 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm'
+}
+group = 'com.projectessentials'
+version = '3.0.0-SNAPSHOT.1'
+
+repositories {
+    mavenCentral()
+}
+dependencies {
+    implementation project(':abstract')
+    testImplementation 'org.jetbrains.kotlin:kotlin-test-junit5'
+}
+tasks.withType(KotlinCompile) {
+    kotlinOptions.jvmTarget = '1.8'
+}

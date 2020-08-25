@@ -1,146 +1,78 @@
-buildscript {
-    repositories {
-        maven { url 'https://dl.bintray.com/kotlin/dokka' }
-        maven { url 'https://files.minecraftforge.net/maven' }
-        jcenter()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-    }
-}
-
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.3.72'
-    id 'org.jetbrains.dokka' version '0.10.1'
-    id 'maven-publish'
-    id 'java-library'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0' apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0'
+    id 'io.gitlab.arturbosch.detekt' version '1.12.0-RC1'
+    id 'org.jlleitschuh.gradle.ktlint' version '9.3.0'
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+def targetMc = '1.14.4'
+def targetPlatform = 'FORGE'
+def module = ' core'
+def moduleVersion = '3.0.0-SNAPSHOT.1'
 
-String packagesToken = new String(package_public_token.decodeBase64())
+def kotlinVersion = '1.4.0'
+def kotlinxSerializationVersion = '1.0.0-RC'
+def koinVersion = '2.1.6'
+def kotestVersion = '4.2.0'
+def coroutinesVersion = '1.3.9'
 
-version = module_version
-group = "com.projectessentials.core"
-archivesBaseName = module_name
+//noinspection GroovyAssignabilityCheck
+allprojects {
+    apply plugin: "org.jlleitschuh.gradle.ktlint"
+    apply plugin: "io.gitlab.arturbosch.detekt"
+    apply plugin: 'kotlinx-serialization'
+    apply plugin: 'java'
 
-configurations {
-    internal
-    implementation.extendsFrom internal
-}
+    group = "com.projectessentials.${module.trim()}"
+    version = "${moduleVersion}+$targetPlatform-$targetMc"
+    archivesBaseName = "Project Essentials${module.capitalize()}"
 
-minecraft {
-    accessTransformer = file 'src/main/resources/META-INF/accesstransformer.cfg'
-    mappings channel: forge_mappings_channel_type, version: forge_mappings_channel_version
-}
-
-repositories {
-    maven { url 'https://kotlin.bintray.com/kotlinx' }
-    maven { url 'https://libraries.minecraft.net' }
-    mavenCentral()
-    jcenter()
-}
-
-dependencies {
-    minecraft "net.minecraftforge:forge:$forge_version"
-    internal "org.jetbrains.kotlinx:kotlinx-serialization-runtime:$kotlinx_serialization_version"
-    internal "org.jetbrains.kotlin:kotlin-stdlib-$kotlin_jdk_version_target:$kotlin_version"
-    internal "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_coroutines_version"
-    internal "org.json:json:$json_version"
-}
-
-dokka {
-    outputFormat = 'html'
-    outputDirectory = "$buildDir/libs/docs"
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-
-task dokkaJar(type: Jar) {
-    group = JavaBasePlugin.DOCUMENTATION_GROUP
-    classifier = 'javadoc'
-    from tasks.dokka as Object
-}
-
-task modJar(type: Jar) {
-    with tasks.jar
-    from configurations.internal.collect { it.isDirectory() ? it : zipTree(it) }
-
-    manifest {
-        attributes([
-                "Specification-Title"     : module_name,
-                "Specification-Vendor"    : module_version,
-                "Specification-Version"   : module_vendor,
-                "Implementation-Title"    : module_name,
-                "Implementation-Version"  : module_version,
-                "Implementation-Vendor"   : module_vendor,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-
-    baseName = module_name + '-MOD'
-}
-
-jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : module_name,
-                "Specification-Vendor"    : module_vendor,
-                "Specification-Version"   : module_version,
-                "Implementation-Title"    : module_name,
-                "Implementation-Version"  : module_version,
-                "Implementation-Vendor"   : module_vendor,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
-
-    baseName = module_name + '-NoRT'
-}
-
-reobf {
-    modJar {
-        dependsOn jar
-        mappings = createMcpToSrg.outputs.files.singleFile
-    }
-}
-
-project.tasks['jar'].dependsOn project.tasks['dokka']
-project.tasks['modJar'].dependsOn project.tasks['jar']
-
-sourceCompatibility = targetCompatibility =
-        compileJava.sourceCompatibility =
-                compileJava.targetCompatibility = project_jvm_version_target
-
-compileKotlin.kotlinOptions.jvmTarget =
-        compileTestKotlin.kotlinOptions.jvmTarget = project_jvm_version_target
-
-publishing {
     repositories {
-        maven {
-            name = 'GitHubPackages'
-            url = uri 'https://maven.pkg.github.com/projectessentials/projectessentials-core'
-            credentials {
-                username = System.getenv('GradleUser')
-                password = System.getenv('GradlePass')
+        mavenCentral()
+        jcenter()
+        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        jcenter { content { includeGroup "org.jetbrains.kotlinx" } }
+    }
+
+    dependencies {
+        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
+        implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion"
+        implementation "org.koin:koin-core:$koinVersion"
+        testImplementation "org.koin:koin-test:$koinVersion"
+        testImplementation "io.kotest:kotest-runner-junit5-jvm:${kotestVersion}.RC2"
+        testImplementation "io.kotest:kotest-assertions-core-jvm:$kotestVersion"
+        testImplementation "io.kotest:kotest-property-jvm:$kotestVersion"
+    }
+
+    test { useJUnitPlatform() }
+
+    detekt {
+        toolVersion = "1.12.0-RC1"
+        input = files("src/main/kotlin", "gensrc/main/kotlin")
+        parallel = false
+        buildUponDefaultConfig = false
+        disableDefaultRuleSets = false
+        debug = false
+        ignoreFailures = false
+        reports {
+            html {
+                enabled = true
+                destination = file("build/reports/detekt.html")
             }
         }
     }
-    publications {
-        gpr(MavenPublication) {
-            version = (module_version as String).split('\\+')[0]
-            from components.java
-            artifact sourcesJar
-            artifact dokkaJar
-        }
-    }
-}
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
+    ktlint {
+        debug = true
+        android = false
+        outputToConsole = true
+        outputColorName = "RED"
+        enableExperimentalRules = true
+        additionalEditorconfigFile = file(".editorconfig")
+        filter {
+            exclude("**/generated/**")
+            include("**/kotlin/**")
+        }
     }
 }
