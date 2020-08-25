@@ -22,7 +22,7 @@ interface ILocalizationService {
      * localization files.
      * @since 3.0.0.
      */
-    fun process(clazz: Class<*>, entries: () -> List<String>)
+    fun process(clazz: Class<*>, entries: () -> Sequence<String>)
 
     /**
      * See also [stringOfAsync] if you need to get string asynchronously.
