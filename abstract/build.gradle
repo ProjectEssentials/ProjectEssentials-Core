@@ -1,15 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     id 'org.jetbrains.kotlin.jvm'
 }
-group = 'com.projectessentials'
-version = '3.0.0-SNAPSHOT.1'
 
-repositories {
-    mavenCentral()
-}
+compileKotlin.kotlinOptions.jvmTarget =
+        compileTestKotlin.kotlinOptions.jvmTarget = '1.8'
 
-tasks.withType(KotlinCompile) {
-    kotlinOptions.jvmTarget = '1.8'
-}
