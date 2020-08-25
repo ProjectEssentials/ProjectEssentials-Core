@@ -18,7 +18,7 @@ interface ILocalizationService {
      * localization files and relative class.
      *
      * @param clazz class of module wants to process his strings.
-     * @param entries immutable list of strings with paths to
+     * @param entries sequence of strings with paths to
      * localization files.
      * @since 3.0.0.
      */
