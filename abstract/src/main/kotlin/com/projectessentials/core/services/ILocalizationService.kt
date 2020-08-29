@@ -37,7 +37,9 @@ interface ILocalizationService {
      * @since 3.0.0.
      */
     fun stringOf(
-        l10nString: String, language: String = fallbackLanguage, vararg args: Any
+        l10nString: String,
+        language: String = fallbackLanguage,
+        vararg args: Any
     ): String
 
     /**
@@ -54,6 +56,8 @@ interface ILocalizationService {
      * @since 3.0.0.
      */
     suspend fun stringOfAsync(
-        l10nString: String, language: String = fallbackLanguage, vararg args: Any
+        l10nString: String,
+        language: String = fallbackLanguage,
+        vararg args: Any
     ): Deferred<String>
 }
