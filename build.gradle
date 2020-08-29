@@ -72,7 +72,7 @@ allprojects {
         outputToConsole = true
         outputColorName = "RED"
         enableExperimentalRules = true
-        additionalEditorconfigFile = file(".editorconfig")
+        additionalEditorconfigFile = file("..\\.editorconfig")
         filter {
             exclude("**/generated/**")
             include("**/kotlin/**")
