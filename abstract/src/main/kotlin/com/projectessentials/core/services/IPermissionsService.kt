@@ -37,7 +37,9 @@ interface IPermissionsService<TVerifiable> {
      * @see hasPermission
      */
     suspend fun hasPermissionAsync(
-        player: TVerifiable, node: String, opLevel: Int = 0
+        player: TVerifiable,
+        node: String,
+        opLevel: Int = 0
     ): Deferred<Boolean>
 
     /**
