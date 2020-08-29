@@ -53,8 +53,9 @@ allprojects {
     detekt {
         toolVersion = "1.12.0"
         input = files("src/main/kotlin", "gensrc/main/kotlin")
+        config = files("config/detekt/detekt.yml")
         parallel = false
-        buildUponDefaultConfig = false
+        buildUponDefaultConfig = true
         disableDefaultRuleSets = false
         debug = false
         ignoreFailures = false
