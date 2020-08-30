@@ -22,7 +22,11 @@ interface IPermissionsService<TVerifiable> {
      * @since 3.0.0.
      * @see hasPermissionAsync
      */
-    fun hasPermission(player: TVerifiable, node: String, opLevel: Int = 0): Boolean
+    fun hasPermission(
+        player: TVerifiable,
+        node: String,
+        opLevel: Int = 0
+    ): Boolean
 
     /**
      * Asynchronously version of checking permissions, check also
