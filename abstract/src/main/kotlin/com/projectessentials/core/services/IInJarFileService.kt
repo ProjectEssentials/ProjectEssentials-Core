@@ -8,7 +8,7 @@ import java.io.File
  *
  * @since 3.0.0.
  */
-interface InJarFileService {
+interface IInJarFileService {
     /**
      * Returns resource as file by specified class loader
      * and file path.
