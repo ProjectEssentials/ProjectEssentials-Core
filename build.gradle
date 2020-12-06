@@ -19,10 +19,14 @@ allprojects {
     repositories {
         mavenCentral()
         jcenter()
+        maven { url 'https://kotlin.bintray.com/kotlinx/' }
     }
 
     dependencies {
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.20'
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
         implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
+        implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.1.1'
     }
 
     detekt {
