@@ -14,6 +14,7 @@ allprojects {
 
     group = dist_group
     version = dist_version
+    archivesBaseName = "Project Essentials ${dist_module_name.capitalize()}"
 
     repositories {
         mavenCentral()
