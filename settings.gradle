@@ -1,6 +1,11 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        jcenter()
+    }
+}
 
 rootProject.name = 'ProjectEssentials-Core'
-
 
 include(':common')
 include(':village-pillage')

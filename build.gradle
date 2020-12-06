@@ -1,10 +1,53 @@
-
-
-group = 'com.projectessentials'
-version = '1.0.0-SNAPSHOT.1'
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.20' apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.20'
+    id 'io.gitlab.arturbosch.detekt' version '1.15.0-RC1'
+    id 'org.jlleitschuh.gradle.ktlint' version '9.4.1'
+    id 'org.jetbrains.dokka' version '1.4.20'
+}
 
 allprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.jetbrains.kotlin.plugin.serialization'
+    apply plugin: 'io.gitlab.arturbosch.detekt'
+    apply plugin: 'org.jlleitschuh.gradle.ktlint'
+
+    group = dist_group
+    version = dist_version
+
     repositories {
         mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
+    }
+
+    detekt {
+        toolVersion = '1.12.0'
+        input = files 'src/main/kotlin', 'gensrc/main/kotlin'
+        config = files '../config/detekt/detekt.yml'
+        parallel = true
+        buildUponDefaultConfig = true
+        disableDefaultRuleSets = false
+        debug = false
+        ignoreFailures = false
+        reports {
+            html {
+                enabled = true
+                destination = file 'build/reports/detekt.html'
+            }
+        }
+    }
+
+    ktlint {
+        outputColorName = 'GREEN'
+        enableExperimentalRules = true
+        additionalEditorconfigFile = file('..\\.editorconfig')
+        filter {
+            exclude '**/generated/**'
+            include '**/kotlin/**'
+        }
     }
 }
