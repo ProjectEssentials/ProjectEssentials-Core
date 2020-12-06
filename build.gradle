@@ -1,93 +1,10 @@
-plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.0' apply false
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.0'
-    id 'io.gitlab.arturbosch.detekt' version '1.12.0'
-    id 'org.jlleitschuh.gradle.ktlint' version '9.3.0'
-}
 
-def targetMc = '1.14.4'
-def targetPlatform = 'FORGE'
-def module = ' core'
-def moduleVersion = '3.0.0-SNAPSHOT.1'
 
-def kotlinVersion = '1.4.0'
-def kotlinxSerializationVersion = '1.0.0-RC'
-def koinVersion = '2.1.6'
-def kotestVersion = '4.2.0'
-def coroutinesVersion = '1.3.9'
-def kotlinxDateTimeVersion = '0.1.0'
+group = 'com.projectessentials'
+version = '1.0.0-SNAPSHOT.1'
 
-//noinspection GroovyAssignabilityCheck
 allprojects {
-    apply plugin: "org.jlleitschuh.gradle.ktlint"
-    apply plugin: "io.gitlab.arturbosch.detekt"
-    apply plugin: 'kotlinx-serialization'
-    apply plugin: 'java'
-
-    group = "com.projectessentials.${module.trim()}"
-    version = "${moduleVersion}+$targetPlatform-$targetMc"
-    archivesBaseName = "Project Essentials${module.capitalize()}"
-
     repositories {
         mavenCentral()
-        jcenter()
-        maven { url = 'https://kotlin.bintray.com/kotlinx/' }
-        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots/' }
-        jcenter { content { includeGroup "org.jetbrains.kotlinx" } }
-    }
-
-    dependencies {
-        implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
-        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
-        implementation "org.jetbrains.kotlinx:kotlinx-serialization-core:$kotlinxSerializationVersion"
-        implementation "org.koin:koin-core:$koinVersion"
-        implementation "org.jetbrains.kotlinx:kotlinx-datetime:${kotlinxDateTimeVersion}"
-        testImplementation "org.koin:koin-test:$koinVersion"
-        testImplementation "io.kotest:kotest-runner-junit5-jvm:${kotestVersion}.RC2"
-        testImplementation "io.kotest:kotest-assertions-core-jvm:$kotestVersion"
-        testImplementation "io.kotest:kotest-property-jvm:$kotestVersion"
-    }
-
-    test { useJUnitPlatform() }
-
-    detekt {
-        toolVersion = "1.12.0"
-        input = files("src/main/kotlin", "gensrc/main/kotlin")
-        config = files("config/detekt/detekt.yml")
-        parallel = false
-        buildUponDefaultConfig = true
-        disableDefaultRuleSets = false
-        debug = false
-        ignoreFailures = false
-        reports {
-            html {
-                enabled = true
-                destination = file("build/reports/detekt.html")
-            }
-        }
-    }
-
-    ktlint {
-        debug = true
-        android = false
-        outputToConsole = true
-        outputColorName = "RED"
-        enableExperimentalRules = true
-        additionalEditorconfigFile = file("..\\.editorconfig")
-        filter {
-            exclude("**/generated/**")
-            include("**/kotlin/**")
-        }
-    }
-
-    sourceCompatibility = targetCompatibility =
-            compileJava.sourceCompatibility =
-                    compileJava.targetCompatibility = '1.8'
-
-    //noinspection GroovyAssignabilityCheck
-    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-        kotlinOptions {
-            freeCompilerArgs += '-Xopt-in=kotlin.RequiresOptIn'
-        }
     }
 }

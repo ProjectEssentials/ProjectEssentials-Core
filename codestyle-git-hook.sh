@@ -3,6 +3,24 @@ file_location=.git/hooks/pre-commit
 
 cat >$file_location <<EOF
 #!/usr/bin/env bash
+
+######## KTLINT-GRADLE HOOK START ########
+CHANGED_FILES=""
+
+if [ -z "" ]; then
+    echo "No Kotlin staged files."
+fi;
+
+echo "Running ktlint over these files:"
+echo ""
+
+./gradlew --quiet ktlintCheck -PinternalKtlintGitFilter=""
+
+echo "Completed ktlint run."
+echo "Completed ktlint hook."
+######## KTLINT-GRADLE HOOK END ########
+
+######## DETEKT-GRADLE HOOK START ########
 echo "Running detekt check..."
 OUTPUT="/tmp/detekt-\$(date +%s)"
 ./gradlew detekt > \$OUTPUT

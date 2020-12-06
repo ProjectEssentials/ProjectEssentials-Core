@@ -1,2 +1,9 @@
+
 rootProject.name = 'ProjectEssentials-Core'
-include(':impl', ':codegen', ':abstract')
+
+
+include(':common')
+include(':village-pillage')
+include(':buzzy-bees')
+include(':nether-update')
+
