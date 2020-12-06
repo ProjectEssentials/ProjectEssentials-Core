@@ -27,6 +27,7 @@ allprojects {
         implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
         implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
         implementation 'org.jetbrains.kotlinx:kotlinx-datetime:0.1.1'
+        implementation 'org.koin:koin-core:2.2.1'
     }
 
     detekt {
