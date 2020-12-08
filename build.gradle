@@ -4,8 +4,8 @@ buildscript {
 }
 
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.4.20' apply false
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.21' apply false
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.4.21'
     id 'io.gitlab.arturbosch.detekt' version '1.15.0-RC1'
     id 'org.jlleitschuh.gradle.ktlint' version '9.4.1'
     id 'org.jetbrains.dokka' version '1.4.20'
@@ -34,7 +34,7 @@ allprojects {
     }
 
     dependencies {
-        internal 'org.jetbrains.kotlin:kotlin-stdlib:1.4.20'
+        internal 'org.jetbrains.kotlin:kotlin-stdlib:1.4.21'
         internal 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
         internal 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1'
         internal 'org.jetbrains.kotlinx:kotlinx-datetime:0.1.1'
