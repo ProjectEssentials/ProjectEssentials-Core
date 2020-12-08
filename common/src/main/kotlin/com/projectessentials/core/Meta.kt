@@ -1,3 +1,5 @@
+@file:Suppress("NOTHING_TO_INLINE")
+
 package com.projectessentials.core
 
 /**
@@ -13,7 +15,8 @@ package com.projectessentials.core
  * @return implementation version, represented as single integer,
  * if it's null returns `-1`.
  */
-fun Class<*>.implVersion() = this::class.java.`package`.implementationVersion.toIntOrNull() ?: -1
+inline fun <reified T> T.implVersion() =
+    this!!::class.java.`package`.implementationVersion?.toIntOrNull() ?: -1
 
 /**
  * Return the title of this package.
@@ -23,4 +26,4 @@ fun Class<*>.implVersion() = this::class.java.`package`.implementationVersion.to
  * @return implementation name, represented as string, if it's
  * null returns `unknown`.
  */
-fun Class<*>.implName() = this::class.java.`package`.implementationTitle ?: "unknown"
+inline fun <reified T> T.implName() = this!!::class.java.`package`.implementationTitle ?: "unknown"
