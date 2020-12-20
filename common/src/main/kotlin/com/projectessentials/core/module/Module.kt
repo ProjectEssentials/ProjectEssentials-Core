@@ -3,7 +3,7 @@ package com.projectessentials.core.module
 import com.projectessentials.core.Reloadable
 
 /**
- * Implementation contract of Project Essentials's
+ * Implementation contract of Project Essentials
  * modules.
  *
  * @property id id of the module separated by underscores.
